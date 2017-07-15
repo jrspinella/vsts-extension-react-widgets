@@ -22,12 +22,14 @@ define(["require", "exports", "VSS/Flux/Store"], function (require, exports, Sto
             return _this;
         }
         BaseStore.prototype.isLoaded = function (key) {
+            var dataLoaded;
             if (key) {
-                return this.itemExists(key);
+                dataLoaded = this.itemExists(key);
             }
             else {
-                return this.items != null ? true : false;
+                dataLoaded = this.items != null ? true : false;
             }
+            return dataLoaded && !this.isLoading(key);
         };
         BaseStore.prototype.isLoading = function (key) {
             if (key) {

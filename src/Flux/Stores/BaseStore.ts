@@ -16,12 +16,15 @@ export abstract class BaseStore<TCollection, TItem, TKey> extends Store {
     }    
 
     public isLoaded(key?: TKey): boolean {
+        let dataLoaded: boolean;
         if (key) {
-            return this.itemExists(key);
+            dataLoaded = this.itemExists(key);
         }
         else {
-            return this.items != null ? true : false;
-        }        
+            dataLoaded = this.items != null ? true : false;
+        }
+
+        return dataLoaded && !this.isLoading(key);
     }
 
     public isLoading(key?: TKey): boolean {
