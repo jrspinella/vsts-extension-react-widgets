@@ -16,11 +16,9 @@ export class QueryResultGridDemo extends React.Component<{}, IQueryResultGridDem
     }
 
     public render(): JSX.Element {
-        return <div style={{position: "absolute", top: "50px", left: 0, right: 0, bottom: 0}}>
-                <QueryResultGrid 
+        return <QueryResultGrid 
                     project={VSS.getWebContext().project.id}
                     wiql="select [System.Id], [System.WorkItemType], [System.AreaPath], [Microsoft.VSTS.Common.Priority], [c1.boolean], [c1.integer], [System.CreatedBy], [System.Title], [System.AssignedTo], [System.State], [System.Tags] from Workitems where [System.TeamProject] = @project and [System.WorkItemType] <> '' and [System.State] <> ''"                     
                 />
-            </div>;
     }
 }

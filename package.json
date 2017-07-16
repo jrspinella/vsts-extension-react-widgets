@@ -1,6 +1,6 @@
 {
     "name": "vsts-extension-react-widgets",
-    "version": "0.0.38",
+    "version": "0.0.39",
     "description": "Reusable React components based on office fabric for building VSTS extensions.",
     "main": "lib-amd/index.js",
     "typings": "lib-amd/index.d.ts",
@@ -13,7 +13,8 @@
     "scripts": {
         "clean": "rimraf lib-amd dist",
         "cleanall": "npm run clean && rimraf typings node_modules",
-        "build": "npm run clean && tsc -d true --outDir ./lib-amd && webpack --display-error-details --progress --colors --output-path ./dist -p",
+        "build": "npm run clean && tsc -d true --outDir ./lib-amd && npm run copycss && webpack --display-error-details --progress --colors --output-path ./dist -p",
+        "copycss": "(robocopy src lib-amd *.scss /mir /s) ^& IF %ERRORLEVEL% LEQ 1 exit 0",
         "package:demo": "node ./demo/packageDev",
         "start": "webpack-dev-server --config webpack.demo.config.js -d --hot --progress --colors --https --content-base ./ --port 8888",
         "postinstall": "typings install"
@@ -33,13 +34,12 @@
         "typescript": "2.3.4",
         "typings": "2.1.1",
         "uglifyjs-webpack-plugin": "0.4.6",
-        "copy-webpack-plugin": "4.0.1",
         "tfx-cli": "0.4.9"
     },
     "dependencies": {
         "es6-promise": "4.1.1",
         "vss-web-extension-sdk": "2.117.0",
-        "office-ui-fabric-react": "4.16.2",
+        "office-ui-fabric-react": "4.20.0",
         "trumbowyg": "2.5.1"
     }
 }

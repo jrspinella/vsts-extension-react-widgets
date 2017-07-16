@@ -16,15 +16,7 @@ export class Demo extends React.Component<{}, {}> {
     }
 
     public render(): JSX.Element {
-        return (
-            // <Pivot>
-            //     <PivotItem linkText='Common'>
-            //         <CommonComponentsDemo />
-            //     </PivotItem>
-            //     <PivotItem linkText='Work item grid'>
-            //         <QueryResultGridDemo />
-            //     </PivotItem>
-            // </Pivot>
+        return (            
             <Hub 
                 title="This is a hub" 
                 favoriteStarProps={{
@@ -32,12 +24,12 @@ export class Demo extends React.Component<{}, {}> {
                     onChange: f => console.log(f)
                 }}
                 pivotProps={{
-                    initialSelectedKey: "b",
+                    initialSelectedKey: "Common",
                     onPivotClick: (key: string, ev?: React.MouseEvent<HTMLElement>) => console.log(key),
                     pivots: [
                         {
-                            key: "a",
-                            text: "Favorites",
+                            key: "Common",
+                            text: "Common",
                             itemCount: 5,
                             commands: [
                                 {
@@ -76,8 +68,8 @@ export class Demo extends React.Component<{}, {}> {
                             ]
                         },
                         {
-                            key: "b",
-                            text: "All",                                    
+                            key: "Grid",
+                            text: "Work item grid",                                    
                             commands: [
                                 {
                                     key: "OpenQuery aa", name: "Open as querya  aa", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
@@ -101,7 +93,13 @@ export class Demo extends React.Component<{}, {}> {
                         }
                     ],
                     onRenderPivotContent: (key: string) => {
-                        return <h1>{key}</h1>;
+                        if (key === "Grid") {
+                            return <QueryResultGridDemo />;
+                        }
+                        if (key === "Common") {
+                            return <CommonComponentsDemo />;
+                        }
+                        return <h1>abc</h1>;
                     }
                 }} />
         );

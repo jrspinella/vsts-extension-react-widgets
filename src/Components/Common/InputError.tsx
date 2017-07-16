@@ -1,4 +1,4 @@
-import "../../css/InputError.scss";
+import "./InputError.scss";
 
 import * as React from "react";
 

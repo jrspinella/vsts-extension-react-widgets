@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import "../../css/MessagePanel.scss";
+import "./MessagePanel.scss";
 import * as React from "react";
 export interface IMessagePanelProps {
     message: string;

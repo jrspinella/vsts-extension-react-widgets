@@ -1,4 +1,4 @@
-import "../../../css/Hub.scss";
+import "./Hub.scss";
 
 import * as React from "react";
 import { Label } from "OfficeFabric/Label";

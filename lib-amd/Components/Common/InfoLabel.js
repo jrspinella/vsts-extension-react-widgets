@@ -1,4 +1,4 @@
-define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Icon", "OfficeFabric/Tooltip", "../../css/InfoLabel.scss"], function (require, exports, React, Label_1, Icon_1, Tooltip_1) {
+define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Icon", "OfficeFabric/Tooltip", "./InfoLabel.scss"], function (require, exports, React, Label_1, Icon_1, Tooltip_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.InfoLabel = function (props) {

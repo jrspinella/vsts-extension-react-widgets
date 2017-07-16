@@ -1,4 +1,4 @@
-import "../../../css/WorkItemsGrid.scss";
+import "./WorkItemsGrid.scss";
 
 import * as React from "react";
 

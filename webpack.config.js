@@ -1,7 +1,6 @@
 var path = require("path");
 var webpack = require("webpack");
 var UglifyJSPlugin = require("uglifyjs-webpack-plugin");
-var CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     target: "web",
@@ -47,9 +46,6 @@ module.exports = {
             output: {
                 comments: false
             }
-        }),
-        new CopyWebpackPlugin([
-            { from: "./src/css", to: "../lib-amd/css" }
-        ])
+        })
     ]
 }

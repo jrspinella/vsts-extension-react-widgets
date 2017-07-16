@@ -1,4 +1,4 @@
-define(["require", "exports", "react", "OfficeFabric/Icon", "OfficeFabric/Label", "../../css/InputError.scss"], function (require, exports, React, Icon_1, Label_1) {
+define(["require", "exports", "react", "OfficeFabric/Icon", "OfficeFabric/Label", "./InputError.scss"], function (require, exports, React, Icon_1, Label_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.InputError = function (props) {

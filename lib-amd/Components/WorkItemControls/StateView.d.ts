@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import "../../css/StateView.scss";
+import "./StateView.scss";
 import { WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
 import { BaseComponent, IBaseComponentState, IBaseComponentProps } from "../Common/BaseComponent";
 import { BaseStore } from "../../Flux/Stores/BaseStore";

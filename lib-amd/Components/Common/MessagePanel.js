@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "react", "OfficeFabric/Icon", "OfficeFabric/Label", "OfficeFabric/Tooltip", "../../css/MessagePanel.scss"], function (require, exports, React, Icon_1, Label_1, Tooltip_1) {
+define(["require", "exports", "react", "OfficeFabric/Icon", "OfficeFabric/Label", "OfficeFabric/Tooltip", "./MessagePanel.scss"], function (require, exports, React, Icon_1, Label_1, Tooltip_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var MessageType;

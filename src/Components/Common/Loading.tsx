@@ -1,4 +1,4 @@
-import "../../css/Loading.scss";
+import "./Loading.scss";
 
 import * as React from "react";
 

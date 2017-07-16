@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import "../../css/Grid.scss";
+import "./Grid.scss";
 import { BaseComponent } from "../Common/BaseComponent";
 import { IGridProps, IGridState } from "./Grid.Props";
 export declare abstract class Grid extends BaseComponent<IGridProps, IGridState> {

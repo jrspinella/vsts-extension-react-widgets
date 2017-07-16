@@ -1,4 +1,4 @@
-import "../../css/Grid.scss";
+import "./Grid.scss";
 
 import * as React from "react";
 

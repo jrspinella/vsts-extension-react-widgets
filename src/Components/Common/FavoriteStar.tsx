@@ -1,7 +1,8 @@
-import "../../css/FavoriteStar.scss";
+import "./FavoriteStar.scss";
 
 import * as React from "react";
 import { Icon } from "OfficeFabric/Icon";
+import { TooltipHost, TooltipDelay, DirectionalHint, TooltipOverflowMode } from "OfficeFabric/Tooltip";
 
 export interface IFavoriteStarProps {
     isFavorite: boolean;
@@ -31,12 +32,17 @@ export class FavoriteStar extends React.Component<IFavoriteStarProps, IFavoriteS
             className += " favorited";
         }
 
-        return <span className={className} tabIndex={0}>
-            <Icon className="star-icon" iconName={this.state.isFavorited ? "FavoriteStarFill" : "FavoriteStar"} onClick={() => {
-                const isFavorite = this.state.isFavorited;
-                this.setState({isFavorited: !isFavorite});
-                this.props.onChange(!isFavorite);
-                }} />
-        </span>;
+        return <TooltipHost 
+                    content={this.state.isFavorited ? "Remove from favorites" : "Add to favorites"}
+                    delay={TooltipDelay.medium}>
+
+            <span className={className} tabIndex={0}>
+                <Icon className="star-icon" iconName={this.state.isFavorited ? "FavoriteStarFill" : "FavoriteStar"} onClick={() => {
+                    const isFavorite = this.state.isFavorited;
+                    this.setState({isFavorited: !isFavorite});
+                    this.props.onChange(!isFavorite);
+                    }} />
+            </span>
+        </TooltipHost>
     }
 }

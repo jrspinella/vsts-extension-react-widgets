@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "react", "OfficeFabric/Label", "../Common/BaseComponent", "../../Flux/Stores/BaseStore", "../../Flux/Stores/WorkItemTypeStore", "../../Flux/Actions/WorkItemTypeActions", "../../css/TitleView.scss"], function (require, exports, React, Label_1, BaseComponent_1, BaseStore_1, WorkItemTypeStore_1, WorkItemTypeActions_1) {
+define(["require", "exports", "react", "OfficeFabric/Label", "../Common/BaseComponent", "../../Flux/Stores/BaseStore", "../../Flux/Stores/WorkItemTypeStore", "../../Flux/Actions/WorkItemTypeActions", "./TitleView.scss"], function (require, exports, React, Label_1, BaseComponent_1, BaseStore_1, WorkItemTypeStore_1, WorkItemTypeActions_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var TitleView = (function (_super) {

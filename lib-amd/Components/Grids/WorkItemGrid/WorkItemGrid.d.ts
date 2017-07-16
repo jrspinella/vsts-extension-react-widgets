@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import "../../../css/WorkItemsGrid.scss";
+import "./WorkItemsGrid.scss";
 import { IBaseComponentState } from "../../Common/BaseComponent";
 import { IWorkItemGridProps } from "./WorkItemGrid.Props";
 import { BaseComponent } from "../../Common/BaseComponent";

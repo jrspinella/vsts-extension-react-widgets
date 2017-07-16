@@ -1,4 +1,4 @@
-define(["require", "exports", "react", "OfficeFabric/Label", "../../css/Tags.scss"], function (require, exports, React, Label_1) {
+define(["require", "exports", "react", "OfficeFabric/Label", "./TagsView.scss"], function (require, exports, React, Label_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.TagsView = function (props) {

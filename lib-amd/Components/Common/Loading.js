@@ -1,4 +1,4 @@
-define(["require", "exports", "react", "OfficeFabric/Spinner", "../../css/Loading.scss"], function (require, exports, React, Spinner_1) {
+define(["require", "exports", "react", "OfficeFabric/Spinner", "./Loading.scss"], function (require, exports, React, Spinner_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Loading = function () {

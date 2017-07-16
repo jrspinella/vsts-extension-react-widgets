@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import "../../css/TitleView.scss";
+import "./TitleView.scss";
 import * as React from "react";
 import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
 import { BaseComponent, IBaseComponentState, IBaseComponentProps } from "../Common/BaseComponent";

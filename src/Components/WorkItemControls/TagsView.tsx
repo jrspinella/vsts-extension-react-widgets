@@ -1,4 +1,4 @@
-import "../../css/Tags.scss";
+import "./TagsView.scss";
 
 import * as React from "react";
 

@@ -5,27 +5,23 @@
     overflow: hidden;
 
     .hub-header {
-        flex: 0 1 auto;
-
         .hub-title {
             font-size: 21px;
             font-weight: 100;
+            margin-right: 10px;
             display: inline;
         }
 
         .favorite-star {
-            display: inline;
-            margin-left: 10px;
+            display: inline;            
         }
     }   
     
     .hub-pivots-container {
-        flex: 0 1 auto;
         display: flex;
         border-bottom: 1px solid #c8c8c8;
 
         .seperator {
-            flex: 0 1 auto;
             align-self: center;
             width: 1px;
             height: 24px;
@@ -34,8 +30,6 @@
         }
 
         .hub-pivots {
-            flex: 0 1 auto;
-
             .ms-Pivot .ms-Pivot-link {
                 &.is-selected {
                     border-bottom: 2px solid #0078d7;
@@ -58,7 +52,7 @@
         }
 
         .hub-pivot-menu-bar {
-            flex: 1 1 auto;
+            flex: 1;
             background-color: #ffffff;
 
             .ms-CommandBar-primaryCommands {
@@ -68,7 +62,7 @@
     }
 
     .hub-pivot-content {
-        flex: 1 1 auto;
+        flex: 1;
         overflow: auto;
     }
 }
