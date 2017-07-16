@@ -3,6 +3,7 @@ import "./CommonComponentsDemo.scss";
 import * as React from "react";
 
 import {Loading} from "../src/Components/Common/Loading";
+import {FavoriteStar} from "../src/Components/Common/FavoriteStar";
 import {InputError} from "../src/Components/Common/InputError";
 import {InfoLabel} from "../src/Components/Common/InfoLabel";
 import {MessagePanel, MessageType} from "../src/Components/Common/MessagePanel";
@@ -24,6 +25,9 @@ export class CommonComponentsDemo extends React.Component<{}, ICommonComponentsD
         return (
             <div className="flex-container row">                
                 <div className="flex-child">
+                    <FavoriteStar isFavorite={true} onChange={(isFavorited: Boolean) => {
+                        console.log(isFavorited);
+                    }} />
                     <Loading />
                     <InputError error="This is an input error" />
                     <MessagePanel messageType={MessageType.Success} message={"No results."} />

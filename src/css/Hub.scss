@@ -1,0 +1,74 @@
+.hub {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+
+    .hub-header {
+        flex: 0 1 auto;
+
+        .hub-title {
+            font-size: 21px;
+            font-weight: 100;
+            display: inline;
+        }
+
+        .favorite-star {
+            display: inline;
+            margin-left: 10px;
+        }
+    }   
+    
+    .hub-pivots-container {
+        flex: 0 1 auto;
+        display: flex;
+        border-bottom: 1px solid #c8c8c8;
+
+        .seperator {
+            flex: 0 1 auto;
+            align-self: center;
+            width: 1px;
+            height: 24px;
+            background-color: #c8c8c8;
+            margin: 0 10px;
+        }
+
+        .hub-pivots {
+            flex: 0 1 auto;
+
+            .ms-Pivot .ms-Pivot-link {
+                &.is-selected {
+                    border-bottom: 2px solid #0078d7;
+
+                    &:before {
+                        border: none;
+                    }
+                }
+
+                .badge {
+                    margin-left: 4px;
+                    font-size: 12px;
+                    background-color: #dadada;
+                    padding: 3px 6px;
+                    vertical-align: baseline;
+                    border-radius: 5px;
+                    display: inline;
+                }
+            }
+        }
+
+        .hub-pivot-menu-bar {
+            flex: 1 1 auto;
+            background-color: #ffffff;
+
+            .ms-CommandBar-primaryCommands {
+                margin-left: 0;
+            }
+        }
+    }
+
+    .hub-pivot-content {
+        flex: 1 1 auto;
+        overflow: auto;
+    }
+}

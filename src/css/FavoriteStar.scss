@@ -1,0 +1,17 @@
+.favorite-star {
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    
+    &.favorited {
+        .star-icon {
+            color: #ffbe00;
+        }
+    }
+
+    &:hover {
+        .star-icon {
+            color: #ffbe00;
+        }
+    }
+}

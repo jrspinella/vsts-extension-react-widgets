@@ -4,5 +4,6 @@ export * from "./InputError";
 export * from "./LazyLoad";
 export * from "./Loading";
 export * from "./MessagePanel";
+export * from "./FavoriteStar";
 export * from "./Combo/ComboBox";
 export * from "./RichEditor/RichEditor";
