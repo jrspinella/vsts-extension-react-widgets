@@ -81,8 +81,10 @@ define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Comma
         Hub.prototype._renderCommandBar = function () {
             var _this = this;
             var selectedPivot = this.props.pivotProps.pivots.filter(function (p) { return p.key === _this.state.selectedPivotKey; })[0];
-            if (selectedPivot.commands && selectedPivot.commands.length > 0) {
-                return React.createElement(CommandBar_1.CommandBar, { className: "hub-pivot-menu-bar", items: selectedPivot.commands, overflowItems: selectedPivot.overflowCommands, farItems: selectedPivot.farCommands });
+            if ((selectedPivot.commands && selectedPivot.commands.length > 0) ||
+                (selectedPivot.overflowCommands && selectedPivot.overflowCommands.length > 0) ||
+                (selectedPivot.farCommands && selectedPivot.farCommands.length > 0)) {
+                return React.createElement(CommandBar_1.CommandBar, { className: "hub-pivot-menu-bar", items: selectedPivot.commands || [], overflowItems: selectedPivot.overflowCommands || [], farItems: selectedPivot.farCommands || [] });
             }
             return null;
         };

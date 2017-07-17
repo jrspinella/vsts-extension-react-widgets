@@ -118,12 +118,14 @@ export class Hub extends React.Component<IHubProps, IHubState> {
     private _renderCommandBar(): React.ReactNode {
         const selectedPivot = this.props.pivotProps.pivots.filter(p => p.key === this.state.selectedPivotKey)[0];
 
-        if (selectedPivot.commands && selectedPivot.commands.length > 0) {
+        if ((selectedPivot.commands && selectedPivot.commands.length > 0) ||
+            (selectedPivot.overflowCommands && selectedPivot.overflowCommands.length > 0) ||
+            (selectedPivot.farCommands && selectedPivot.farCommands.length > 0)){
             return <CommandBar 
                         className="hub-pivot-menu-bar"
-                        items={selectedPivot.commands} 
-                        overflowItems={selectedPivot.overflowCommands}
-                        farItems={selectedPivot.farCommands}
+                        items={selectedPivot.commands || []} 
+                        overflowItems={selectedPivot.overflowCommands || []}
+                        farItems={selectedPivot.farCommands || []}
                     />;
         }
 
