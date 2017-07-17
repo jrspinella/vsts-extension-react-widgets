@@ -22,6 +22,11 @@ export interface IPivotItem {
     commands?: IContextualMenuItem[];
     overflowCommands?: IContextualMenuItem[];
     farCommands?: IContextualMenuItem[];
+    filterProps?: IFilterProps;
+}
+export interface IFilterProps {
+    showFilter: boolean;
+    onFilterChange: (filterText: string) => void;
 }
 export interface IHubState {
     selectedPivotKey: string;
@@ -34,4 +39,5 @@ export declare class Hub extends React.Component<IHubProps, IHubState> {
     private _renderPivots();
     private _customPivotItemRenderer(props, defaultRenderer);
     private _renderCommandBar();
+    private _getFarCommands(selectedPivot);
 }

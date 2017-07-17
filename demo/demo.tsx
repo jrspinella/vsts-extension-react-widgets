@@ -32,6 +32,10 @@ export class Demo extends React.Component<{}, {}> {
                             key: "Common",
                             text: "Common",
                             itemCount: 5,
+                            filterProps: {
+                                showFilter: true,
+                                onFilterChange: f => console.log(f)
+                            },
                             commands: [
                                 {
                                     key: "OpenQuery", name: "Open as query", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
@@ -62,9 +66,10 @@ export class Demo extends React.Component<{}, {}> {
                             ],
                             farCommands: [
                                 {
-                                    key: "resultCount", 
-                                    name: "5 results", 
-                                    className: "result-count"                                
+                                    key: "OpenQuery3", name: "Open as query 3", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
+                                    onClick: async (event?: React.MouseEvent<HTMLElement>) => {
+                                        alert("h");
+                                    }
                                 }
                             ]
                         },

@@ -4,6 +4,8 @@ import * as React from "react";
 import { Label } from "OfficeFabric/Label";
 import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
 import { CommandBar } from "OfficeFabric/CommandBar";
+import { TextField } from "OfficeFabric/TextField";
+import { Icon } from "OfficeFabric/Icon";
 import { Pivot, PivotItem, IPivotItemProps } from "OfficeFabric/Pivot";
 import { autobind } from "OfficeFabric/Utilities";
 
@@ -30,6 +32,12 @@ export interface IPivotItem {
     commands?: IContextualMenuItem[];
     overflowCommands?: IContextualMenuItem[];
     farCommands?: IContextualMenuItem[];
+    filterProps?: IFilterProps;
+}
+
+export interface IFilterProps {
+    showFilter: boolean;
+    onFilterChange: (filterText: string) => void;
 }
 
 export interface IHubState {
@@ -120,15 +128,34 @@ export class Hub extends React.Component<IHubProps, IHubState> {
 
         if ((selectedPivot.commands && selectedPivot.commands.length > 0) ||
             (selectedPivot.overflowCommands && selectedPivot.overflowCommands.length > 0) ||
-            (selectedPivot.farCommands && selectedPivot.farCommands.length > 0)){
+            (selectedPivot.farCommands && selectedPivot.farCommands.length > 0) ||
+            (selectedPivot.filterProps && selectedPivot.filterProps.showFilter)) {
             return <CommandBar 
                         className="hub-pivot-menu-bar"
                         items={selectedPivot.commands || []} 
                         overflowItems={selectedPivot.overflowCommands || []}
-                        farItems={selectedPivot.farCommands || []}
+                        farItems={this._getFarCommands(selectedPivot)}
                     />;
         }
 
         return null;
+    }
+
+    private _getFarCommands(selectedPivot: IPivotItem): IContextualMenuItem[] {
+        let items: IContextualMenuItem[] = [];
+        if (selectedPivot.filterProps && selectedPivot.filterProps.showFilter) {
+            items.push({
+                key: "filter",
+                className: "filter-command",
+                onRender: (item) => {
+                    return <TextField 
+                        onRenderAddon={() => <Icon iconName="Filter" />}
+                        className="filter-input" 
+                        onChanged={filterText => selectedPivot.filterProps.onFilterChange(filterText)}
+                        placeholder="Filter by Keyword" />
+                }
+            });
+        }
+        return items.concat(selectedPivot.farCommands || []);
     }
 }

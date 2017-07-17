@@ -61,6 +61,19 @@
             .ms-CommandBar-primaryCommands {
                 margin-left: 0;
             }
+
+            .filter-command {
+                margin-right: 10px;
+
+                &:hover {
+                    background: none;
+                }
+
+                .filter-input {
+                    width: 300px;
+                    padding-top: 3px;
+                }
+            }            
         }
     }
 

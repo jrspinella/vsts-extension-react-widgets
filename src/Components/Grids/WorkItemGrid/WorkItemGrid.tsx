@@ -74,7 +74,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IBaseCompone
         return columns;
     }
 
-    private _getCommandBarProps(): ICommandBarProps {        
+    private _getCommandBarProps(): ICommandBarProps {
         let menuItems: IContextualMenuItem[] = [{
             key: "OpenQuery", name: "Open as query", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
             disabled: !this.props.workItems || this.props.workItems.length === 0,

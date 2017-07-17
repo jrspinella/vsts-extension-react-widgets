@@ -22,7 +22,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/CommandBar", "OfficeFabric/Pivot", "OfficeFabric/Utilities", "../FavoriteStar", "./Hub.scss"], function (require, exports, React, Label_1, CommandBar_1, Pivot_1, Utilities_1, FavoriteStar_1) {
+define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/CommandBar", "OfficeFabric/TextField", "OfficeFabric/Icon", "OfficeFabric/Pivot", "OfficeFabric/Utilities", "../FavoriteStar", "./Hub.scss"], function (require, exports, React, Label_1, CommandBar_1, TextField_1, Icon_1, Pivot_1, Utilities_1, FavoriteStar_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Hub = (function (_super) {
@@ -83,10 +83,24 @@ define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Comma
             var selectedPivot = this.props.pivotProps.pivots.filter(function (p) { return p.key === _this.state.selectedPivotKey; })[0];
             if ((selectedPivot.commands && selectedPivot.commands.length > 0) ||
                 (selectedPivot.overflowCommands && selectedPivot.overflowCommands.length > 0) ||
-                (selectedPivot.farCommands && selectedPivot.farCommands.length > 0)) {
-                return React.createElement(CommandBar_1.CommandBar, { className: "hub-pivot-menu-bar", items: selectedPivot.commands || [], overflowItems: selectedPivot.overflowCommands || [], farItems: selectedPivot.farCommands || [] });
+                (selectedPivot.farCommands && selectedPivot.farCommands.length > 0) ||
+                (selectedPivot.filterProps && selectedPivot.filterProps.showFilter)) {
+                return React.createElement(CommandBar_1.CommandBar, { className: "hub-pivot-menu-bar", items: selectedPivot.commands || [], overflowItems: selectedPivot.overflowCommands || [], farItems: this._getFarCommands(selectedPivot) });
             }
             return null;
+        };
+        Hub.prototype._getFarCommands = function (selectedPivot) {
+            var items = [];
+            if (selectedPivot.filterProps && selectedPivot.filterProps.showFilter) {
+                items.push({
+                    key: "filter",
+                    className: "filter-command",
+                    onRender: function (item) {
+                        return React.createElement(TextField_1.TextField, { onRenderAddon: function () { return React.createElement(Icon_1.Icon, { iconName: "Filter" }); }, className: "filter-input", onChanged: function (filterText) { return selectedPivot.filterProps.onFilterChange(filterText); }, placeholder: "Filter by Keyword" });
+                    }
+                });
+            }
+            return items.concat(selectedPivot.farCommands || []);
         };
         return Hub;
     }(React.Component));
