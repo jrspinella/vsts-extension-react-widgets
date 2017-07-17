@@ -25,6 +25,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/CommandBar", "OfficeFabric/TextField", "OfficeFabric/Icon", "OfficeFabric/Pivot", "OfficeFabric/Utilities", "../../Common/BaseComponent", "../FavoriteStar", "./Hub.scss"], function (require, exports, React, Label_1, CommandBar_1, TextField_1, Icon_1, Pivot_1, Utilities_1, BaseComponent_1, FavoriteStar_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    var FilterPosition;
+    (function (FilterPosition) {
+        FilterPosition[FilterPosition["Left"] = 0] = "Left";
+        FilterPosition[FilterPosition["Right"] = 1] = "Right";
+        FilterPosition[FilterPosition["Middle"] = 2] = "Middle";
+    })(FilterPosition = exports.FilterPosition || (exports.FilterPosition = {}));
     var Hub = (function (_super) {
         __extends(Hub, _super);
         function Hub(props, context) {
@@ -88,22 +94,47 @@ define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Comma
                 (selectedPivot.overflowCommands && selectedPivot.overflowCommands.length > 0) ||
                 (selectedPivot.farCommands && selectedPivot.farCommands.length > 0) ||
                 (selectedPivot.filterProps && selectedPivot.filterProps.showFilter)) {
-                return React.createElement(CommandBar_1.CommandBar, { className: "hub-pivot-menu-bar", items: selectedPivot.commands || [], overflowItems: selectedPivot.overflowCommands || [], farItems: this._getFarCommands(selectedPivot) });
+                return React.createElement(CommandBar_1.CommandBar, { className: "hub-pivot-menu-bar", items: this._getMainCommands(selectedPivot), overflowItems: selectedPivot.overflowCommands || [], farItems: this._getFarCommands(selectedPivot) });
             }
             return null;
         };
-        Hub.prototype._getFarCommands = function (selectedPivot) {
+        Hub.prototype._getMainCommands = function (selectedPivot) {
+            var _this = this;
             var items = [];
-            if (selectedPivot.filterProps && selectedPivot.filterProps.showFilter) {
+            if (selectedPivot.filterProps
+                && selectedPivot.filterProps.showFilter
+                && (selectedPivot.filterProps.filterPosition === FilterPosition.Left || selectedPivot.filterProps.filterPosition === FilterPosition.Middle)) {
                 items.push({
                     key: "filter",
                     className: "filter-command",
                     onRender: function (item) {
-                        return React.createElement(TextField_1.TextField, { onRenderAddon: function () { return React.createElement(Icon_1.Icon, { iconName: "Filter" }); }, className: "filter-input", onChanged: function (filterText) { return selectedPivot.filterProps.onFilterChange(filterText); }, placeholder: "Filter by Keyword" });
+                        return _this._getFilterControl(selectedPivot);
+                    }
+                });
+            }
+            if (selectedPivot.filterProps.filterPosition === FilterPosition.Middle) {
+                return (selectedPivot.commands || []).concat(items);
+            }
+            else {
+                return items.concat(selectedPivot.commands || []);
+            }
+        };
+        Hub.prototype._getFarCommands = function (selectedPivot) {
+            var _this = this;
+            var items = [];
+            if (selectedPivot.filterProps && selectedPivot.filterProps.showFilter && selectedPivot.filterProps.filterPosition === FilterPosition.Right) {
+                items.push({
+                    key: "filter",
+                    className: "filter-command",
+                    onRender: function (item) {
+                        return _this._getFilterControl(selectedPivot);
                     }
                 });
             }
             return items.concat(selectedPivot.farCommands || []);
+        };
+        Hub.prototype._getFilterControl = function (selectedPivot) {
+            return React.createElement(TextField_1.TextField, { onRenderAddon: function () { return React.createElement(Icon_1.Icon, { iconName: "Filter" }); }, className: "filter-input", onChanged: function (filterText) { return selectedPivot.filterProps.onFilterChange(filterText); }, placeholder: "Filter by Keyword" });
         };
         return Hub;
     }(BaseComponent_1.BaseComponent));

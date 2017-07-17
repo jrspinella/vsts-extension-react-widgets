@@ -27,7 +27,13 @@ export interface IPivotItem {
 }
 export interface IFilterProps {
     showFilter: boolean;
+    filterPosition?: FilterPosition;
     onFilterChange: (filterText: string) => void;
+}
+export declare enum FilterPosition {
+    Left = 0,
+    Right = 1,
+    Middle = 2,
 }
 export interface IHubState extends IBaseComponentState {
     selectedPivotKey: string;
@@ -41,5 +47,7 @@ export declare class Hub extends BaseComponent<IHubProps, IHubState> {
     private _renderPivots();
     private _customPivotItemRenderer(props, defaultRenderer);
     private _renderCommandBar();
+    private _getMainCommands(selectedPivot);
     private _getFarCommands(selectedPivot);
+    private _getFilterControl(selectedPivot);
 }

@@ -38,7 +38,14 @@ export interface IPivotItem {
 
 export interface IFilterProps {
     showFilter: boolean;
+    filterPosition?: FilterPosition,
     onFilterChange: (filterText: string) => void;
+}
+
+export enum FilterPosition {
+    Left,
+    Right,
+    Middle
 }
 
 export interface IHubState extends IBaseComponentState {
@@ -138,7 +145,7 @@ export class Hub extends BaseComponent<IHubProps, IHubState> {
             (selectedPivot.filterProps && selectedPivot.filterProps.showFilter)) {
             return <CommandBar 
                         className="hub-pivot-menu-bar"
-                        items={selectedPivot.commands || []} 
+                        items={this._getMainCommands(selectedPivot)} 
                         overflowItems={selectedPivot.overflowCommands || []}
                         farItems={this._getFarCommands(selectedPivot)}
                     />;
@@ -147,21 +154,47 @@ export class Hub extends BaseComponent<IHubProps, IHubState> {
         return null;
     }
 
-    private _getFarCommands(selectedPivot: IPivotItem): IContextualMenuItem[] {
+    private _getMainCommands(selectedPivot: IPivotItem): IContextualMenuItem[] {
         let items: IContextualMenuItem[] = [];
-        if (selectedPivot.filterProps && selectedPivot.filterProps.showFilter) {
+        if (selectedPivot.filterProps 
+            && selectedPivot.filterProps.showFilter 
+            && (selectedPivot.filterProps.filterPosition === FilterPosition.Left || selectedPivot.filterProps.filterPosition === FilterPosition.Middle)) {
             items.push({
                 key: "filter",
                 className: "filter-command",
                 onRender: (item) => {
-                    return <TextField 
-                        onRenderAddon={() => <Icon iconName="Filter" />}
-                        className="filter-input" 
-                        onChanged={filterText => selectedPivot.filterProps.onFilterChange(filterText)}
-                        placeholder="Filter by Keyword" />
+                   return this._getFilterControl(selectedPivot);
+                }
+            });
+        }
+
+        if (selectedPivot.filterProps.filterPosition === FilterPosition.Middle) {
+            return (selectedPivot.commands || []).concat(items);
+        }
+        else {
+            return items.concat(selectedPivot.commands || []);
+        }        
+    }
+
+    private _getFarCommands(selectedPivot: IPivotItem): IContextualMenuItem[] {
+        let items: IContextualMenuItem[] = [];
+        if (selectedPivot.filterProps && selectedPivot.filterProps.showFilter && selectedPivot.filterProps.filterPosition === FilterPosition.Right) {
+            items.push({
+                key: "filter",
+                className: "filter-command",
+                onRender: (item) => {
+                    return this._getFilterControl(selectedPivot);
                 }
             });
         }
         return items.concat(selectedPivot.farCommands || []);
+    }
+
+    private _getFilterControl(selectedPivot: IPivotItem): JSX.Element {
+        return <TextField 
+            onRenderAddon={() => <Icon iconName="Filter" />}
+            className="filter-input" 
+            onChanged={filterText => selectedPivot.filterProps.onFilterChange(filterText)}
+            placeholder="Filter by Keyword" />;
     }
 }
