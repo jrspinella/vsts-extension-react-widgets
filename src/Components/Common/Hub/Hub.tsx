@@ -71,8 +71,9 @@ export class Hub extends BaseComponent<IHubProps, IHubState> {
                 
                 <div className="hub-pivots-container">
                     <div className="hub-pivots">
-                        <Pivot                                    
-                            initialSelectedKey={this.state.selectedPivotKey}
+                        <Pivot
+                            initialSelectedKey={this.props.pivotProps.pivots[0].key}
+                            selectedKey={this.state.selectedPivotKey}
                             onLinkClick={(item?: PivotItem, ev?: React.MouseEvent<HTMLElement>) => {
                                 this.setState({selectedPivotKey: item.props.itemKey});
                                 if (this.props.pivotProps.onPivotClick) {
