@@ -18,7 +18,6 @@ export interface IGridProps extends IBaseComponentProps {
 
 export interface IGridState extends IBaseComponentState {
     filteredItems?: any[];
-    loading?: boolean;
     isContextMenuVisible?: boolean;
     contextMenuTarget?: MouseEvent;
     sortColumn?: GridColumn;
@@ -31,7 +30,7 @@ export interface GridColumn {
     name: string;
     minWidth: number;
     maxWidth?: number;
-    resizable?: boolean;    
+    resizable?: boolean;
     sortFunction?: (item1: any, item2: any, sortOrder: SortOrder) => number;
     filterFunction?: (item: any, filterText: string) => boolean;
     onRenderCell?: (item?: any, index?: number) => JSX.Element;

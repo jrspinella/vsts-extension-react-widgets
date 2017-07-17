@@ -91,7 +91,7 @@ export function workItemFieldCellRenderer(item: WorkItem, field: WorkItemField, 
                 innerElement = <Label className={className}>{text}</Label>;            
                 break;
             case "system.title":
-                innerElement = <TitleView className={className} onClick={options && options.onClick} title={item.fields["System.Title"]} workItemType={item.fields["System.WorkItemType"]} />
+                innerElement = <TitleView className={className} workItemId={item.id} onClick={options && options.onClick} title={item.fields["System.Title"]} workItemType={item.fields["System.WorkItemType"]} />
                 break;
             case "system.state":
                 innerElement = <StateView className={className} state={item.fields["System.State"]} workItemType={item.fields["System.WorkItemType"]} />

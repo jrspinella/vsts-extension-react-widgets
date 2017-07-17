@@ -13,7 +13,6 @@ import Utils_String = require("VSS/Utils/String");
 
 import { MessagePanel, MessageType } from "../Common/MessagePanel";
 import { BaseComponent } from "../Common/BaseComponent"; 
-import { Loading } from "../Common/Loading";
 import { IGridProps, IGridState, SortOrder, GridColumn } from "./Grid.Props";
 
 export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
@@ -99,7 +98,7 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
         let menuItems: IContextualMenuItem[] = [
             {
                 key: "resultCount", 
-                name: this.state.loading ? "Loading ..." : `${this.state.filteredItems.length} results`, 
+                name: `${this.state.filteredItems.length} results`, 
                 className: "result-count"
             }
         ];
@@ -112,29 +111,26 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
     }
 
     private _renderGrid(): JSX.Element {
-        if (this.state.loading) {
-            return <Loading />;
-        }
-        else if (this.state.filteredItems.length === 0) {
+        if (this.state.filteredItems.length === 0) {
             return <MessagePanel messageType={MessageType.Info} message={this.props.noResultsText || "No results."} />
         }
         else {
             return <div className="grid-container">
                 <DetailsList 
-                        setKey={this.props.setKey}
-                        selectionPreservedOnEmptyClick={this.props.selectionPreservedOnEmptyClick || false}
-                        layoutMode={DetailsListLayoutMode.justified}
-                        constrainMode={ConstrainMode.horizontalConstrained}
-                        selectionMode={this.props.selectionMode || SelectionMode.multiple}
-                        isHeaderVisible={true}
-                        checkboxVisibility={this.props.selectionMode === SelectionMode.none ? CheckboxVisibility.hidden : CheckboxVisibility.onHover}
-                        columns={this._prepareColumns()}
-                        items={this.state.filteredItems}
-                        className="grid-list"
-                        onItemInvoked={this._onItemInvoked}
-                        selection={this._selection}
-                        onItemContextMenu={this._showContextMenu}
-                    />
+                    setKey={this.props.setKey}
+                    selectionPreservedOnEmptyClick={this.props.selectionPreservedOnEmptyClick || false}
+                    layoutMode={DetailsListLayoutMode.justified}
+                    constrainMode={ConstrainMode.horizontalConstrained}
+                    selectionMode={this.props.selectionMode || SelectionMode.multiple}
+                    isHeaderVisible={true}
+                    checkboxVisibility={this.props.selectionMode === SelectionMode.none ? CheckboxVisibility.hidden : CheckboxVisibility.onHover}
+                    columns={this._prepareColumns()}
+                    items={this.state.filteredItems}
+                    className="grid-list"
+                    onItemInvoked={this._onItemInvoked}
+                    selection={this._selection}
+                    onItemContextMenu={this._showContextMenu}
+                />
             </div>;
         }
     }

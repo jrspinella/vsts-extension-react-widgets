@@ -5,6 +5,7 @@ import * as React from "react";
 import { Label } from "OfficeFabric/Label";
 
 import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
+import Context = require("VSS/Context");
 
 import { BaseComponent, IBaseComponentState, IBaseComponentProps } from "../Common/BaseComponent"; 
 import { BaseStore, StoreFactory } from "../../Flux/Stores/BaseStore";
@@ -12,9 +13,10 @@ import { WorkItemTypeStore } from "../../Flux/Stores/WorkItemTypeStore";
 import { WorkItemTypeActions } from "../../Flux/Actions/WorkItemTypeActions";
 
 export interface ITitleViewProps extends IBaseComponentProps {
+    workItemId: number;
     title: string;
     workItemType: string;
-    onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+    onClick: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
 export interface ITitleViewState extends IBaseComponentState {
@@ -60,17 +62,28 @@ export class TitleView extends BaseComponent<ITitleViewProps, ITitleViewState> {
         else {
             witColor = "#000000";
         }
-        
-        return (            
-            <Label className={`${this.getClassName()} ${(witIconUrl || !wit) ? "no-color" : ""}`}
-                style={(witIconUrl || !wit) ? undefined : {borderColor: witColor}}
-                onClick={(e: React.MouseEvent<HTMLLabelElement>) => {
-                    if (this.props.onClick) {
-                        this.props.onClick(e);
-                    }
-                }}>
+
+        const pageContext = Context.getPageContext();
+        const navigation = pageContext.navigation;
+        const webContext = VSS.getWebContext();
+        const witUrl = `${webContext.collection.uri}/${webContext.project.name}/_workitems/edit/${this.props.workItemId}`;
+
+        return (
+            <Label 
+                className={`${this.getClassName()} ${(witIconUrl || !wit) ? "no-color" : ""}`}
+                style={(witIconUrl || !wit) ? undefined : {borderColor: witColor}}>
+
                 {witIconUrl && <img src={witIconUrl} />}
-                {this.props.title}
+                <a 
+                    href={witUrl} 
+                    onClick={(e: React.MouseEvent<HTMLElement>) => {
+                        if (!e.ctrlKey) {
+                            e.preventDefault();
+                            this.props.onClick(e);
+                        }
+                    }}>
+                    {this.props.title}
+                </a>
             </Label>
         )
     }

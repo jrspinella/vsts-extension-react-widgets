@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import {Pivot, PivotItem} from "OfficeFabric/Pivot";
+import {Fabric} from "OfficeFabric/Fabric";
 import {CommonComponentsDemo} from "./CommonComponentsDemo";
 import {QueryResultGridDemo} from "./QueryResultGridDemo";
 import {Hub} from "../src/Components/Common/Hub/Hub";
@@ -16,7 +16,8 @@ export class Demo extends React.Component<{}, {}> {
     }
 
     public render(): JSX.Element {
-        return (            
+        return (   
+            <Fabric>         
             <Hub 
                 title="This is a hub" 
                 favoriteStarProps={{
@@ -102,6 +103,7 @@ export class Demo extends React.Component<{}, {}> {
                         return <h1>abc</h1>;
                     }
                 }} />
+            </Fabric>
         );
     }
 }

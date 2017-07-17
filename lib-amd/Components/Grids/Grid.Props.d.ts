@@ -16,7 +16,6 @@ export interface IGridProps extends IBaseComponentProps {
 }
 export interface IGridState extends IBaseComponentState {
     filteredItems?: any[];
-    loading?: boolean;
     isContextMenuVisible?: boolean;
     contextMenuTarget?: MouseEvent;
     sortColumn?: GridColumn;

@@ -5,9 +5,10 @@ import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
 import { BaseComponent, IBaseComponentState, IBaseComponentProps } from "../Common/BaseComponent";
 import { BaseStore } from "../../Flux/Stores/BaseStore";
 export interface ITitleViewProps extends IBaseComponentProps {
+    workItemId: number;
     title: string;
     workItemType: string;
-    onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+    onClick: (e: React.MouseEvent<HTMLElement>) => void;
 }
 export interface ITitleViewState extends IBaseComponentState {
     workItemType: WorkItemType;
