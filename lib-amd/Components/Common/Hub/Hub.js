@@ -22,7 +22,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/CommandBar", "OfficeFabric/TextField", "OfficeFabric/Icon", "OfficeFabric/Pivot", "OfficeFabric/Utilities", "../FavoriteStar", "./Hub.scss"], function (require, exports, React, Label_1, CommandBar_1, TextField_1, Icon_1, Pivot_1, Utilities_1, FavoriteStar_1) {
+define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/CommandBar", "OfficeFabric/TextField", "OfficeFabric/Icon", "OfficeFabric/Pivot", "OfficeFabric/Utilities", "../../Common/BaseComponent", "../FavoriteStar", "./Hub.scss"], function (require, exports, React, Label_1, CommandBar_1, TextField_1, Icon_1, Pivot_1, Utilities_1, BaseComponent_1, FavoriteStar_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Hub = (function (_super) {
@@ -39,9 +39,12 @@ define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Comma
                 this.setState({ selectedPivotKey: nextProps.pivotProps.initialSelectedKey });
             }
         };
+        Hub.prototype.getDefaultClassName = function () {
+            return "hub";
+        };
         Hub.prototype.render = function () {
             var _this = this;
-            return (React.createElement("div", { className: "hub" },
+            return (React.createElement("div", { className: this.getClassName() },
                 this._renderHeader(),
                 React.createElement("div", { className: "hub-pivots-container" },
                     React.createElement("div", { className: "hub-pivots" },
@@ -103,7 +106,7 @@ define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Comma
             return items.concat(selectedPivot.farCommands || []);
         };
         return Hub;
-    }(React.Component));
+    }(BaseComponent_1.BaseComponent));
     __decorate([
         Utilities_1.autobind
     ], Hub.prototype, "_customPivotItemRenderer", null);

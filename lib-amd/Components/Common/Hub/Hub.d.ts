@@ -2,8 +2,9 @@
 import "./Hub.scss";
 import * as React from "react";
 import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
+import { IBaseComponentState, IBaseComponentProps, BaseComponent } from "../../Common/BaseComponent";
 import { IFavoriteStarProps } from "../FavoriteStar";
-export interface IHubProps {
+export interface IHubProps extends IBaseComponentProps {
     title: string;
     pivotProps: IPivotProps;
     favoriteStarProps?: IFavoriteStarProps;
@@ -28,12 +29,13 @@ export interface IFilterProps {
     showFilter: boolean;
     onFilterChange: (filterText: string) => void;
 }
-export interface IHubState {
+export interface IHubState extends IBaseComponentState {
     selectedPivotKey: string;
 }
-export declare class Hub extends React.Component<IHubProps, IHubState> {
+export declare class Hub extends BaseComponent<IHubProps, IHubState> {
     constructor(props: IHubProps, context?: any);
     componentWillReceiveProps(nextProps: IHubProps): void;
+    protected getDefaultClassName(): string;
     render(): JSX.Element;
     private _renderHeader();
     private _renderPivots();

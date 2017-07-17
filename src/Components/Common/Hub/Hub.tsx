@@ -9,9 +9,10 @@ import { Icon } from "OfficeFabric/Icon";
 import { Pivot, PivotItem, IPivotItemProps } from "OfficeFabric/Pivot";
 import { autobind } from "OfficeFabric/Utilities";
 
+import { IBaseComponentState, IBaseComponentProps, BaseComponent } from "../../Common/BaseComponent"; 
 import { FavoriteStar, IFavoriteStarProps } from "../FavoriteStar";
 
-export interface IHubProps {
+export interface IHubProps extends IBaseComponentProps {
     title: string;
     pivotProps: IPivotProps;
     favoriteStarProps?: IFavoriteStarProps;    
@@ -40,11 +41,11 @@ export interface IFilterProps {
     onFilterChange: (filterText: string) => void;
 }
 
-export interface IHubState {
+export interface IHubState extends IBaseComponentState {
     selectedPivotKey: string;
 }
 
-export class Hub extends React.Component<IHubProps, IHubState> {
+export class Hub extends BaseComponent<IHubProps, IHubState> {
     constructor(props: IHubProps, context?: any) {
         super(props, context);
 
@@ -59,9 +60,13 @@ export class Hub extends React.Component<IHubProps, IHubState> {
         }        
     }
 
+    protected getDefaultClassName(): string {
+        return "hub";
+    }
+
     public render(): JSX.Element {
         return (
-            <div className="hub">
+            <div className={this.getClassName()}>
                 { this._renderHeader() }
                 
                 <div className="hub-pivots-container">
