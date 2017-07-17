@@ -48,7 +48,7 @@ define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Comma
                 this._renderHeader(),
                 React.createElement("div", { className: "hub-pivots-container" },
                     React.createElement("div", { className: "hub-pivots" },
-                        React.createElement(Pivot_1.Pivot, { initialSelectedKey: this.props.pivotProps.initialSelectedKey, onLinkClick: function (item, ev) {
+                        React.createElement(Pivot_1.Pivot, { initialSelectedKey: this.state.selectedPivotKey, onLinkClick: function (item, ev) {
                                 _this.setState({ selectedPivotKey: item.props.itemKey });
                                 if (_this.props.pivotProps.onPivotClick) {
                                     _this.props.pivotProps.onPivotClick(item.props.itemKey, ev);
