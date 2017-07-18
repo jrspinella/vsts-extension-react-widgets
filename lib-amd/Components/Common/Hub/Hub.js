@@ -100,24 +100,24 @@ define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Comma
         };
         Hub.prototype._getMainCommands = function (selectedPivot) {
             var _this = this;
-            var items = [];
             if (selectedPivot.filterProps
                 && selectedPivot.filterProps.showFilter
                 && (selectedPivot.filterProps.filterPosition === FilterPosition.Left || selectedPivot.filterProps.filterPosition === FilterPosition.Middle)) {
-                items.push({
-                    key: "filter",
-                    className: "filter-command",
-                    onRender: function (item) {
-                        return _this._getFilterControl(selectedPivot);
-                    }
-                });
+                var items = [{
+                        key: "filter",
+                        className: "filter-command",
+                        onRender: function (item) {
+                            return _this._getFilterControl(selectedPivot);
+                        }
+                    }];
+                if (selectedPivot.filterProps.filterPosition === FilterPosition.Middle) {
+                    return (selectedPivot.commands || []).concat(items);
+                }
+                else {
+                    return items.concat(selectedPivot.commands || []);
+                }
             }
-            if (selectedPivot.filterProps.filterPosition === FilterPosition.Middle) {
-                return (selectedPivot.commands || []).concat(items);
-            }
-            else {
-                return items.concat(selectedPivot.commands || []);
-            }
+            return selectedPivot.commands || [];
         };
         Hub.prototype._getFarCommands = function (selectedPivot) {
             var _this = this;

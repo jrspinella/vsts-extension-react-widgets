@@ -154,26 +154,28 @@ export class Hub extends BaseComponent<IHubProps, IHubState> {
         return null;
     }
 
-    private _getMainCommands(selectedPivot: IPivotItem): IContextualMenuItem[] {
-        let items: IContextualMenuItem[] = [];
+    private _getMainCommands(selectedPivot: IPivotItem): IContextualMenuItem[] {        
         if (selectedPivot.filterProps 
             && selectedPivot.filterProps.showFilter 
             && (selectedPivot.filterProps.filterPosition === FilterPosition.Left || selectedPivot.filterProps.filterPosition === FilterPosition.Middle)) {
-            items.push({
+            
+            let items: IContextualMenuItem[] = [{
                 key: "filter",
                 className: "filter-command",
                 onRender: (item) => {
                    return this._getFilterControl(selectedPivot);
                 }
-            });
+            }];
+
+            if (selectedPivot.filterProps.filterPosition === FilterPosition.Middle) {
+                return (selectedPivot.commands || []).concat(items);
+            }
+            else {
+                return items.concat(selectedPivot.commands || []);
+            }  
         }
 
-        if (selectedPivot.filterProps.filterPosition === FilterPosition.Middle) {
-            return (selectedPivot.commands || []).concat(items);
-        }
-        else {
-            return items.concat(selectedPivot.commands || []);
-        }        
+        return selectedPivot.commands || [];              
     }
 
     private _getFarCommands(selectedPivot: IPivotItem): IContextualMenuItem[] {
