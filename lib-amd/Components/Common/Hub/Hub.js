@@ -66,7 +66,8 @@ define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Comma
         };
         Hub.prototype._renderHeader = function () {
             return React.createElement("div", { className: "hub-header" },
-                React.createElement(Label_1.Label, { className: "hub-title" }, this.props.title),
+                this.props.onTitleRender && React.createElement("div", { className: "hub-title" }, this.props.onTitleRender()),
+                !this.props.onTitleRender && React.createElement(Label_1.Label, { className: "hub-title" }, this.props.title),
                 this.props.favoriteStarProps && React.createElement(FavoriteStar_1.FavoriteStar, __assign({}, this.props.favoriteStarProps)));
         };
         Hub.prototype._renderPivots = function () {

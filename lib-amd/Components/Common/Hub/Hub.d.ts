@@ -5,7 +5,8 @@ import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
 import { IBaseComponentState, IBaseComponentProps, BaseComponent } from "../../Common/BaseComponent";
 import { IFavoriteStarProps } from "../FavoriteStar";
 export interface IHubProps extends IBaseComponentProps {
-    title: string;
+    title?: string;
+    onTitleRender?: () => React.ReactNode;
     pivotProps: IPivotProps;
     favoriteStarProps?: IFavoriteStarProps;
 }

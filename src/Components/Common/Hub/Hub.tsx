@@ -13,7 +13,8 @@ import { IBaseComponentState, IBaseComponentProps, BaseComponent } from "../../C
 import { FavoriteStar, IFavoriteStarProps } from "../FavoriteStar";
 
 export interface IHubProps extends IBaseComponentProps {
-    title: string;
+    title?: string;
+    onTitleRender?: () => React.ReactNode;
     pivotProps: IPivotProps;
     favoriteStarProps?: IFavoriteStarProps;    
 }
@@ -103,7 +104,9 @@ export class Hub extends BaseComponent<IHubProps, IHubState> {
 
     private _renderHeader(): React.ReactNode {
         return <div className="hub-header">
-            <Label className="hub-title">{this.props.title}</Label>
+            {this.props.onTitleRender && <div className="hub-title">{this.props.onTitleRender()}</div>}
+            {!this.props.onTitleRender && <Label className="hub-title">{this.props.title}</Label>}
+
             { this.props.favoriteStarProps && <FavoriteStar {...this.props.favoriteStarProps} /> }            
         </div>
     }

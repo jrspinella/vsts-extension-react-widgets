@@ -19,7 +19,8 @@ export class Demo extends React.Component<{}, {}> {
         return (   
             <Fabric>         
             <Hub 
-                title="This is a hub" 
+                title="This is a hub"
+                onTitleRender={ () => <span>Hello</span> }
                 favoriteStarProps={{
                     isFavorite: false,
                     onChange: f => console.log(f)
