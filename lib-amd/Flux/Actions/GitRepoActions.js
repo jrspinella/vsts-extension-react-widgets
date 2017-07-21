@@ -33,7 +33,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "TFS/VersionControl/GitRestClient", "../Stores/BaseStore", "../Stores/GitRepoStore", "./ActionsCreator"], function (require, exports, GitClient, BaseStore_1, GitRepoStore_1, ActionsCreator_1) {
+define(["require", "exports", "TFS/VersionControl/GitRestClient", "../Stores/BaseStore", "../Stores/GitRepoStore", "./ActionsHub"], function (require, exports, GitClient, BaseStore_1, GitRepoStore_1, ActionsHub_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var GitRepoActions;
@@ -46,7 +46,7 @@ define(["require", "exports", "TFS/VersionControl/GitRestClient", "../Stores/Bas
                     switch (_a.label) {
                         case 0:
                             if (!gitRepoStore.isLoaded()) return [3, 1];
-                            ActionsCreator_1.GitRepoActionsCreator.InitializeGitRepos.invoke(null);
+                            ActionsHub_1.GitRepoActionsHub.InitializeGitRepos.invoke(null);
                             return [3, 5];
                         case 1:
                             if (!!gitRepoStore.isLoading()) return [3, 5];
@@ -57,7 +57,7 @@ define(["require", "exports", "TFS/VersionControl/GitRestClient", "../Stores/Bas
                             return [4, GitClient.getClient().getRepositories(VSS.getWebContext().project.id)];
                         case 3:
                             gitRepos = _a.sent();
-                            ActionsCreator_1.GitRepoActionsCreator.InitializeGitRepos.invoke(gitRepos);
+                            ActionsHub_1.GitRepoActionsHub.InitializeGitRepos.invoke(gitRepos);
                             gitRepoStore.setLoading(false);
                             return [3, 5];
                         case 4:

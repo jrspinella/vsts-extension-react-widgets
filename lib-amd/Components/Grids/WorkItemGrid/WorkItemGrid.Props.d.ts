@@ -1,4 +1,4 @@
-import { WorkItem, WorkItemField, WorkItemFieldReference } from "TFS/WorkItemTracking/Contracts";
+import { WorkItem, WorkItemField } from "TFS/WorkItemTracking/Contracts";
 import { SelectionMode } from "OfficeFabric/utilities/selection/interfaces";
 import { ICommandBarProps, IContextMenuProps, GridColumn } from "../Grid.Props";
 import { IBaseComponentProps, IBaseComponentState } from "../../Common/BaseComponent";
@@ -12,19 +12,21 @@ export interface BaseWorkItemGridProps extends IBaseComponentProps {
     selectionPreservedOnEmptyClick?: boolean;
 }
 export interface IWorkItemGridProps extends BaseWorkItemGridProps {
+    workItemIds?: number[];
+    fieldRefNames?: string[];
+}
+export interface IWorkItemGridState extends IBaseComponentState {
     workItems: WorkItem[];
     fields: WorkItemField[];
-    onWorkItemUpdated?: (updatedWorkItem: WorkItem) => void;
 }
 export interface IQueryResultGridProps extends BaseWorkItemGridProps {
     wiql: string;
     top?: number;
     project?: string;
 }
-export interface IQueryResultGridState extends IBaseComponentState {
-    fieldColumns?: WorkItemFieldReference[];
-    workItems?: WorkItem[];
-    fieldsMap?: IDictionaryStringTo<WorkItemField>;
+export interface IQueryResultGridState {
+    workItemIds?: number[];
+    fieldRefNames?: string[];
 }
 export interface IExtraWorkItemGridColumn {
     column: GridColumn;

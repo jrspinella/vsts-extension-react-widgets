@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "VSS/Utils/String", "VSS/Utils/Array", "./BaseStore", "../Actions/ActionsCreator"], function (require, exports, Utils_String, Utils_Array, BaseStore_1, ActionsCreator_1) {
+define(["require", "exports", "VSS/Utils/String", "VSS/Utils/Array", "./BaseStore", "../Actions/ActionsHub"], function (require, exports, Utils_String, Utils_Array, BaseStore_1, ActionsHub_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var WorkItemTemplateStore = (function (_super) {
@@ -21,7 +21,7 @@ define(["require", "exports", "VSS/Utils/String", "VSS/Utils/Array", "./BaseStor
         };
         WorkItemTemplateStore.prototype.initializeActionListeners = function () {
             var _this = this;
-            ActionsCreator_1.WorkItemTemplateActionsCreator.InitializeWorkItemTemplates.addListener(function (templates) {
+            ActionsHub_1.WorkItemTemplateActionsHub.InitializeWorkItemTemplates.addListener(function (templates) {
                 if (templates) {
                     _this.items = templates;
                 }

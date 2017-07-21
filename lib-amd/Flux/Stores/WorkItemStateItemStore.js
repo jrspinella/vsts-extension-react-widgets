@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./BaseStore", "../Actions/ActionsCreator"], function (require, exports, BaseStore_1, ActionsCreator_1) {
+define(["require", "exports", "./BaseStore", "../Actions/ActionsHub"], function (require, exports, BaseStore_1, ActionsHub_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var WorkItemStateItemStore = (function (_super) {
@@ -23,7 +23,7 @@ define(["require", "exports", "./BaseStore", "../Actions/ActionsCreator"], funct
         };
         WorkItemStateItemStore.prototype.initializeActionListeners = function () {
             var _this = this;
-            ActionsCreator_1.WorkItemStateItemActionsCreator.InitializeWorkItemStateItems.addListener(function (stateItems) {
+            ActionsHub_1.WorkItemStateItemActionsHub.InitializeWorkItemStateItems.addListener(function (stateItems) {
                 if (stateItems) {
                     _this.items[stateItems.witName.toLowerCase()] = stateItems.states;
                 }

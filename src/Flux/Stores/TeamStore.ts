@@ -3,7 +3,7 @@ import Utils_Array = require("VSS/Utils/Array");
 import { WebApiTeam } from "TFS/Core/Contracts";
 
 import { BaseStore } from "./BaseStore";
-import { TeamActionsCreator } from "../Actions/ActionsCreator";
+import { TeamActionsHub } from "../Actions/ActionsHub";
 
 export class TeamStore extends BaseStore<WebApiTeam[], WebApiTeam, string> {
     public getItem(idOrName: string): WebApiTeam {
@@ -11,7 +11,7 @@ export class TeamStore extends BaseStore<WebApiTeam[], WebApiTeam, string> {
     }    
 
     protected initializeActionListeners() {
-        TeamActionsCreator.InitializeTeams.addListener((teams: WebApiTeam[]) => {
+        TeamActionsHub.InitializeTeams.addListener((teams: WebApiTeam[]) => {
             if (teams) {
                 this.items = teams;
             }

@@ -8,7 +8,7 @@ export interface IBaseComponentProps {
 }
 
 export interface IBaseComponentState {
-    
+    loading?: boolean;
 }
 
 export class BaseComponent<TProps extends IBaseComponentProps, TState extends IBaseComponentState> extends React.Component<TProps, TState> {

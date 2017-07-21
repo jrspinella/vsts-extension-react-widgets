@@ -7,3 +7,4 @@ export * from "./WorkItemTemplateItemStore";
 export * from "./TeamStore";
 export * from "./GitRepoStore";
 export * from "./TeamFieldStore";
+export * from "./WorkItemStore";

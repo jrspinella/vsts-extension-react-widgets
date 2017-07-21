@@ -1,4 +1,4 @@
-export * from "./ActionsCreator";
+export * from "./ActionsHub";
 export * from "./WorkItemFieldActions";
 export * from "./WorkItemStateItemActions";
 export * from "./WorkItemTypeActions";
@@ -7,3 +7,4 @@ export * from "./WorkItemTemplateItemActions";
 export * from "./TeamActions";
 export * from "./GitRepoActions";
 export * from "./TeamFieldActions";
+export * from "./WorkItemActions";

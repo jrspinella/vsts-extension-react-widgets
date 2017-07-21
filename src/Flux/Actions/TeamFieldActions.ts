@@ -3,14 +3,14 @@ import * as WorkClient from "TFS/Work/RestClient";
 
 import { StoreFactory } from "../Stores/BaseStore";
 import { TeamFieldStore } from "../Stores/TeamFieldStore";
-import { TeamFieldActionsCreator } from "./ActionsCreator";
+import { TeamFieldActionsHub } from "./ActionsHub";
 
 export module TeamFieldActions {
     var teamFieldStore: TeamFieldStore = StoreFactory.getInstance<TeamFieldStore>(TeamFieldStore);
 
     export async function initializeTeamFields(teamId: string) {
         if (teamFieldStore.isLoaded(teamId)) {
-            TeamFieldActionsCreator.InitializeTeamFieldItem.invoke(null);
+            TeamFieldActionsHub.InitializeTeamFieldItem.invoke(null);
         }
         else if (!teamFieldStore.isLoading(teamId)) {
             teamFieldStore.setLoading(true, teamId);
@@ -23,7 +23,7 @@ export module TeamFieldActions {
                 };
                 
                 const teamFieldValues = await WorkClient.getClient().getTeamFieldValues(teamContext);
-                TeamFieldActionsCreator.InitializeTeamFieldItem.invoke({teamId: teamId, teamFieldValues: teamFieldValues});
+                TeamFieldActionsHub.InitializeTeamFieldItem.invoke({teamId: teamId, teamFieldValues: teamFieldValues});
                 teamFieldStore.setLoading(false, teamId);
             }
             catch (e) {

@@ -5,6 +5,7 @@ export interface IBaseComponentProps {
     className?: string;
 }
 export interface IBaseComponentState {
+    loading?: boolean;
 }
 export declare class BaseComponent<TProps extends IBaseComponentProps, TState extends IBaseComponentState> extends React.Component<TProps, TState> {
     constructor(props: TProps, context?: any);

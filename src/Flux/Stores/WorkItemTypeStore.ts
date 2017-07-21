@@ -3,7 +3,7 @@ import Utils_Array = require("VSS/Utils/Array");
 import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
 
 import { BaseStore } from "./BaseStore";
-import { WorkItemTypeActionsCreator } from "../Actions/ActionsCreator";
+import { WorkItemTypeActionsHub } from "../Actions/ActionsHub";
 
 export class WorkItemTypeStore extends BaseStore<WorkItemType[], WorkItemType, string> {
     public getItem(typeName: string): WorkItemType {
@@ -11,7 +11,7 @@ export class WorkItemTypeStore extends BaseStore<WorkItemType[], WorkItemType, s
     }    
 
     protected initializeActionListeners() {
-        WorkItemTypeActionsCreator.InitializeWorkItemTypes.addListener((workItemTypes: WorkItemType[]) => {
+        WorkItemTypeActionsHub.InitializeWorkItemTypes.addListener((workItemTypes: WorkItemType[]) => {
             if (workItemTypes) {
                 this.items = workItemTypes;
             }

@@ -49,22 +49,54 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "react", "OfficeFabric/Utilities", "VSS/Utils/String", "./WorkItemGrid.Props", "../Grid", "./WorkItemGridHelpers", "../../Common/BaseComponent", "./WorkItemsGrid.scss"], function (require, exports, React, Utilities_1, Utils_String, WorkItemGrid_Props_1, Grid_1, WorkItemHelpers, BaseComponent_1) {
+define(["require", "exports", "react", "OfficeFabric/Utilities", "VSS/Utils/String", "VSS/Utils/Array", "../Grid", "../../Common/BaseComponent", "../../Common/Loading", "./WorkItemGrid.Props", "./WorkItemGridHelpers", "../../../Flux/Stores/BaseStore", "../../../Flux/Stores/WorkItemStore", "../../../Flux/Stores/WorkItemFieldStore", "../../../Flux/Actions/WorkItemActions", "../../../Flux/Actions/WorkItemFieldActions", "./WorkItemsGrid.scss"], function (require, exports, React, Utilities_1, Utils_String, Utils_Array, Grid_1, BaseComponent_1, Loading_1, WorkItemGrid_Props_1, WorkItemHelpers, BaseStore_1, WorkItemStore_1, WorkItemFieldStore_1, WorkItemActions_1, WorkItemFieldActions_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var WorkItemGrid = (function (_super) {
         __extends(WorkItemGrid, _super);
         function WorkItemGrid() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this._workItemStore = BaseStore_1.StoreFactory.getInstance(WorkItemStore_1.WorkItemStore);
+            _this._workItemFieldStore = BaseStore_1.StoreFactory.getInstance(WorkItemFieldStore_1.WorkItemFieldStore);
+            return _this;
         }
+        WorkItemGrid.prototype.componentDidMount = function () {
+            _super.prototype.componentDidMount.call(this);
+            WorkItemFieldActions_1.WorkItemFieldActions.initializeWorkItemFields();
+            if (this.props.workItemIds && this.props.workItemIds.length > 0) {
+                WorkItemActions_1.WorkItemActions.initializeWorkItems(this.props.workItemIds, this.props.fieldRefNames);
+            }
+        };
+        WorkItemGrid.prototype.componentWillReceiveProps = function (nextProps) {
+            WorkItemActions_1.WorkItemActions.initializeWorkItems(nextProps.workItemIds, nextProps.fieldRefNames);
+        };
+        WorkItemGrid.prototype.getStores = function () {
+            return [this._workItemStore, this._workItemFieldStore];
+        };
+        WorkItemGrid.prototype.getStoresState = function () {
+            var _this = this;
+            var allFields = this._workItemFieldStore.getAll();
+            return {
+                loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading(),
+                fields: allFields ? allFields.filter(function (f) { return Utils_Array.arrayContains(f.referenceName, _this.props.fieldRefNames, Utils_String.caseInsensitiveContains); }) : null,
+                workItems: this._workItemStore.getItems(this.props.workItemIds)
+            };
+        };
         WorkItemGrid.prototype.initializeState = function () {
-            this.state = {};
+            this.state = {
+                workItems: null,
+                loading: true,
+                fields: null
+            };
         };
         WorkItemGrid.prototype.getDefaultClassName = function () {
             return "work-item-grid";
         };
         WorkItemGrid.prototype.render = function () {
-            return (React.createElement(Grid_1.Grid, { setKey: this.props.setKey, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, className: this.getClassName(), items: this.props.workItems, columns: this._mapFieldsToColumn(this.props.fields), selectionMode: this.props.selectionMode, commandBarProps: this._getCommandBarProps(), contextMenuProps: this._getContextMenuProps(), onItemInvoked: this._onItemInvoked, noResultsText: this.props.noResultsText }));
+            if (this.state.loading) {
+                return React.createElement(Loading_1.Loading, null);
+            }
+            return (React.createElement(Grid_1.Grid, { setKey: this.props.setKey, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, className: this.getClassName(), items: this.state.workItems, columns: this._mapFieldsToColumn(this.state.fields), selectionMode: this.props.selectionMode, commandBarProps: this._getCommandBarProps(), contextMenuProps: this._getContextMenuProps(), onItemInvoked: this._onItemInvoked, noResultsText: this.props.noResultsText }));
         };
         WorkItemGrid.prototype._mapFieldsToColumn = function (fields) {
             var _this = this;
@@ -97,7 +129,7 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "VSS/Utils/Stri
             var _this = this;
             var menuItems = [{
                     key: "OpenQuery", name: "Open as query", title: "Open all workitems as a query", iconProps: { iconName: "OpenInNewWindow" },
-                    disabled: !this.props.workItems || this.props.workItems.length === 0,
+                    disabled: !this.state.workItems || this.state.workItems.length === 0,
                     onClick: function (event, menuItem) { return __awaiter(_this, void 0, void 0, function () {
                         var url;
                         return __generator(this, function (_a) {
@@ -147,8 +179,8 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "VSS/Utils/Stri
                         case 0: return [4, WorkItemHelpers.openWorkItemDialog(ev, workItem)];
                         case 1:
                             updatedWorkItem = _a.sent();
-                            if (updatedWorkItem.rev > workItem.rev && this.props.onWorkItemUpdated) {
-                                this.props.onWorkItemUpdated(updatedWorkItem);
+                            if (updatedWorkItem.rev > workItem.rev) {
+                                WorkItemActions_1.WorkItemActions.refreshWorkItemInStore([updatedWorkItem]);
                             }
                             return [2];
                     }
@@ -162,8 +194,8 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "VSS/Utils/Stri
             return Utils_String.caseInsensitiveContains(workItem.fields[field.referenceName] == null ? "" : "" + workItem.fields[field.referenceName], filterText);
         };
         WorkItemGrid.prototype._getWiql = function (workItems) {
-            var fieldStr = this.props.fields.map(function (f) { return "[" + f.referenceName + "]"; }).join(",");
-            var ids = (workItems || this.props.workItems).map(function (w) { return w.id; }).join(",");
+            var fieldStr = this.state.fields.map(function (f) { return "[" + f.referenceName + "]"; }).join(",");
+            var ids = (workItems || this.state.workItems).map(function (w) { return w.id; }).join(",");
             return "SELECT " + fieldStr + "\n                 FROM WorkItems \n                 WHERE [System.ID] IN (" + ids + ")";
         };
         return WorkItemGrid;

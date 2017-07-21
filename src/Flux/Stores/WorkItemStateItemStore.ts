@@ -1,7 +1,7 @@
 import { WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
 
 import { BaseStore } from "./BaseStore";
-import { WorkItemStateItemActionsCreator } from "../Actions/ActionsCreator";
+import { WorkItemStateItemActionsHub } from "../Actions/ActionsHub";
 
 export class WorkItemStateItemStore extends BaseStore<IDictionaryStringTo<WorkItemStateColor[]>, WorkItemStateColor[], string> {
     constructor() {
@@ -14,7 +14,7 @@ export class WorkItemStateItemStore extends BaseStore<IDictionaryStringTo<WorkIt
     }
 
     protected initializeActionListeners() {
-        WorkItemStateItemActionsCreator.InitializeWorkItemStateItems.addListener((stateItems: {witName: string, states: WorkItemStateColor[]}) => {
+        WorkItemStateItemActionsHub.InitializeWorkItemStateItems.addListener((stateItems: {witName: string, states: WorkItemStateColor[]}) => {
             if (stateItems) {               
                 this.items[stateItems.witName.toLowerCase()] = stateItems.states;
             }

@@ -14,9 +14,13 @@ export interface BaseWorkItemGridProps extends IBaseComponentProps {
 }
 
 export interface IWorkItemGridProps extends BaseWorkItemGridProps {    
+    workItemIds?: number[]; 
+    fieldRefNames?: string[];   
+}
+
+export interface IWorkItemGridState extends IBaseComponentState {    
     workItems: WorkItem[];
     fields: WorkItemField[];
-    onWorkItemUpdated?: (updatedWorkItem: WorkItem) => void;
 }
 
 export interface IQueryResultGridProps extends BaseWorkItemGridProps {
@@ -25,10 +29,9 @@ export interface IQueryResultGridProps extends BaseWorkItemGridProps {
     project?: string;
 }
 
-export interface IQueryResultGridState extends IBaseComponentState {
-    fieldColumns?: WorkItemFieldReference[];
-    workItems?: WorkItem[];
-    fieldsMap?: IDictionaryStringTo<WorkItemField>;
+export interface IQueryResultGridState {
+    workItemIds?: number[]; 
+    fieldRefNames?: string[]; 
 }
 
 export interface IExtraWorkItemGridColumn {

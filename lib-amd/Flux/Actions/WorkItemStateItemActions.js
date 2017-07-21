@@ -33,7 +33,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "TFS/WorkItemTracking/RestClient", "../Stores/BaseStore", "../Stores/WorkItemStateItemStore", "./ActionsCreator"], function (require, exports, WitClient, BaseStore_1, WorkItemStateItemStore_1, ActionsCreator_1) {
+define(["require", "exports", "TFS/WorkItemTracking/RestClient", "../Stores/BaseStore", "../Stores/WorkItemStateItemStore", "./ActionsHub"], function (require, exports, WitClient, BaseStore_1, WorkItemStateItemStore_1, ActionsHub_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var WorkItemStateItemActions;
@@ -46,7 +46,7 @@ define(["require", "exports", "TFS/WorkItemTracking/RestClient", "../Stores/Base
                     switch (_a.label) {
                         case 0:
                             if (!workItemStateItemStore.isLoaded(workItemTypeName)) return [3, 1];
-                            ActionsCreator_1.WorkItemStateItemActionsCreator.InitializeWorkItemStateItems.invoke(null);
+                            ActionsHub_1.WorkItemStateItemActionsHub.InitializeWorkItemStateItems.invoke(null);
                             return [3, 5];
                         case 1:
                             if (!!workItemStateItemStore.isLoading(workItemTypeName)) return [3, 5];
@@ -57,7 +57,7 @@ define(["require", "exports", "TFS/WorkItemTracking/RestClient", "../Stores/Base
                             return [4, WitClient.getClient().getWorkItemTypeStates(VSS.getWebContext().project.id, workItemTypeName)];
                         case 3:
                             workItemTypeStates = _a.sent();
-                            ActionsCreator_1.WorkItemStateItemActionsCreator.InitializeWorkItemStateItems.invoke({ witName: workItemTypeName, states: workItemTypeStates });
+                            ActionsHub_1.WorkItemStateItemActionsHub.InitializeWorkItemStateItems.invoke({ witName: workItemTypeName, states: workItemTypeStates });
                             workItemStateItemStore.setLoading(false, workItemTypeName);
                             return [3, 5];
                         case 4:

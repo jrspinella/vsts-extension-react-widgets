@@ -3,7 +3,7 @@ import Utils_Array = require("VSS/Utils/Array");
 import { GitRepository } from "TFS/VersionControl/Contracts";
 
 import { BaseStore } from "./BaseStore";
-import { GitRepoActionsCreator } from "../Actions/ActionsCreator";
+import { GitRepoActionsHub } from "../Actions/ActionsHub";
 
 export class GitRepoStore extends BaseStore<GitRepository[], GitRepository, string> {
     public getItem(idOrName: string): GitRepository {
@@ -11,7 +11,7 @@ export class GitRepoStore extends BaseStore<GitRepository[], GitRepository, stri
     }    
 
     protected initializeActionListeners() {
-        GitRepoActionsCreator.InitializeGitRepos.addListener((repos: GitRepository[]) => {
+        GitRepoActionsHub.InitializeGitRepos.addListener((repos: GitRepository[]) => {
             if (repos) {
                 this.items = repos;
             }

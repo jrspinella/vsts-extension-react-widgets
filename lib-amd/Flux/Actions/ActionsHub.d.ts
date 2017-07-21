@@ -1,35 +1,39 @@
 import { Action } from "VSS/Flux/Action";
-import { WorkItemType, WorkItemField, WorkItemTemplate, WorkItemTemplateReference, WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
+import { WorkItem, WorkItemType, WorkItemField, WorkItemTemplate, WorkItemTemplateReference, WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
 import { WebApiTeam } from "TFS/Core/Contracts";
 import { GitRepository } from "TFS/VersionControl/Contracts";
 import { TeamFieldValues } from "TFS/Work/Contracts";
-export declare module WorkItemTypeActionsCreator {
+export declare module WorkItemTypeActionsHub {
     var InitializeWorkItemTypes: Action<WorkItemType[]>;
 }
-export declare module WorkItemFieldActionsCreator {
+export declare module WorkItemFieldActionsHub {
     var InitializeWorkItemFields: Action<WorkItemField[]>;
 }
-export declare module WorkItemTemplateActionsCreator {
+export declare module WorkItemTemplateActionsHub {
     var InitializeWorkItemTemplates: Action<WorkItemTemplateReference[]>;
 }
-export declare module WorkItemTemplateItemActionsCreator {
+export declare module WorkItemTemplateItemActionsHub {
     var InitializeWorkItemTemplateItem: Action<WorkItemTemplate>;
 }
-export declare module WorkItemStateItemActionsCreator {
+export declare module WorkItemStateItemActionsHub {
     var InitializeWorkItemStateItems: Action<{
         witName: string;
         states: WorkItemStateColor[];
     }>;
 }
-export declare module TeamActionsCreator {
+export declare module TeamActionsHub {
     var InitializeTeams: Action<WebApiTeam[]>;
 }
-export declare module GitRepoActionsCreator {
+export declare module GitRepoActionsHub {
     var InitializeGitRepos: Action<GitRepository[]>;
 }
-export declare module TeamFieldActionsCreator {
+export declare module TeamFieldActionsHub {
     var InitializeTeamFieldItem: Action<{
         teamId: string;
         teamFieldValues: TeamFieldValues;
     }>;
+}
+export declare module WorkItemActionsHub {
+    var AddOrUpdateWorkItems: Action<WorkItem[]>;
+    var DeleteWorkItems: Action<number[]>;
 }

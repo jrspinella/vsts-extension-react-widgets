@@ -3,7 +3,7 @@ import Utils_Array = require("VSS/Utils/Array");
 import { WorkItemField } from "TFS/WorkItemTracking/Contracts";
 
 import { BaseStore } from "./BaseStore";
-import { WorkItemFieldActionsCreator } from "../Actions/ActionsCreator";
+import { WorkItemFieldActionsHub } from "../Actions/ActionsHub";
 
 export class WorkItemFieldStore extends BaseStore<WorkItemField[], WorkItemField, string> {
     public getItem(fieldRefName: string): WorkItemField {
@@ -11,7 +11,7 @@ export class WorkItemFieldStore extends BaseStore<WorkItemField[], WorkItemField
     }    
 
     protected initializeActionListeners() {
-        WorkItemFieldActionsCreator.InitializeWorkItemFields.addListener((fields: WorkItemField[]) => {
+        WorkItemFieldActionsHub.InitializeWorkItemFields.addListener((fields: WorkItemField[]) => {
             if (fields) {
                 this.items = fields;
             }

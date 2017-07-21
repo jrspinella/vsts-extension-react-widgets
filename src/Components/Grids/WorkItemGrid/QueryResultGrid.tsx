@@ -10,38 +10,13 @@ import Utils_Array = require("VSS/Utils/Array");
 import { Loading } from "../../Common/Loading";
 import { BaseComponent } from "../../Common/BaseComponent"; 
 import { WorkItemGrid } from "./WorkItemGrid";
-import { BaseStore, StoreFactory } from "../../../Flux/Stores/BaseStore";
-import { WorkItemFieldStore } from "../../../Flux/Stores/WorkItemFieldStore";
-import { WorkItemFieldActions } from "../../../Flux/Actions/WorkItemFieldActions";
 import { IQueryResultGridProps, IQueryResultGridState } from "./WorkItemGrid.Props";
 import { ICommandBarProps } from "../Grid.Props";
 
 export class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQueryResultGridState> {
-    private _workItemFieldStore = StoreFactory.getInstance<WorkItemFieldStore>(WorkItemFieldStore);
-
-    protected getStores(): BaseStore<any, any, any>[] {
-        return [this._workItemFieldStore];
-    }
-
     public componentDidMount() {
         super.componentDidMount();
-        WorkItemFieldActions.initializeWorkItemFields();
         this._runQuery(this.props);
-    }
-
-    protected getStoresState(): IQueryResultGridState {
-        if (this._workItemFieldStore.isLoaded()) {
-            const fields = this._workItemFieldStore.getAll();
-            let fieldsMap = {};
-            fields.forEach(f => fieldsMap[f.referenceName.toLowerCase()] = f);
-
-            return {
-                fieldsMap: fieldsMap
-            };
-        }
-        else {
-            return {};
-        }
     }
 
     protected getDefaultClassName(): string {
@@ -65,29 +40,17 @@ export class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQuery
             return (
                 <WorkItemGrid 
                     className={this.getClassName()}
-                    workItems={this.state.workItems}
-                    fields={this.state.fieldColumns.map(fr => this.state.fieldsMap[fr.referenceName.toLowerCase()]).filter(f => f != null)}
+                    workItemIds={this.state.workItemIds}
+                    fieldRefNames={this.state.fieldRefNames}
                     commandBarProps={this._getCommandBarProps()}
                     contextMenuProps={this.props.contextMenuProps}
                     selectionMode={this.props.selectionMode}
                     extraColumns={this.props.extraColumns}
                     setKey={this.props.setKey}
                     selectionPreservedOnEmptyClick={this.props.selectionPreservedOnEmptyClick || false}
-                    onWorkItemUpdated={this._onWorkItemUpdated}
                     noResultsText={this.props.noResultsText || "Query returned no results."}
                 />                        
             );
-        }
-    }
-
-    @autobind
-    private _onWorkItemUpdated(updatedWorkItem: WorkItem) {
-        let newList = this.state.workItems.slice();
-        const index = Utils_Array.findIndex(this.state.workItems, w => w.id === updatedWorkItem.id);
-        if (index !== -1) {
-            newList[index].fields = updatedWorkItem.fields;
-            newList[index].rev = updatedWorkItem.rev;
-            this.updateState({workItems: newList});
         }
     }
 
@@ -114,20 +77,15 @@ export class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQuery
     }
 
     private async _runQuery(props: IQueryResultGridProps) {
-        this.updateState({workItems: null, fieldColumns: null});
+        this.updateState({workItemIds: null, fieldRefNames: null});
 
         let queryResult = await WitClient.getClient().queryByWiql({ query: props.wiql }, props.project, null, false, this.props.top);
         let workItemIds = queryResult.workItems.map(workItem => workItem.id);
-        let workItems: WorkItem[] = [];
-
-        if (workItemIds.length > 0) {
-            workItems = await WitClient.getClient().getWorkItems(workItemIds);
-        }
-
-        this.updateState({workItems: workItems, fieldColumns: queryResult.columns});
+        
+        this.updateState({workItemIds: workItemIds, fieldRefNames: queryResult.columns.map(fr => fr.referenceName)});
     }    
 
     private _isDataLoaded(): boolean {
-        return this.state.workItems != null && this.state.fieldColumns != null && this.state.fieldsMap != null;
+        return this.state.workItemIds != null && this.state.fieldRefNames != null;
     }
 }

@@ -3,7 +3,7 @@ import Utils_Array = require("VSS/Utils/Array");
 import { WorkItemTemplateReference } from "TFS/WorkItemTracking/Contracts";
 
 import { BaseStore } from "./BaseStore";
-import { WorkItemTemplateActionsCreator } from "../Actions/ActionsCreator";
+import { WorkItemTemplateActionsHub } from "../Actions/ActionsHub";
 
 export class WorkItemTemplateStore extends BaseStore<WorkItemTemplateReference[], WorkItemTemplateReference, string> {
     public getItem(id: string): WorkItemTemplateReference {  
@@ -11,7 +11,7 @@ export class WorkItemTemplateStore extends BaseStore<WorkItemTemplateReference[]
     }    
 
     protected initializeActionListeners() {
-        WorkItemTemplateActionsCreator.InitializeWorkItemTemplates.addListener((templates: WorkItemTemplateReference[]) => {
+        WorkItemTemplateActionsHub.InitializeWorkItemTemplates.addListener((templates: WorkItemTemplateReference[]) => {
             if (templates) {
                 this.items = templates;
             }

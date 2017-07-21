@@ -33,7 +33,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "TFS/Work/RestClient", "../Stores/BaseStore", "../Stores/TeamFieldStore", "./ActionsCreator"], function (require, exports, WorkClient, BaseStore_1, TeamFieldStore_1, ActionsCreator_1) {
+define(["require", "exports", "TFS/Work/RestClient", "../Stores/BaseStore", "../Stores/TeamFieldStore", "./ActionsHub"], function (require, exports, WorkClient, BaseStore_1, TeamFieldStore_1, ActionsHub_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var TeamFieldActions;
@@ -46,7 +46,7 @@ define(["require", "exports", "TFS/Work/RestClient", "../Stores/BaseStore", "../
                     switch (_a.label) {
                         case 0:
                             if (!teamFieldStore.isLoaded(teamId)) return [3, 1];
-                            ActionsCreator_1.TeamFieldActionsCreator.InitializeTeamFieldItem.invoke(null);
+                            ActionsHub_1.TeamFieldActionsHub.InitializeTeamFieldItem.invoke(null);
                             return [3, 5];
                         case 1:
                             if (!!teamFieldStore.isLoading(teamId)) return [3, 5];
@@ -63,7 +63,7 @@ define(["require", "exports", "TFS/Work/RestClient", "../Stores/BaseStore", "../
                             return [4, WorkClient.getClient().getTeamFieldValues(teamContext)];
                         case 3:
                             teamFieldValues = _a.sent();
-                            ActionsCreator_1.TeamFieldActionsCreator.InitializeTeamFieldItem.invoke({ teamId: teamId, teamFieldValues: teamFieldValues });
+                            ActionsHub_1.TeamFieldActionsHub.InitializeTeamFieldItem.invoke({ teamId: teamId, teamFieldValues: teamFieldValues });
                             teamFieldStore.setLoading(false, teamId);
                             return [3, 5];
                         case 4:

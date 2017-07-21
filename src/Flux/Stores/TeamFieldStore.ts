@@ -1,7 +1,7 @@
 import { TeamFieldValues } from "TFS/Work/Contracts";
 
 import { BaseStore } from "./BaseStore";
-import { TeamFieldActionsCreator } from "../Actions/ActionsCreator";
+import { TeamFieldActionsHub } from "../Actions/ActionsHub";
 
 export class TeamFieldStore extends BaseStore<IDictionaryStringTo<TeamFieldValues>, TeamFieldValues, string> {
     constructor() {
@@ -14,7 +14,7 @@ export class TeamFieldStore extends BaseStore<IDictionaryStringTo<TeamFieldValue
     }
 
     protected initializeActionListeners() {
-        TeamFieldActionsCreator.InitializeTeamFieldItem.addListener((values: {teamId: string, teamFieldValues: TeamFieldValues}) => {
+        TeamFieldActionsHub.InitializeTeamFieldItem.addListener((values: {teamId: string, teamFieldValues: TeamFieldValues}) => {
             if (values) {               
                 this.items[values.teamId.toLowerCase()] = values.teamFieldValues;
             }

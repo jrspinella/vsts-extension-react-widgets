@@ -33,7 +33,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "TFS/WorkItemTracking/RestClient", "../Stores/BaseStore", "../Stores/WorkItemTemplateStore", "./ActionsCreator"], function (require, exports, WitClient, BaseStore_1, WorkItemTemplateStore_1, ActionsCreator_1) {
+define(["require", "exports", "TFS/WorkItemTracking/RestClient", "../Stores/BaseStore", "../Stores/WorkItemTemplateStore", "./ActionsHub"], function (require, exports, WitClient, BaseStore_1, WorkItemTemplateStore_1, ActionsHub_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var WorkItemTemplateActions;
@@ -46,7 +46,7 @@ define(["require", "exports", "TFS/WorkItemTracking/RestClient", "../Stores/Base
                     switch (_a.label) {
                         case 0:
                             if (!workItemTemplateStore.isLoaded()) return [3, 1];
-                            ActionsCreator_1.WorkItemTemplateActionsCreator.InitializeWorkItemTemplates.invoke(null);
+                            ActionsHub_1.WorkItemTemplateActionsHub.InitializeWorkItemTemplates.invoke(null);
                             return [3, 5];
                         case 1:
                             if (!!workItemTemplateStore.isLoading()) return [3, 5];
@@ -57,7 +57,7 @@ define(["require", "exports", "TFS/WorkItemTracking/RestClient", "../Stores/Base
                             return [4, WitClient.getClient().getTemplates(VSS.getWebContext().project.id, VSS.getWebContext().team.id)];
                         case 3:
                             workItemTemplates = _a.sent();
-                            ActionsCreator_1.WorkItemTemplateActionsCreator.InitializeWorkItemTemplates.invoke(workItemTemplates);
+                            ActionsHub_1.WorkItemTemplateActionsHub.InitializeWorkItemTemplates.invoke(workItemTemplates);
                             workItemTemplateStore.setLoading(false);
                             return [3, 5];
                         case 4:

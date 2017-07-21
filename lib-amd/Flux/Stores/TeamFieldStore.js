@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./BaseStore", "../Actions/ActionsCreator"], function (require, exports, BaseStore_1, ActionsCreator_1) {
+define(["require", "exports", "./BaseStore", "../Actions/ActionsHub"], function (require, exports, BaseStore_1, ActionsHub_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var TeamFieldStore = (function (_super) {
@@ -23,7 +23,7 @@ define(["require", "exports", "./BaseStore", "../Actions/ActionsCreator"], funct
         };
         TeamFieldStore.prototype.initializeActionListeners = function () {
             var _this = this;
-            ActionsCreator_1.TeamFieldActionsCreator.InitializeTeamFieldItem.addListener(function (values) {
+            ActionsHub_1.TeamFieldActionsHub.InitializeTeamFieldItem.addListener(function (values) {
                 if (values) {
                     _this.items[values.teamId.toLowerCase()] = values.teamFieldValues;
                 }
