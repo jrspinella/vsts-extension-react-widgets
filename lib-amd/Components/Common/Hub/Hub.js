@@ -137,10 +137,10 @@ define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Comma
         Hub.prototype._getFilterControl = function (selectedPivot) {
             return React.createElement(TextField_1.TextField, { onRenderAddon: function () { return React.createElement(Icon_1.Icon, { iconName: "Filter" }); }, className: "filter-input", onChanged: function (filterText) { return selectedPivot.filterProps.onFilterChange(filterText); }, placeholder: "Filter by Keyword" });
         };
+        __decorate([
+            Utilities_1.autobind
+        ], Hub.prototype, "_customPivotItemRenderer", null);
         return Hub;
     }(BaseComponent_1.BaseComponent));
-    __decorate([
-        Utilities_1.autobind
-    ], Hub.prototype, "_customPivotItemRenderer", null);
     exports.Hub = Hub;
 });

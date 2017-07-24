@@ -63,10 +63,10 @@ define(["require", "exports", "react", "OfficeFabric/Utilities"], function (requ
             var newStoreState = this.getStoresState();
             this.updateState(newStoreState);
         };
+        __decorate([
+            Utilities_1.autobind
+        ], BaseComponent.prototype, "_onStoreChanged", null);
         return BaseComponent;
     }(React.Component));
-    __decorate([
-        Utilities_1.autobind
-    ], BaseComponent.prototype, "_onStoreChanged", null);
     exports.BaseComponent = BaseComponent;
 });

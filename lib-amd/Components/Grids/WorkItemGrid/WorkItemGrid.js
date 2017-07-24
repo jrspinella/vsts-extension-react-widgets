@@ -198,10 +198,10 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "VSS/Utils/Stri
             var ids = (workItems || this.state.workItems).map(function (w) { return w.id; }).join(",");
             return "SELECT " + fieldStr + "\n                 FROM WorkItems \n                 WHERE [System.ID] IN (" + ids + ")";
         };
+        __decorate([
+            Utilities_1.autobind
+        ], WorkItemGrid.prototype, "_onItemInvoked", null);
         return WorkItemGrid;
     }(BaseComponent_1.BaseComponent));
-    __decorate([
-        Utilities_1.autobind
-    ], WorkItemGrid.prototype, "_onItemInvoked", null);
     exports.WorkItemGrid = WorkItemGrid;
 });

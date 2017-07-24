@@ -24,7 +24,7 @@ export interface IQueryResultGridProps extends BaseWorkItemGridProps {
     top?: number;
     project?: string;
 }
-export interface IQueryResultGridState {
+export interface IQueryResultGridState extends IBaseComponentState {
     workItemIds?: number[];
     fieldRefNames?: string[];
 }

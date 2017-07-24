@@ -164,22 +164,22 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
                 });
             }
         };
+        __decorate([
+            Utilities_1.autobind
+        ], Grid.prototype, "_onItemInvoked", null);
+        __decorate([
+            Utilities_1.autobind
+        ], Grid.prototype, "_onColumnHeaderClick", null);
+        __decorate([
+            Utilities_1.autobind
+        ], Grid.prototype, "_updateFilterText", null);
+        __decorate([
+            Utilities_1.autobind
+        ], Grid.prototype, "_showContextMenu", null);
+        __decorate([
+            Utilities_1.autobind
+        ], Grid.prototype, "_hideContextMenu", null);
         return Grid;
     }(BaseComponent_1.BaseComponent));
-    __decorate([
-        Utilities_1.autobind
-    ], Grid.prototype, "_onItemInvoked", null);
-    __decorate([
-        Utilities_1.autobind
-    ], Grid.prototype, "_onColumnHeaderClick", null);
-    __decorate([
-        Utilities_1.autobind
-    ], Grid.prototype, "_updateFilterText", null);
-    __decorate([
-        Utilities_1.autobind
-    ], Grid.prototype, "_showContextMenu", null);
-    __decorate([
-        Utilities_1.autobind
-    ], Grid.prototype, "_hideContextMenu", null);
     exports.Grid = Grid;
 });
