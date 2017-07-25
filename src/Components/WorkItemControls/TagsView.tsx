@@ -17,7 +17,7 @@ export var TagsView: React.StatelessComponent<ITagsViewProps> =
         
         return (
             <div className="tags-view">
-                {tags.map(tag => <Label className="tag">{tag.trim()}</Label>)}
+                {tags.map((tag: string, index: number) => <Label key={index} className="tag">{tag.trim()}</Label>)}
             </div>
         );
 }

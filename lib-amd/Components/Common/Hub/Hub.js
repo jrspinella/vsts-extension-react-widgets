@@ -73,7 +73,7 @@ define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Comma
         Hub.prototype._renderPivots = function () {
             var _this = this;
             return this.props.pivotProps.pivots.map(function (pivotItem, index) {
-                return React.createElement(Pivot_1.PivotItem, { className: "hub-pivot", itemKey: pivotItem.key, itemCount: pivotItem.itemCount, itemIcon: pivotItem.itemIcon, linkText: pivotItem.text, onRenderItemLink: _this._customPivotItemRenderer });
+                return React.createElement(Pivot_1.PivotItem, { key: pivotItem.key, className: "hub-pivot", itemKey: pivotItem.key, itemCount: pivotItem.itemCount, itemIcon: pivotItem.itemIcon, linkText: pivotItem.text, onRenderItemLink: _this._customPivotItemRenderer });
             });
         };
         Hub.prototype._customPivotItemRenderer = function (props, defaultRenderer) {

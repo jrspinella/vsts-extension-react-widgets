@@ -114,6 +114,7 @@ export class Hub extends BaseComponent<IHubProps, IHubState> {
     private _renderPivots(): React.ReactNode {
         return this.props.pivotProps.pivots.map((pivotItem: IPivotItem, index: number) => {
             return <PivotItem 
+                key={pivotItem.key}
                 className="hub-pivot" 
                 itemKey={pivotItem.key} 
                 itemCount={pivotItem.itemCount}

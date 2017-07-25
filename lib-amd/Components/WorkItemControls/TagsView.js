@@ -6,6 +6,6 @@ define(["require", "exports", "react", "OfficeFabric/Label", "./TagsView.scss"],
         if (tags.length === 0) {
             return null;
         }
-        return (React.createElement("div", { className: "tags-view" }, tags.map(function (tag) { return React.createElement(Label_1.Label, { className: "tag" }, tag.trim()); })));
+        return (React.createElement("div", { className: "tags-view" }, tags.map(function (tag, index) { return React.createElement(Label_1.Label, { key: index, className: "tag" }, tag.trim()); })));
     };
 });
