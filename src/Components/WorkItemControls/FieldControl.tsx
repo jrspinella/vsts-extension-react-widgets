@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import * as WitExtensionContracts  from "TFS/WorkItemTracking/ExtensionContracts";
 import { WorkItemFormService } from "TFS/WorkItemTracking/Services";
 
@@ -24,10 +22,10 @@ export abstract class FieldControl<TP extends IFieldControlProps, TS extends IFi
 
     protected initialize() {
          VSS.register(VSS.getContribution().id, {
-            onLoaded: (args: WitExtensionContracts.IWorkItemLoadedArgs) => {
+            onLoaded: (_args: WitExtensionContracts.IWorkItemLoadedArgs) => {
                 this._invalidate();
             },
-            onUnloaded: (args: WitExtensionContracts.IWorkItemChangedArgs) => {
+            onUnloaded: (_args: WitExtensionContracts.IWorkItemChangedArgs) => {
                 this._setValue(null);
             },
             onFieldChanged: (args: WitExtensionContracts.IWorkItemFieldChangedArgs) => {
@@ -56,7 +54,7 @@ export abstract class FieldControl<TP extends IFieldControlProps, TS extends IFi
         }
     }    
 
-    protected getErrorMessage(value: string): string {
+    protected getErrorMessage(_value: string): string {
         return "";
     }
 

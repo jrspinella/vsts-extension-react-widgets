@@ -9,7 +9,7 @@ import { WorkItem, WorkItemErrorPolicy } from "TFS/WorkItemTracking/Contracts";
 export module WorkItemActions {
     var workItemStore: WorkItemStore = StoreFactory.getInstance<WorkItemStore>(WorkItemStore);
 
-    export async function initializeWorkItems(ids: number[], fields?: string[]) {
+    export async function initializeWorkItems(ids: number[]) {
         if (!ids || ids.length === 0) {
             WorkItemActionsHub.AddOrUpdateWorkItems.invoke(null);
         }
@@ -29,7 +29,7 @@ export module WorkItemActions {
             workItemStore.setLoading(true);
 
             try {
-                const workItems = await WitClient.getClient().getWorkItems(idsToFetch, fields, null, null, WorkItemErrorPolicy.Omit);
+                const workItems = await WitClient.getClient().getWorkItems(idsToFetch, null, null, null, WorkItemErrorPolicy.Omit);
                 WorkItemActionsHub.AddOrUpdateWorkItems.invoke(workItems.filter(w => w != null));
                 workItemStore.setLoading(false);
             }
@@ -40,7 +40,7 @@ export module WorkItemActions {
         }   
     }
 
-    export async function refreshWorkItems(ids: number[], fields?: string[]) {
+    export async function refreshWorkItems(ids: number[]) {
         if (!ids || ids.length === 0) {
             WorkItemActionsHub.AddOrUpdateWorkItems.invoke(null);
         }
@@ -48,7 +48,7 @@ export module WorkItemActions {
             workItemStore.setLoading(true);
 
             try {
-                const workItems = await WitClient.getClient().getWorkItems(ids, fields, null, null, WorkItemErrorPolicy.Omit);
+                const workItems = await WitClient.getClient().getWorkItems(ids, null, null, null, WorkItemErrorPolicy.Omit);
                 WorkItemActionsHub.AddOrUpdateWorkItems.invoke(workItems.filter(w => w != null));
                 workItemStore.setLoading(false);
             }
@@ -59,7 +59,7 @@ export module WorkItemActions {
         }   
     }
 
-    export async function initializeWorkItem(id: number, fields?: string[]) {
+    export async function initializeWorkItem(id: number) {
         if (!workItemStore.isLoaded(id)) {
             WorkItemActionsHub.AddOrUpdateWorkItems.invoke(null);
         }
@@ -67,7 +67,7 @@ export module WorkItemActions {
             workItemStore.setLoading(true);
 
             try {
-                const workItem = await WitClient.getClient().getWorkItem(id, fields);
+                const workItem = await WitClient.getClient().getWorkItem(id);
                 WorkItemActionsHub.AddOrUpdateWorkItems.invoke([workItem]);
                 workItemStore.setLoading(false);
             }
@@ -78,12 +78,12 @@ export module WorkItemActions {
         }   
     }
 
-    export async function refreshWorkItem(id: number, fields?: string[]) {        
+    export async function refreshWorkItem(id: number) {        
         if (!workItemStore.isLoading()) {
             workItemStore.setLoading(true);
 
             try {
-                const workItem = await WitClient.getClient().getWorkItem(id, fields);
+                const workItem = await WitClient.getClient().getWorkItem(id);
                 WorkItemActionsHub.AddOrUpdateWorkItems.invoke([workItem]);
                 workItemStore.setLoading(false);
             }

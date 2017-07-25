@@ -4,7 +4,7 @@ import { IQueryResultGridProps, IQueryResultGridState } from "./WorkItemGrid.Pro
 export declare class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQueryResultGridState> {
     componentDidMount(): void;
     protected getDefaultClassName(): string;
-    componentWillReceiveProps(nextProps: Readonly<IQueryResultGridProps>, nextContext: any): void;
+    componentWillReceiveProps(nextProps: Readonly<IQueryResultGridProps>): void;
     render(): JSX.Element;
     private _getCommandBarProps();
     private _runQuery(props);

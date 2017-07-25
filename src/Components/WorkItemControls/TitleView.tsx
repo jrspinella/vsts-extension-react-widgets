@@ -5,8 +5,6 @@ import * as React from "react";
 import { Label } from "OfficeFabric/Label";
 
 import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
-import Context = require("VSS/Context");
-
 import { BaseComponent, IBaseComponentState, IBaseComponentProps } from "../Common/BaseComponent"; 
 import { BaseStore, StoreFactory } from "../../Flux/Stores/BaseStore";
 import { WorkItemTypeStore } from "../../Flux/Stores/WorkItemTypeStore";
@@ -63,8 +61,6 @@ export class TitleView extends BaseComponent<ITitleViewProps, ITitleViewState> {
             witColor = "#000000";
         }
 
-        const pageContext = Context.getPageContext();
-        const navigation = pageContext.navigation;
         const webContext = VSS.getWebContext();
         const witUrl = `${webContext.collection.uri}/${webContext.project.name}/_workitems/edit/${this.props.workItemId}`;
 

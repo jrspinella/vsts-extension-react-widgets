@@ -7,7 +7,7 @@ export declare abstract class Grid extends BaseComponent<IGridProps, IGridState>
     private _searchTimeout;
     constructor(props: IGridProps, context?: any);
     protected initializeState(): void;
-    componentWillReceiveProps(nextProps: Readonly<IGridProps>, nextContext: any): void;
+    componentWillReceiveProps(nextProps: Readonly<IGridProps>): void;
     protected getDefaultClassName(): string;
     render(): JSX.Element;
     private _renderCommandBar();
@@ -17,7 +17,7 @@ export declare abstract class Grid extends BaseComponent<IGridProps, IGridState>
     private _prepareColumns();
     private _onColumnHeaderClick(column);
     private _updateFilterText(filterText);
-    private _showContextMenu(item?, index?, e?);
+    private _showContextMenu(_item?, index?, e?);
     private _hideContextMenu();
     private _sortAndFilterWorkItems(items, sortColumn, sortOrder, filterText);
 }

@@ -1,4 +1,4 @@
-import { WorkItem, WorkItemField, WorkItemFieldReference } from "TFS/WorkItemTracking/Contracts";
+import { WorkItem, WorkItemField } from "TFS/WorkItemTracking/Contracts";
 import { SelectionMode } from "OfficeFabric/utilities/selection/interfaces";
 import { ICommandBarProps, IContextMenuProps, GridColumn } from "../Grid.Props";
 import { IBaseComponentProps, IBaseComponentState } from "../../Common/BaseComponent"; 
@@ -20,7 +20,7 @@ export interface IWorkItemGridProps extends BaseWorkItemGridProps {
 
 export interface IWorkItemGridState extends IBaseComponentState {    
     workItems: WorkItem[];
-    fields: WorkItemField[];
+    fieldsMap: IDictionaryStringTo<WorkItemField>;
 }
 
 export interface IQueryResultGridProps extends BaseWorkItemGridProps {

@@ -2,7 +2,7 @@ import "./FavoriteStar.scss";
 
 import * as React from "react";
 import { Icon } from "OfficeFabric/Icon";
-import { TooltipHost, TooltipDelay, DirectionalHint, TooltipOverflowMode } from "OfficeFabric/Tooltip";
+import { TooltipHost, TooltipDelay } from "OfficeFabric/Tooltip";
 
 export interface IFavoriteStarProps {
     isFavorite: boolean;

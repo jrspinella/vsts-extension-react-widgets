@@ -72,7 +72,7 @@ define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Comma
         };
         Hub.prototype._renderPivots = function () {
             var _this = this;
-            return this.props.pivotProps.pivots.map(function (pivotItem, index) {
+            return this.props.pivotProps.pivots.map(function (pivotItem) {
                 return React.createElement(Pivot_1.PivotItem, { key: pivotItem.key, className: "hub-pivot", itemKey: pivotItem.key, itemCount: pivotItem.itemCount, itemIcon: pivotItem.itemIcon, linkText: pivotItem.text, onRenderItemLink: _this._customPivotItemRenderer });
             });
         };
@@ -107,7 +107,7 @@ define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Comma
                 var items = [{
                         key: "filter",
                         className: "filter-command",
-                        onRender: function (item) {
+                        onRender: function () {
                             return _this._getFilterControl(selectedPivot);
                         }
                     }];
@@ -127,7 +127,7 @@ define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Comma
                 items.push({
                     key: "filter",
                     className: "filter-command",
-                    onRender: function (item) {
+                    onRender: function () {
                         return _this._getFilterControl(selectedPivot);
                     }
                 });

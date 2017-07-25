@@ -12,7 +12,7 @@ export declare abstract class FieldControl<TP extends IFieldControlProps, TS ext
     private _flushing;
     protected initialize(): void;
     protected onValueChanged(newValue: any): Promise<void>;
-    protected getErrorMessage(value: string): string;
+    protected getErrorMessage(_value: string): string;
     private _invalidate();
     private _getCurrentFieldValue();
     private _setValue(value);

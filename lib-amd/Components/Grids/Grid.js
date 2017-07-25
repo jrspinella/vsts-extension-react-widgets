@@ -38,7 +38,7 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
                 filterText: ""
             };
         };
-        Grid.prototype.componentWillReceiveProps = function (nextProps, nextContext) {
+        Grid.prototype.componentWillReceiveProps = function (nextProps) {
             this.updateState({
                 filteredItems: this._sortAndFilterWorkItems(nextProps.items, this.state.sortColumn, this.state.sortOrder, this.state.filterText),
                 isContextMenuVisible: false,
@@ -131,7 +131,7 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
                 }
             }, 200);
         };
-        Grid.prototype._showContextMenu = function (item, index, e) {
+        Grid.prototype._showContextMenu = function (_item, index, e) {
             if (this.props.contextMenuProps && this.props.contextMenuProps.menuItems) {
                 if (!this._selection.isIndexSelected(index)) {
                     this._selection.setAllSelected(false);

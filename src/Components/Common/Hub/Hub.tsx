@@ -112,7 +112,7 @@ export class Hub extends BaseComponent<IHubProps, IHubState> {
     }
 
     private _renderPivots(): React.ReactNode {
-        return this.props.pivotProps.pivots.map((pivotItem: IPivotItem, index: number) => {
+        return this.props.pivotProps.pivots.map((pivotItem: IPivotItem) => {
             return <PivotItem 
                 key={pivotItem.key}
                 className="hub-pivot" 
@@ -166,7 +166,7 @@ export class Hub extends BaseComponent<IHubProps, IHubState> {
             let items: IContextualMenuItem[] = [{
                 key: "filter",
                 className: "filter-command",
-                onRender: (item) => {
+                onRender: () => {
                    return this._getFilterControl(selectedPivot);
                 }
             }];
@@ -188,7 +188,7 @@ export class Hub extends BaseComponent<IHubProps, IHubState> {
             items.push({
                 key: "filter",
                 className: "filter-command",
-                onRender: (item) => {
+                onRender: () => {
                     return this._getFilterControl(selectedPivot);
                 }
             });

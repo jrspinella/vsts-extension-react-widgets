@@ -39,7 +39,7 @@ define(["require", "exports", "./ActionsHub", "../Stores/WorkItemStore", "../Sto
     var WorkItemActions;
     (function (WorkItemActions) {
         var workItemStore = BaseStore_1.StoreFactory.getInstance(WorkItemStore_1.WorkItemStore);
-        function initializeWorkItems(ids, fields) {
+        function initializeWorkItems(ids) {
             return __awaiter(this, void 0, void 0, function () {
                 var idsToFetch, _i, ids_1, id, workItems, e_1;
                 return __generator(this, function (_a) {
@@ -65,7 +65,7 @@ define(["require", "exports", "./ActionsHub", "../Stores/WorkItemStore", "../Sto
                             _a.label = 2;
                         case 2:
                             _a.trys.push([2, 4, , 5]);
-                            return [4, WitClient.getClient().getWorkItems(idsToFetch, fields, null, null, Contracts_2.WorkItemErrorPolicy.Omit)];
+                            return [4, WitClient.getClient().getWorkItems(idsToFetch, null, null, null, Contracts_2.WorkItemErrorPolicy.Omit)];
                         case 3:
                             workItems = _a.sent();
                             ActionsHub_1.WorkItemActionsHub.AddOrUpdateWorkItems.invoke(workItems.filter(function (w) { return w != null; }));
@@ -81,7 +81,7 @@ define(["require", "exports", "./ActionsHub", "../Stores/WorkItemStore", "../Sto
             });
         }
         WorkItemActions.initializeWorkItems = initializeWorkItems;
-        function refreshWorkItems(ids, fields) {
+        function refreshWorkItems(ids) {
             return __awaiter(this, void 0, void 0, function () {
                 var workItems, e_2;
                 return __generator(this, function (_a) {
@@ -96,7 +96,7 @@ define(["require", "exports", "./ActionsHub", "../Stores/WorkItemStore", "../Sto
                             _a.label = 2;
                         case 2:
                             _a.trys.push([2, 4, , 5]);
-                            return [4, WitClient.getClient().getWorkItems(ids, fields, null, null, Contracts_2.WorkItemErrorPolicy.Omit)];
+                            return [4, WitClient.getClient().getWorkItems(ids, null, null, null, Contracts_2.WorkItemErrorPolicy.Omit)];
                         case 3:
                             workItems = _a.sent();
                             ActionsHub_1.WorkItemActionsHub.AddOrUpdateWorkItems.invoke(workItems.filter(function (w) { return w != null; }));
@@ -112,7 +112,7 @@ define(["require", "exports", "./ActionsHub", "../Stores/WorkItemStore", "../Sto
             });
         }
         WorkItemActions.refreshWorkItems = refreshWorkItems;
-        function initializeWorkItem(id, fields) {
+        function initializeWorkItem(id) {
             return __awaiter(this, void 0, void 0, function () {
                 var workItem, e_3;
                 return __generator(this, function (_a) {
@@ -127,7 +127,7 @@ define(["require", "exports", "./ActionsHub", "../Stores/WorkItemStore", "../Sto
                             _a.label = 2;
                         case 2:
                             _a.trys.push([2, 4, , 5]);
-                            return [4, WitClient.getClient().getWorkItem(id, fields)];
+                            return [4, WitClient.getClient().getWorkItem(id)];
                         case 3:
                             workItem = _a.sent();
                             ActionsHub_1.WorkItemActionsHub.AddOrUpdateWorkItems.invoke([workItem]);
@@ -143,7 +143,7 @@ define(["require", "exports", "./ActionsHub", "../Stores/WorkItemStore", "../Sto
             });
         }
         WorkItemActions.initializeWorkItem = initializeWorkItem;
-        function refreshWorkItem(id, fields) {
+        function refreshWorkItem(id) {
             return __awaiter(this, void 0, void 0, function () {
                 var workItem, e_4;
                 return __generator(this, function (_a) {
@@ -154,7 +154,7 @@ define(["require", "exports", "./ActionsHub", "../Stores/WorkItemStore", "../Sto
                             _a.label = 1;
                         case 1:
                             _a.trys.push([1, 3, , 4]);
-                            return [4, WitClient.getClient().getWorkItem(id, fields)];
+                            return [4, WitClient.getClient().getWorkItem(id)];
                         case 2:
                             workItem = _a.sent();
                             ActionsHub_1.WorkItemActionsHub.AddOrUpdateWorkItems.invoke([workItem]);

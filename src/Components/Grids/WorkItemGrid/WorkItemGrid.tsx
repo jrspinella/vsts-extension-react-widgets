@@ -6,11 +6,10 @@ import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
 import { autobind } from "OfficeFabric/Utilities";
 
 import Utils_String = require("VSS/Utils/String");
-import Utils_Array = require("VSS/Utils/Array");
 import { WorkItem, WorkItemField } from "TFS/WorkItemTracking/Contracts";
 
 import { Grid } from "../Grid";
-import { BaseComponent, IBaseComponentState } from "../../Common/BaseComponent"; 
+import { BaseComponent } from "../../Common/BaseComponent"; 
 import { Loading } from "../../Common/Loading"; 
 import { IWorkItemGridProps, IWorkItemGridState, ColumnPosition } from "./WorkItemGrid.Props";
 import { SortOrder, GridColumn, ICommandBarProps, IContextMenuProps } from "../Grid.Props";
@@ -31,12 +30,22 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
         WorkItemFieldActions.initializeWorkItemFields();
 
         if (this.props.workItemIds && this.props.workItemIds.length > 0) {
-            WorkItemActions.initializeWorkItems(this.props.workItemIds, this.props.fieldRefNames);
+            WorkItemActions.initializeWorkItems(this.props.workItemIds);
         }
     }
 
     public componentWillReceiveProps(nextProps: IWorkItemGridProps) {
-        WorkItemActions.initializeWorkItems(nextProps.workItemIds, nextProps.fieldRefNames);
+        for (const id of nextProps.workItemIds) {
+            if (!this._workItemStore.isLoaded(id)) {
+                WorkItemActions.initializeWorkItems(nextProps.workItemIds);
+                return;
+            }
+        }
+        
+        this.updateState({
+            workItems: this._workItemStore.getItems(nextProps.workItemIds),
+            loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading()
+        } as IWorkItemGridState);
     }
 
     protected getStores(): BaseStore<any, any, any>[] {
@@ -45,9 +54,17 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
 
     protected getStoresState(): IWorkItemGridState {
         const allFields = this._workItemFieldStore.getAll();
+        let fieldsMap = this.state.fieldsMap;
+        if (fieldsMap == null && allFields != null) {
+            fieldsMap = {};
+            for (const field of allFields) {
+                fieldsMap[field.referenceName] = field;
+            }
+        }
+
         return {
             loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading(),
-            fields: allFields ? allFields.filter(f => Utils_Array.arrayContains(f.referenceName, this.props.fieldRefNames, Utils_String.caseInsensitiveContains)) : null,
+            fieldsMap: fieldsMap,
             workItems: this._workItemStore.getItems(this.props.workItemIds)
         } as IWorkItemGridState;
     }
@@ -56,7 +73,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
         this.state = {
             workItems: null,
             loading: true,
-            fields: null
+            fieldsMap: null
         };
     }
 
@@ -75,7 +92,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
                 selectionPreservedOnEmptyClick={this.props.selectionPreservedOnEmptyClick || false}
                 className={this.getClassName()}
                 items={this.state.workItems}
-                columns={this._mapFieldsToColumn(this.state.fields)}
+                columns={this._mapFieldsToColumn()}
                 selectionMode={this.props.selectionMode}
                 commandBarProps={this._getCommandBarProps()}
                 contextMenuProps={this._getContextMenuProps()}
@@ -85,8 +102,9 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
         );    
     }
 
-    private _mapFieldsToColumn(fields: WorkItemField[]): GridColumn[] {
-        let columns = fields.map(field => {
+    private _mapFieldsToColumn(): GridColumn[] {
+        let columns = this.props.fieldRefNames.map(fieldRefName => {
+            const field = this.state.fieldsMap[fieldRefName];
             const columnSize = WorkItemHelpers.getColumnSize(field);
 
             return {
@@ -120,7 +138,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
         let menuItems: IContextualMenuItem[] = [{
             key: "OpenQuery", name: "Open as query", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
             disabled: !this.state.workItems || this.state.workItems.length === 0,
-            onClick: async (event?: React.MouseEvent<HTMLElement>, menuItem?: IContextualMenuItem) => {
+            onClick: () => {
                 const url = `${VSS.getWebContext().host.uri}/${VSS.getWebContext().project.id}/_workitems?_a=query&wiql=${encodeURIComponent(this._getWiql())}`;
                 window.open(url, "_blank");
             }
@@ -144,7 +162,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
                 let contextMenuItems: IContextualMenuItem[] = [{
                     key: "OpenQuery", name: "Open as query", title: "Open selected workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
                     disabled: selectedWorkItems.length == 0,
-                    onClick: (event?: React.MouseEvent<HTMLElement>, menuItem?: IContextualMenuItem) => {                    
+                    onClick: () => {                    
                         const url = `${VSS.getWebContext().host.uri}/${VSS.getWebContext().project.id}/_workitems?_a=query&wiql=${encodeURIComponent(this._getWiql(selectedWorkItems))}`;
                         window.open(url, "_blank");
                     }
@@ -163,7 +181,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
     }
 
     @autobind
-    private async _onItemInvoked(workItem: WorkItem, index?: number, ev?: React.MouseEvent<HTMLElement>) {
+    private async _onItemInvoked(workItem: WorkItem, _index?: number, ev?: React.MouseEvent<HTMLElement>) {
         // fire a workitem changed event here so parent can listen to it to update work items
         const updatedWorkItem: WorkItem = await WorkItemHelpers.openWorkItemDialog(ev, workItem);
         if (updatedWorkItem.rev > workItem.rev) {            
@@ -180,7 +198,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
     }
 
     private _getWiql(workItems?: WorkItem[]): string {
-        const fieldStr = this.state.fields.map(f => `[${f.referenceName}]`).join(",");
+        const fieldStr = this.props.fieldRefNames.join(",");
         const ids = (workItems || this.state.workItems).map(w => w.id).join(",");
 
         return `SELECT ${fieldStr}

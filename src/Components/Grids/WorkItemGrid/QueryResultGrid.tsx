@@ -1,11 +1,8 @@
 import * as React from "react";
 import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
-import { autobind } from "OfficeFabric/Utilities";
 
-import { WorkItem } from "TFS/WorkItemTracking/Contracts";
 import * as WitClient from "TFS/WorkItemTracking/RestClient";
 import Utils_String = require("VSS/Utils/String");
-import Utils_Array = require("VSS/Utils/Array");
 
 import { Loading } from "../../Common/Loading";
 import { BaseComponent } from "../../Common/BaseComponent"; 
@@ -23,7 +20,7 @@ export class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQuery
         return "query-results-grid";
     }
 
-    public componentWillReceiveProps(nextProps: Readonly<IQueryResultGridProps>, nextContext: any): void {
+    public componentWillReceiveProps(nextProps: Readonly<IQueryResultGridProps>): void {
         if (!Utils_String.equals(this.props.wiql, nextProps.wiql, true) || 
             !Utils_String.equals(this.props.project, nextProps.project, true) || 
             this.props.top !== nextProps.top) {
@@ -58,7 +55,7 @@ export class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQuery
         let menuItems: IContextualMenuItem[] = [             
             {
                 key: "refresh", name: "Refresh", title: "Refresh items", iconProps: {iconName: "Refresh"},
-                onClick: (event?: React.MouseEvent<HTMLElement>, menuItem?: IContextualMenuItem) => {
+                onClick: () => {
                     this._runQuery(this.props);
                 }
             }

@@ -4,7 +4,7 @@ export declare class ExtensionDataManager {
     static createDocument<T>(key: string, data: T, isPrivate?: boolean): Promise<T>;
     static updateDocument<T>(key: string, data: T, isPrivate?: boolean): Promise<T>;
     static addOrUpdateDocument<T>(key: string, data: T, isPrivate?: boolean): Promise<T>;
-    static deleteDocument<T>(key: string, id: string, isPrivate?: boolean): Promise<void>;
+    static deleteDocument(key: string, id: string, isPrivate?: boolean): Promise<void>;
     static readUserSetting<T>(key: string, defaultValue?: T, isPrivate?: boolean): Promise<T>;
     static writeUserSetting<T>(key: string, data: T, isPrivate?: boolean): Promise<T>;
 }

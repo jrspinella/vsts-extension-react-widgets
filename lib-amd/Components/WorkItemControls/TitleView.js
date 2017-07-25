@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "react", "OfficeFabric/Label", "VSS/Context", "../Common/BaseComponent", "../../Flux/Stores/BaseStore", "../../Flux/Stores/WorkItemTypeStore", "../../Flux/Actions/WorkItemTypeActions", "./TitleView.scss"], function (require, exports, React, Label_1, Context, BaseComponent_1, BaseStore_1, WorkItemTypeStore_1, WorkItemTypeActions_1) {
+define(["require", "exports", "react", "OfficeFabric/Label", "../Common/BaseComponent", "../../Flux/Stores/BaseStore", "../../Flux/Stores/WorkItemTypeStore", "../../Flux/Actions/WorkItemTypeActions", "./TitleView.scss"], function (require, exports, React, Label_1, BaseComponent_1, BaseStore_1, WorkItemTypeStore_1, WorkItemTypeActions_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var TitleView = (function (_super) {
@@ -48,8 +48,6 @@ define(["require", "exports", "react", "OfficeFabric/Label", "VSS/Context", "../
             else {
                 witColor = "#000000";
             }
-            var pageContext = Context.getPageContext();
-            var navigation = pageContext.navigation;
             var webContext = VSS.getWebContext();
             var witUrl = webContext.collection.uri + "/" + webContext.project.name + "/_workitems/edit/" + this.props.workItemId;
             return (React.createElement(Label_1.Label, { className: this.getClassName() + " " + ((witIconUrl || !wit) ? "no-color" : ""), style: (witIconUrl || !wit) ? undefined : { borderColor: witColor } },

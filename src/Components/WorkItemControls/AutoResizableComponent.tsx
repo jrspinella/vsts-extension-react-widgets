@@ -1,4 +1,3 @@
-import * as React from "react";
 import * as Utils_Core from "VSS/Utils/Core";
 
 import {BaseComponent} from "../Common/BaseComponent"; 

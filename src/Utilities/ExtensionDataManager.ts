@@ -1,5 +1,3 @@
-import Service = require("VSS/Service");
-
 export class ExtensionDataManager {
     /**
     * Read user/account scoped documents
@@ -61,7 +59,7 @@ export class ExtensionDataManager {
     /**
     * Delete user/account scoped document
     */
-    public static async deleteDocument<T>(key: string, id: string, isPrivate?: boolean): Promise<void> {
+    public static async deleteDocument(key: string, id: string, isPrivate?: boolean): Promise<void> {
         let dataService: IExtensionDataService = await VSS.getService<IExtensionDataService>(VSS.ServiceIds.ExtensionData);
         return await dataService.deleteDocument(key, id, isPrivate ? { scopeType: "User" } : undefined);
     }

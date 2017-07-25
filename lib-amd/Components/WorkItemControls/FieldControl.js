@@ -57,10 +57,10 @@ define(["require", "exports", "TFS/WorkItemTracking/Services", "./AutoResizableC
         FieldControl.prototype.initialize = function () {
             var _this = this;
             VSS.register(VSS.getContribution().id, {
-                onLoaded: function (args) {
+                onLoaded: function (_args) {
                     _this._invalidate();
                 },
-                onUnloaded: function (args) {
+                onUnloaded: function (_args) {
                     _this._setValue(null);
                 },
                 onFieldChanged: function (args) {
@@ -99,7 +99,7 @@ define(["require", "exports", "TFS/WorkItemTracking/Services", "./AutoResizableC
                 });
             });
         };
-        FieldControl.prototype.getErrorMessage = function (value) {
+        FieldControl.prototype.getErrorMessage = function (_value) {
             return "";
         };
         FieldControl.prototype._invalidate = function () {

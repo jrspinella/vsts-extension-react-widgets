@@ -17,7 +17,7 @@ export interface IWorkItemGridProps extends BaseWorkItemGridProps {
 }
 export interface IWorkItemGridState extends IBaseComponentState {
     workItems: WorkItem[];
-    fields: WorkItemField[];
+    fieldsMap: IDictionaryStringTo<WorkItemField>;
 }
 export interface IQueryResultGridProps extends BaseWorkItemGridProps {
     wiql: string;

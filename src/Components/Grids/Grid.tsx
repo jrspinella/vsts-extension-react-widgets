@@ -39,7 +39,7 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
         };
     }
 
-    public componentWillReceiveProps(nextProps: Readonly<IGridProps>, nextContext: any): void {
+    public componentWillReceiveProps(nextProps: Readonly<IGridProps>): void {
         this.updateState({
             filteredItems: this._sortAndFilterWorkItems(nextProps.items, this.state.sortColumn, this.state.sortOrder, this.state.filterText),
             isContextMenuVisible: false,
@@ -191,7 +191,7 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
     }
 
     @autobind
-    private _showContextMenu(item?: any, index?: number, e?: MouseEvent) {
+    private _showContextMenu(_item?: any, index?: number, e?: MouseEvent) {
         if (this.props.contextMenuProps && this.props.contextMenuProps.menuItems) {
             if (!this._selection.isIndexSelected(index)) {
                 // if not already selected, unselect every other row and select this one

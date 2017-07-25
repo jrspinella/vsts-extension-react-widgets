@@ -58,7 +58,7 @@ define(["require", "exports", "react", "TFS/WorkItemTracking/RestClient", "VSS/U
         QueryResultGrid.prototype.getDefaultClassName = function () {
             return "query-results-grid";
         };
-        QueryResultGrid.prototype.componentWillReceiveProps = function (nextProps, nextContext) {
+        QueryResultGrid.prototype.componentWillReceiveProps = function (nextProps) {
             if (!Utils_String.equals(this.props.wiql, nextProps.wiql, true) ||
                 !Utils_String.equals(this.props.project, nextProps.project, true) ||
                 this.props.top !== nextProps.top) {
@@ -78,7 +78,7 @@ define(["require", "exports", "react", "TFS/WorkItemTracking/RestClient", "VSS/U
             var menuItems = [
                 {
                     key: "refresh", name: "Refresh", title: "Refresh items", iconProps: { iconName: "Refresh" },
-                    onClick: function (event, menuItem) {
+                    onClick: function () {
                         _this._runQuery(_this.props);
                     }
                 }
