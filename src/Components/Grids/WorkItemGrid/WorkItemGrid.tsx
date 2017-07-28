@@ -12,7 +12,7 @@ import { Grid } from "../Grid";
 import { BaseComponent } from "../../Common/BaseComponent"; 
 import { Loading } from "../../Common/Loading"; 
 import { IWorkItemGridProps, IWorkItemGridState, ColumnPosition } from "./WorkItemGrid.Props";
-import { SortOrder, GridColumn, ICommandBarProps, IContextMenuProps } from "../Grid.Props";
+import { SortOrder, GridColumn, IContextMenuProps } from "../Grid.Props";
 import * as WorkItemHelpers from "./WorkItemGridHelpers";
 import { BaseStore, StoreFactory } from "../../../Flux/Stores/BaseStore"; 
 import { WorkItemStore } from "../../../Flux/Stores/WorkItemStore"; 
@@ -94,7 +94,6 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
                 items={this.state.workItems}
                 columns={this._mapFieldsToColumn()}
                 selectionMode={this.props.selectionMode}
-                commandBarProps={this._getCommandBarProps()}
                 contextMenuProps={this._getContextMenuProps()}
                 onItemInvoked={this._onItemInvoked}
                 noResultsText={this.props.noResultsText}
@@ -132,28 +131,6 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
         }
 
         return columns;
-    }
-
-    private _getCommandBarProps(): ICommandBarProps {
-        let menuItems: IContextualMenuItem[] = [{
-            key: "OpenQuery", name: "Open as query", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
-            disabled: !this.state.workItems || this.state.workItems.length === 0,
-            onClick: () => {
-                const url = `${VSS.getWebContext().host.uri}/${VSS.getWebContext().project.id}/_workitems?_a=query&wiql=${encodeURIComponent(this._getWiql())}`;
-                window.open(url, "_blank");
-            }
-        }];
-                
-        if (this.props.commandBarProps && this.props.commandBarProps.menuItems && this.props.commandBarProps.menuItems.length > 0) {
-            menuItems = menuItems.concat(this.props.commandBarProps.menuItems);
-        }
-        
-        return {
-            hideSearchBox: this.props.commandBarProps && this.props.commandBarProps.hideSearchBox,
-            hideCommandBar: this.props.commandBarProps && this.props.commandBarProps.hideCommandBar,
-            menuItems: menuItems,
-            farMenuItems: this.props.commandBarProps && this.props.commandBarProps.farMenuItems
-        };
     }
 
     private _getContextMenuProps(): IContextMenuProps {

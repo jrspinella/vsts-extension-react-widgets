@@ -1,19 +1,26 @@
 import * as React from "react";
-import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
 
 import * as WitClient from "TFS/WorkItemTracking/RestClient";
 import Utils_String = require("VSS/Utils/String");
+import * as EventsService from "VSS/Events/Services";
+
+import { autobind } from "OfficeFabric/Utilities";
 
 import { Loading } from "../../Common/Loading";
 import { BaseComponent } from "../../Common/BaseComponent"; 
 import { WorkItemGrid } from "./WorkItemGrid";
 import { IQueryResultGridProps, IQueryResultGridState } from "./WorkItemGrid.Props";
-import { ICommandBarProps } from "../Grid.Props";
+
+export module QueryResultGridEvents {
+    export var RefreshQueryInGrid = "refresh-query-grid";
+}
 
 export class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQueryResultGridState> {
     public componentDidMount() {
         super.componentDidMount();
         this._runQuery(this.props);
+
+        EventsService.getService().attachEvent(QueryResultGridEvents.RefreshQueryInGrid, this._refreshQuery);
     }
 
     protected getDefaultClassName(): string {
@@ -29,17 +36,22 @@ export class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQuery
         }
     }
 
+    public componentWillUnmount() {
+        super.componentWillMount();
+        EventsService.getService().detachEvent(QueryResultGridEvents.RefreshQueryInGrid, this._refreshQuery);
+    }
+
     public render(): JSX.Element {
-        if (!this._isDataLoaded()) {
+        if (this.state.workItemIds == null || this.state.fieldRefNames == null) {
             return <Loading />;
         }
         else {                    
             return (
                 <WorkItemGrid 
                     className={this.getClassName()}
+                    filterText={this.props.filterText}
                     workItemIds={this.state.workItemIds}
                     fieldRefNames={this.state.fieldRefNames}
-                    commandBarProps={this._getCommandBarProps()}
                     contextMenuProps={this.props.contextMenuProps}
                     selectionMode={this.props.selectionMode}
                     extraColumns={this.props.extraColumns}
@@ -51,26 +63,9 @@ export class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQuery
         }
     }
 
-    private _getCommandBarProps(): ICommandBarProps {        
-        let menuItems: IContextualMenuItem[] = [             
-            {
-                key: "refresh", name: "Refresh", title: "Refresh items", iconProps: {iconName: "Refresh"},
-                onClick: () => {
-                    this._runQuery(this.props);
-                }
-            }
-        ];
-                
-        if (this.props.commandBarProps && this.props.commandBarProps.menuItems && this.props.commandBarProps.menuItems.length > 0) {
-            menuItems = menuItems.concat(this.props.commandBarProps.menuItems);
-        }
-        
-        return {
-            hideSearchBox: this.props.commandBarProps && this.props.commandBarProps.hideSearchBox,
-            hideCommandBar: this.props.commandBarProps && this.props.commandBarProps.hideCommandBar,
-            menuItems: menuItems,
-            farMenuItems: this.props.commandBarProps && this.props.commandBarProps.farMenuItems
-        };
+    @autobind
+    private _refreshQuery() {
+        this._runQuery(this.props);
     }
 
     private async _runQuery(props: IQueryResultGridProps) {
@@ -81,8 +76,4 @@ export class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQuery
         
         this.updateState({workItemIds: workItemIds, fieldRefNames: queryResult.columns.map(fr => fr.referenceName)});
     }    
-
-    private _isDataLoaded(): boolean {
-        return this.state.workItemIds != null && this.state.fieldRefNames != null;
-    }
 }
