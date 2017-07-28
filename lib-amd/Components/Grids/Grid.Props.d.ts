@@ -11,6 +11,7 @@ export interface IGridProps extends IBaseComponentProps {
     onItemInvoked?: (item: any, index: number) => void;
     events?: IGridEvents;
     setKey?: string;
+    filterText?: string;
     selectionPreservedOnEmptyClick?: boolean;
 }
 export interface IGridState extends IBaseComponentState {
@@ -27,6 +28,7 @@ export interface GridColumn {
     maxWidth?: number;
     resizable?: boolean;
     sortFunction?: (item1: any, item2: any, sortOrder: SortOrder) => number;
+    filterFunction?: (item: any, filterText: string) => boolean;
     onRenderCell?: (item?: any, index?: number) => JSX.Element;
     data?: any;
 }

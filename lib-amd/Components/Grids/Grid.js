@@ -32,14 +32,14 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         }
         Grid.prototype.initializeState = function () {
             this.state = {
-                items: this.props.items.slice(),
+                items: this._sortAndFilterItems(this.props.items, this.props.columns, null, Grid_Props_1.SortOrder.ASC, this.props.filterText),
                 sortColumn: null,
                 sortOrder: Grid_Props_1.SortOrder.ASC
             };
         };
         Grid.prototype.componentWillReceiveProps = function (nextProps) {
             this.updateState({
-                items: this._sortItems(nextProps.items, this.state.sortColumn, this.state.sortOrder),
+                items: this._sortAndFilterItems(nextProps.items, nextProps.columns, this.state.sortColumn, this.state.sortOrder, nextProps.filterText),
                 isContextMenuVisible: false,
                 contextMenuTarget: null
             });
@@ -86,7 +86,7 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         Grid.prototype._onColumnHeaderClick = function (column) {
             if (column.sortFunction) {
                 var sortOrder = this.state.sortOrder === Grid_Props_1.SortOrder.DESC ? Grid_Props_1.SortOrder.ASC : Grid_Props_1.SortOrder.DESC;
-                var sortedItems = this._sortItems(this.props.items, column, sortOrder);
+                var sortedItems = this._sortAndFilterItems(this.state.items, this.props.columns, column, sortOrder);
                 this.updateState({ sortColumn: column, sortOrder: sortOrder, items: sortedItems });
             }
         };
@@ -102,12 +102,23 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         Grid.prototype._hideContextMenu = function () {
             this.updateState({ contextMenuTarget: null, isContextMenuVisible: false });
         };
-        Grid.prototype._sortItems = function (items, sortColumn, sortOrder) {
-            var sortedItems = (items || []).slice();
-            if (sortColumn && sortColumn.sortFunction) {
-                sortedItems = sortedItems.sort(function (item1, item2) { return sortColumn.sortFunction(item1, item2, sortOrder); });
+        Grid.prototype._sortAndFilterItems = function (items, columns, sortColumn, sortOrder, filterText) {
+            var filteredItems = (items || []).slice();
+            if (filterText != null && filterText.trim() !== "") {
+                filteredItems = filteredItems.filter(function (item) {
+                    for (var _i = 0, columns_1 = columns; _i < columns_1.length; _i++) {
+                        var column = columns_1[_i];
+                        if (column.filterFunction && column.filterFunction(item, filterText)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
             }
-            return sortedItems;
+            if (sortColumn && sortColumn.sortFunction) {
+                filteredItems = filteredItems.sort(function (item1, item2) { return sortColumn.sortFunction(item1, item2, sortOrder); });
+            }
+            return filteredItems;
         };
         __decorate([
             Utilities_1.autobind

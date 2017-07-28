@@ -29,7 +29,7 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
 
     protected initializeState() {
         this.state = {
-            items: this.props.items.slice(),
+            items: this._sortAndFilterItems(this.props.items, this.props.columns, null, SortOrder.ASC, this.props.filterText),
             sortColumn: null,
             sortOrder: SortOrder.ASC
         };
@@ -37,7 +37,7 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
 
     public componentWillReceiveProps(nextProps: Readonly<IGridProps>): void {
         this.updateState({
-            items: this._sortItems(nextProps.items, this.state.sortColumn, this.state.sortOrder),
+            items: this._sortAndFilterItems(nextProps.items, nextProps.columns, this.state.sortColumn, this.state.sortOrder, nextProps.filterText),
             isContextMenuVisible: false,
             contextMenuTarget: null
         })
@@ -117,7 +117,7 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
     private _onColumnHeaderClick(column: GridColumn) {
         if (column.sortFunction) {
             const sortOrder = this.state.sortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-            const sortedItems = this._sortItems(this.props.items, column, sortOrder);
+            const sortedItems = this._sortAndFilterItems(this.state.items, this.props.columns, column, sortOrder);
             this.updateState({sortColumn: column, sortOrder: sortOrder, items: sortedItems});
         }
     }
@@ -139,12 +139,24 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
         this.updateState({contextMenuTarget: null, isContextMenuVisible: false});
     }
 
-    private _sortItems(items: any[], sortColumn: GridColumn, sortOrder: SortOrder): any[] {
-        let sortedItems = (items || []).slice();
+    private _sortAndFilterItems(items: any[], columns: GridColumn[], sortColumn: GridColumn, sortOrder: SortOrder, filterText?: string): any[] {
+        let filteredItems = (items || []).slice();
+        if (filterText != null && filterText.trim() !== "") {
+            filteredItems = filteredItems.filter((item: any) => {
+                for (let column of columns) {
+                    if (column.filterFunction && column.filterFunction(item, filterText)) {
+                        return true;
+                    }
+                }
+ 
+                return false;
+            });
+        }
+        
         if (sortColumn && sortColumn.sortFunction) {
-            sortedItems = sortedItems.sort((item1: any, item2: any) => sortColumn.sortFunction(item1, item2, sortOrder));
+            filteredItems = filteredItems.sort((item1: any, item2: any) => sortColumn.sortFunction(item1, item2, sortOrder));
         }
 
-        return sortedItems;
+        return filteredItems;
     }
 }

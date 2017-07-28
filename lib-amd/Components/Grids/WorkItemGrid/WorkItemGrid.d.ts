@@ -13,7 +13,7 @@ export declare class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWor
     protected initializeState(): void;
     protected getDefaultClassName(): string;
     render(): JSX.Element;
-    private _filterItems(workItems, fieldRefNames, filterText);
+    private _itemFilter(workItem, filterText, field);
     private _mapFieldsToColumn();
     private _getContextMenuProps();
     private _onItemInvoked(workItem, _index?, ev?);

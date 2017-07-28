@@ -15,5 +15,5 @@ export declare abstract class Grid extends BaseComponent<IGridProps, IGridState>
     private _onColumnHeaderClick(column);
     private _showContextMenu(_item?, index?, e?);
     private _hideContextMenu();
-    private _sortItems(items, sortColumn, sortOrder);
+    private _sortAndFilterItems(items, columns, sortColumn, sortOrder, filterText?);
 }

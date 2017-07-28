@@ -76,7 +76,7 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "VSS/Utils/Stri
                 }
             }
             this.updateState({
-                workItems: this._filterItems(this._workItemStore.getItems(nextProps.workItemIds), nextProps.fieldRefNames, nextProps.filterText),
+                workItems: this._workItemStore.getItems(nextProps.workItemIds),
                 loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading()
             });
         };
@@ -96,7 +96,7 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "VSS/Utils/Stri
             return {
                 loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading(),
                 fieldsMap: fieldsMap,
-                workItems: this._filterItems(this._workItemStore.getItems(this.props.workItemIds), this.props.fieldRefNames, this.props.filterText)
+                workItems: this._workItemStore.getItems(this.props.workItemIds)
             };
         };
         WorkItemGrid.prototype.initializeState = function () {
@@ -113,26 +113,10 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "VSS/Utils/Stri
             if (this.state.loading) {
                 return React.createElement(Loading_1.Loading, null);
             }
-            return (React.createElement(Grid_1.Grid, { setKey: this.props.setKey, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, className: this.getClassName(), items: this.state.workItems, columns: this._mapFieldsToColumn(), selectionMode: this.props.selectionMode, contextMenuProps: this._getContextMenuProps(), onItemInvoked: this._onItemInvoked, noResultsText: this.props.noResultsText }));
+            return (React.createElement(Grid_1.Grid, { setKey: this.props.setKey, filterText: this.props.filterText, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, className: this.getClassName(), items: this.state.workItems, columns: this._mapFieldsToColumn(), selectionMode: this.props.selectionMode, contextMenuProps: this._getContextMenuProps(), onItemInvoked: this._onItemInvoked, noResultsText: this.props.noResultsText }));
         };
-        WorkItemGrid.prototype._filterItems = function (workItems, fieldRefNames, filterText) {
-            if (filterText) {
-                return workItems.filter(function (workItem) {
-                    if ("" + workItem.id === filterText) {
-                        return true;
-                    }
-                    for (var _i = 0, fieldRefNames_1 = fieldRefNames; _i < fieldRefNames_1.length; _i++) {
-                        var fieldRefName = fieldRefNames_1[_i];
-                        if (Utils_String.caseInsensitiveContains(workItem.fields[fieldRefName] == null ? "" : "" + workItem.fields[fieldRefName], filterText)) {
-                            return true;
-                        }
-                    }
-                    return false;
-                });
-            }
-            else {
-                return workItems;
-            }
+        WorkItemGrid.prototype._itemFilter = function (workItem, filterText, field) {
+            return Utils_String.caseInsensitiveContains(workItem.fields[field.referenceName] == null ? "" : "" + workItem.fields[field.referenceName], filterText);
         };
         WorkItemGrid.prototype._mapFieldsToColumn = function () {
             var _this = this;
@@ -146,6 +130,7 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "VSS/Utils/Stri
                     maxWidth: columnSize.maxWidth,
                     resizable: true,
                     sortFunction: function (item1, item2, sortOrder) { return _this._itemComparer(item1, item2, field, sortOrder); },
+                    filterFunction: function (item, filterText) { return "" + item.id === filterText || _this._itemFilter(item, filterText, field); },
                     data: { field: field },
                     onRenderCell: function (item) { return WorkItemHelpers.workItemFieldCellRenderer(item, field, field.referenceName === "System.Title" ? { onClick: function (ev) { return _this._onItemInvoked(item, 0, ev); } } : null); }
                 };
