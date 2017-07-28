@@ -27,7 +27,7 @@ export class Demo extends React.Component<{}, {}> {
                 }}
                 pivotProps={{
                     initialSelectedKey: "Common",
-                    onPivotClick: (key: string, ev?: React.MouseEvent<HTMLElement>) => console.log(key),
+                    onPivotClick: (key: string) => console.log(key),
                     pivots: [
                         {
                             key: "Common",
@@ -40,13 +40,13 @@ export class Demo extends React.Component<{}, {}> {
                             commands: [
                                 {
                                     key: "OpenQuery", name: "Open as query", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
-                                    onClick: async (event?: React.MouseEvent<HTMLElement>) => {
+                                    onClick: async () => {
                                         alert("h");
                                     },                                
                                 },
                                 {
                                     key: "OpenQuery1", name: "Open as query 1", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
-                                    onClick: async (event?: React.MouseEvent<HTMLElement>) => {
+                                    onClick: async () => {
                                         alert("h");
                                     },                                
                                 },
@@ -54,13 +54,13 @@ export class Demo extends React.Component<{}, {}> {
                             overflowCommands: [
                                 {
                                     key: "OpenQuery2", name: "Open as query 2", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
-                                    onClick: async (event?: React.MouseEvent<HTMLElement>) => {
+                                    onClick: async () => {
                                         alert("h");
                                     },                                
                                 },
                                 {
                                     key: "OpenQuery3", name: "Open as query 3", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
-                                    onClick: async (event?: React.MouseEvent<HTMLElement>) => {
+                                    onClick: async () => {
                                         alert("h");
                                     },                                
                                 },
@@ -68,7 +68,7 @@ export class Demo extends React.Component<{}, {}> {
                             farCommands: [
                                 {
                                     key: "OpenQuery3", name: "Open as query 3", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
-                                    onClick: async (event?: React.MouseEvent<HTMLElement>) => {
+                                    onClick: async () => {
                                         alert("h");
                                     }
                                 }
@@ -80,13 +80,13 @@ export class Demo extends React.Component<{}, {}> {
                             commands: [
                                 {
                                     key: "OpenQuery aa", name: "Open as querya  aa", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
-                                    onClick: async (event?: React.MouseEvent<HTMLElement>) => {
+                                    onClick: async () => {
                                         alert("h");
                                     },                                
                                 },
                                 {
                                     key: "OpenQuery1", name: "Open as query bb", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
-                                    onClick: async (event?: React.MouseEvent<HTMLElement>) => {
+                                    onClick: async () => {
                                         alert("h");
                                     },                                
                                 },

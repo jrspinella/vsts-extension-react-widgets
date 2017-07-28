@@ -14,7 +14,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric/utilities/selection", "OfficeFabric/Utilities", "OfficeFabric/ContextualMenu", "OfficeFabric/CommandBar", "OfficeFabric/SearchBox", "VSS/Utils/String", "../Common/MessagePanel", "../Common/BaseComponent", "./Grid.Props", "./Grid.scss"], function (require, exports, React, DetailsList_1, selection_1, Utilities_1, ContextualMenu_1, CommandBar_1, SearchBox_1, Utils_String, MessagePanel_1, BaseComponent_1, Grid_Props_1) {
+define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric/utilities/selection", "OfficeFabric/Utilities", "OfficeFabric/ContextualMenu", "VSS/Utils/String", "../Common/MessagePanel", "../Common/BaseComponent", "./Grid.Props", "./Grid.scss"], function (require, exports, React, DetailsList_1, selection_1, Utilities_1, ContextualMenu_1, Utils_String, MessagePanel_1, BaseComponent_1, Grid_Props_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Grid = (function (_super) {
@@ -32,15 +32,14 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         }
         Grid.prototype.initializeState = function () {
             this.state = {
-                filteredItems: this.props.items.slice(),
+                items: this.props.items.slice(),
                 sortColumn: null,
-                sortOrder: Grid_Props_1.SortOrder.ASC,
-                filterText: ""
+                sortOrder: Grid_Props_1.SortOrder.ASC
             };
         };
         Grid.prototype.componentWillReceiveProps = function (nextProps) {
             this.updateState({
-                filteredItems: this._sortAndFilterWorkItems(nextProps.items, this.state.sortColumn, this.state.sortOrder, this.state.filterText),
+                items: this._sortItems(nextProps.items, this.state.sortColumn, this.state.sortOrder),
                 isContextMenuVisible: false,
                 contextMenuTarget: null
             });
@@ -50,38 +49,16 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         };
         Grid.prototype.render = function () {
             return (React.createElement("div", { className: this.getClassName() },
-                this._renderCommandBar(),
                 this._renderGrid(),
                 this.state.isContextMenuVisible && this.props.contextMenuProps && this.props.contextMenuProps.menuItems && (React.createElement(ContextualMenu_1.ContextualMenu, { className: "context-menu", items: this.props.contextMenuProps.menuItems(this._selection.getSelection()), target: this.state.contextMenuTarget, shouldFocusOnMount: true, onDismiss: this._hideContextMenu }))));
         };
-        Grid.prototype._renderCommandBar = function () {
-            if (!this.props.commandBarProps || (this.props.commandBarProps.hideSearchBox && this.props.commandBarProps.hideCommandBar)) {
-                return null;
-            }
-            return (React.createElement("div", { className: "menu-bar-container" },
-                !this.props.commandBarProps.hideSearchBox && (React.createElement(SearchBox_1.SearchBox, { className: "searchbox", value: this.state.filterText || "", onSearch: this._updateFilterText, onChange: this._updateFilterText })),
-                !this.props.commandBarProps.hideCommandBar && (React.createElement(CommandBar_1.CommandBar, { className: "menu-bar", items: this.props.commandBarProps.menuItems || [], farItems: this._getFarCommandMenuItems() }))));
-        };
-        Grid.prototype._getFarCommandMenuItems = function () {
-            var menuItems = [
-                {
-                    key: "resultCount",
-                    name: this.state.filteredItems.length + " results",
-                    className: "result-count"
-                }
-            ];
-            if (this.props.commandBarProps && this.props.commandBarProps.farMenuItems && this.props.commandBarProps.farMenuItems.length > 0) {
-                menuItems = menuItems.concat(this.props.commandBarProps.farMenuItems);
-            }
-            return menuItems;
-        };
         Grid.prototype._renderGrid = function () {
-            if (this.state.filteredItems.length === 0) {
+            if (this.state.items.length === 0) {
                 return React.createElement(MessagePanel_1.MessagePanel, { messageType: MessagePanel_1.MessageType.Info, message: this.props.noResultsText || "No results." });
             }
             else {
                 return React.createElement("div", { className: "grid-container" },
-                    React.createElement(DetailsList_1.DetailsList, { setKey: this.props.setKey, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, layoutMode: DetailsList_1.DetailsListLayoutMode.justified, constrainMode: DetailsList_1.ConstrainMode.horizontalConstrained, selectionMode: this.props.selectionMode || selection_1.SelectionMode.multiple, isHeaderVisible: true, checkboxVisibility: this.props.selectionMode === selection_1.SelectionMode.none ? DetailsList_1.CheckboxVisibility.hidden : DetailsList_1.CheckboxVisibility.onHover, columns: this._prepareColumns(), items: this.state.filteredItems, className: "grid-list", onItemInvoked: this._onItemInvoked, selection: this._selection, onItemContextMenu: this._showContextMenu }));
+                    React.createElement(DetailsList_1.DetailsList, { setKey: this.props.setKey, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, layoutMode: DetailsList_1.DetailsListLayoutMode.justified, constrainMode: DetailsList_1.ConstrainMode.horizontalConstrained, selectionMode: this.props.selectionMode || selection_1.SelectionMode.multiple, isHeaderVisible: true, checkboxVisibility: this.props.selectionMode === selection_1.SelectionMode.none ? DetailsList_1.CheckboxVisibility.hidden : DetailsList_1.CheckboxVisibility.onHover, columns: this._prepareColumns(), items: this.state.items, className: "grid-list", onItemInvoked: this._onItemInvoked, selection: this._selection, onItemContextMenu: this._showContextMenu }));
             }
         };
         Grid.prototype._onItemInvoked = function (item, index) {
@@ -109,27 +86,9 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         Grid.prototype._onColumnHeaderClick = function (column) {
             if (column.sortFunction) {
                 var sortOrder = this.state.sortOrder === Grid_Props_1.SortOrder.DESC ? Grid_Props_1.SortOrder.ASC : Grid_Props_1.SortOrder.DESC;
-                var filteredItems = this._sortAndFilterWorkItems(this.props.items, column, sortOrder, this.state.filterText);
-                this.updateState({ sortColumn: column, sortOrder: sortOrder, filteredItems: filteredItems });
-                if (this.props.events && this.props.events.onSearch) {
-                    this.props.events.onSort(column, sortOrder, filteredItems);
-                }
+                var sortedItems = this._sortItems(this.props.items, column, sortOrder);
+                this.updateState({ sortColumn: column, sortOrder: sortOrder, items: sortedItems });
             }
-        };
-        Grid.prototype._updateFilterText = function (filterText) {
-            var _this = this;
-            if (this._searchTimeout) {
-                clearTimeout(this._searchTimeout);
-                this._searchTimeout = null;
-            }
-            this._searchTimeout = setTimeout(function () {
-                _this._searchTimeout = null;
-                var filteredItems = _this._sortAndFilterWorkItems(_this.props.items, _this.state.sortColumn, _this.state.sortOrder, filterText);
-                _this.updateState({ filterText: filterText, filteredItems: filteredItems });
-                if (_this.props.events && _this.props.events.onSearch) {
-                    _this.props.events.onSearch(filterText, filteredItems);
-                }
-            }, 200);
         };
         Grid.prototype._showContextMenu = function (_item, index, e) {
             if (this.props.contextMenuProps && this.props.contextMenuProps.menuItems) {
@@ -143,26 +102,12 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         Grid.prototype._hideContextMenu = function () {
             this.updateState({ contextMenuTarget: null, isContextMenuVisible: false });
         };
-        Grid.prototype._sortAndFilterWorkItems = function (items, sortColumn, sortOrder, filterText) {
-            var _this = this;
-            var filteredItems = (items || []).slice();
+        Grid.prototype._sortItems = function (items, sortColumn, sortOrder) {
+            var sortedItems = (items || []).slice();
             if (sortColumn && sortColumn.sortFunction) {
-                filteredItems = filteredItems.sort(function (item1, item2) { return sortColumn.sortFunction(item1, item2, sortOrder); });
+                sortedItems = sortedItems.sort(function (item1, item2) { return sortColumn.sortFunction(item1, item2, sortOrder); });
             }
-            if (filterText == null || filterText.trim() === "") {
-                return filteredItems;
-            }
-            else {
-                return filteredItems.filter(function (item) {
-                    for (var _i = 0, _a = _this.props.columns; _i < _a.length; _i++) {
-                        var column = _a[_i];
-                        if (column.filterFunction && column.filterFunction(item, filterText)) {
-                            return true;
-                        }
-                    }
-                    return false;
-                });
-            }
+            return sortedItems;
         };
         __decorate([
             Utilities_1.autobind
@@ -170,9 +115,6 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         __decorate([
             Utilities_1.autobind
         ], Grid.prototype, "_onColumnHeaderClick", null);
-        __decorate([
-            Utilities_1.autobind
-        ], Grid.prototype, "_updateFilterText", null);
         __decorate([
             Utilities_1.autobind
         ], Grid.prototype, "_showContextMenu", null);

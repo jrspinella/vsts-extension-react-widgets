@@ -1,29 +1,9 @@
 .base-grid {
-    display: flex;
-    flex-direction: column;
     height: 100%;
     
-    .menu-bar-container {
-        display: flex;
-        flex-direction: row;            
-        margin-bottom: 10px;
-        min-height: 40px;
-        max-height: 40px;
-
-        .searchbox {
-            margin-bottom: 1px;
-            margin-top: 1px;
-            height: inherit;
-        }
-        
-        .menu-bar {
-            flex: 1;
-        }
-    }    
-
     .grid-container {
         overflow: auto;
-        flex: 1;  
+        height: 100%;
         position: relative;
 
         .grid-list {

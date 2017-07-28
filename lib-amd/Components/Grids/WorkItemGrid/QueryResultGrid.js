@@ -8,6 +8,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -43,9 +49,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "react", "TFS/WorkItemTracking/RestClient", "VSS/Utils/String", "../../Common/Loading", "../../Common/BaseComponent", "./WorkItemGrid"], function (require, exports, React, WitClient, Utils_String, Loading_1, BaseComponent_1, WorkItemGrid_1) {
+define(["require", "exports", "react", "TFS/WorkItemTracking/RestClient", "VSS/Utils/String", "VSS/Events/Services", "OfficeFabric/Utilities", "../../Common/Loading", "../../Common/BaseComponent", "./WorkItemGrid"], function (require, exports, React, WitClient, Utils_String, EventsService, Utilities_1, Loading_1, BaseComponent_1, WorkItemGrid_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    var QueryResultGridEvents;
+    (function (QueryResultGridEvents) {
+        QueryResultGridEvents.RefreshQueryInGrid = "refresh-query-grid";
+    })(QueryResultGridEvents = exports.QueryResultGridEvents || (exports.QueryResultGridEvents = {}));
     var QueryResultGrid = (function (_super) {
         __extends(QueryResultGrid, _super);
         function QueryResultGrid() {
@@ -54,6 +64,7 @@ define(["require", "exports", "react", "TFS/WorkItemTracking/RestClient", "VSS/U
         QueryResultGrid.prototype.componentDidMount = function () {
             _super.prototype.componentDidMount.call(this);
             this._runQuery(this.props);
+            EventsService.getService().attachEvent(QueryResultGridEvents.RefreshQueryInGrid, this._refreshQuery);
         };
         QueryResultGrid.prototype.getDefaultClassName = function () {
             return "query-results-grid";
@@ -65,33 +76,20 @@ define(["require", "exports", "react", "TFS/WorkItemTracking/RestClient", "VSS/U
                 this._runQuery(nextProps);
             }
         };
+        QueryResultGrid.prototype.componentWillUnmount = function () {
+            _super.prototype.componentWillMount.call(this);
+            EventsService.getService().detachEvent(QueryResultGridEvents.RefreshQueryInGrid, this._refreshQuery);
+        };
         QueryResultGrid.prototype.render = function () {
-            if (!this._isDataLoaded()) {
+            if (this.state.workItemIds == null || this.state.fieldRefNames == null) {
                 return React.createElement(Loading_1.Loading, null);
             }
             else {
-                return (React.createElement(WorkItemGrid_1.WorkItemGrid, { className: this.getClassName(), workItemIds: this.state.workItemIds, fieldRefNames: this.state.fieldRefNames, commandBarProps: this._getCommandBarProps(), contextMenuProps: this.props.contextMenuProps, selectionMode: this.props.selectionMode, extraColumns: this.props.extraColumns, setKey: this.props.setKey, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, noResultsText: this.props.noResultsText || "Query returned no results." }));
+                return (React.createElement(WorkItemGrid_1.WorkItemGrid, { className: this.getClassName(), filterText: this.props.filterText, workItemIds: this.state.workItemIds, fieldRefNames: this.state.fieldRefNames, contextMenuProps: this.props.contextMenuProps, selectionMode: this.props.selectionMode, extraColumns: this.props.extraColumns, setKey: this.props.setKey, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, noResultsText: this.props.noResultsText || "Query returned no results." }));
             }
         };
-        QueryResultGrid.prototype._getCommandBarProps = function () {
-            var _this = this;
-            var menuItems = [
-                {
-                    key: "refresh", name: "Refresh", title: "Refresh items", iconProps: { iconName: "Refresh" },
-                    onClick: function () {
-                        _this._runQuery(_this.props);
-                    }
-                }
-            ];
-            if (this.props.commandBarProps && this.props.commandBarProps.menuItems && this.props.commandBarProps.menuItems.length > 0) {
-                menuItems = menuItems.concat(this.props.commandBarProps.menuItems);
-            }
-            return {
-                hideSearchBox: this.props.commandBarProps && this.props.commandBarProps.hideSearchBox,
-                hideCommandBar: this.props.commandBarProps && this.props.commandBarProps.hideCommandBar,
-                menuItems: menuItems,
-                farMenuItems: this.props.commandBarProps && this.props.commandBarProps.farMenuItems
-            };
+        QueryResultGrid.prototype._refreshQuery = function () {
+            this._runQuery(this.props);
         };
         QueryResultGrid.prototype._runQuery = function (props) {
             return __awaiter(this, void 0, void 0, function () {
@@ -110,9 +108,9 @@ define(["require", "exports", "react", "TFS/WorkItemTracking/RestClient", "VSS/U
                 });
             });
         };
-        QueryResultGrid.prototype._isDataLoaded = function () {
-            return this.state.workItemIds != null && this.state.fieldRefNames != null;
-        };
+        __decorate([
+            Utilities_1.autobind
+        ], QueryResultGrid.prototype, "_refreshQuery", null);
         return QueryResultGrid;
     }(BaseComponent_1.BaseComponent));
     exports.QueryResultGrid = QueryResultGrid;
