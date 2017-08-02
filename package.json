@@ -1,6 +1,6 @@
 {
     "name": "vsts-extension-react-widgets",
-    "version": "0.0.57",
+    "version": "0.0.58",
     "description": "Reusable React components based on office fabric for building VSTS extensions.",
     "main": "lib-amd/index.js",
     "typings": "lib-amd/index.d.ts",
@@ -23,13 +23,13 @@
         "@types/react": "15.0.35",
         "@types/react-dom": "15.5.1",
         "@types/jquery": "2.0.41",
-        "webpack": "3.1.0",
-        "webpack-dev-server": "2.5.1",
+        "webpack": "3.4.1",
+        "webpack-dev-server": "2.6.1",
         "rimraf": "2.6.1",
         "sass-loader": "6.0.6",
         "style-loader": "0.18.2",
         "css-loader": "0.28.4",
-        "ts-loader": "2.2.2",
+        "ts-loader": "2.3.2",
         "node-sass": "4.5.3",
         "typescript": "2.4.2",
         "typings": "2.1.1",
@@ -39,7 +39,7 @@
     "dependencies": {
         "es6-promise": "4.1.1",
         "vss-web-extension-sdk": "2.117.0",
-        "office-ui-fabric-react": "4.21.4",
+        "office-ui-fabric-react": "4.28.0",
         "trumbowyg": "2.5.1"
     }
 }
