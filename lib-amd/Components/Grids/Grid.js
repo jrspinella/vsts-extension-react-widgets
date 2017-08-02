@@ -54,7 +54,7 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         };
         Grid.prototype._renderGrid = function () {
             if (this.state.items.length === 0) {
-                return React.createElement(MessageBar_1.MessageBar, { messageBarType: MessageBar_1.MessageBarType.info }, this.props.noResultsText || "No results.");
+                return React.createElement(MessageBar_1.MessageBar, { className: "grid-message-bar", messageBarType: MessageBar_1.MessageBarType.info }, this.props.noResultsText || "No results.");
             }
             else {
                 return React.createElement("div", { className: "grid-container" },

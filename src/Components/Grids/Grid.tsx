@@ -66,7 +66,7 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
 
     private _renderGrid(): JSX.Element {
         if (this.state.items.length === 0) {
-            return <MessageBar messageBarType={MessageBarType.info}>
+            return <MessageBar className="grid-message-bar" messageBarType={MessageBarType.info}>
                 {this.props.noResultsText || "No results."}
             </MessageBar>;
         }
