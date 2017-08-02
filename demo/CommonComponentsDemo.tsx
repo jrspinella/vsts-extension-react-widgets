@@ -6,7 +6,6 @@ import {Loading} from "../src/Components/Common/Loading";
 import {FavoriteStar} from "../src/Components/Common/FavoriteStar";
 import {InputError} from "../src/Components/Common/InputError";
 import {InfoLabel} from "../src/Components/Common/InfoLabel";
-import {MessagePanel, MessageType} from "../src/Components/Common/MessagePanel";
 import {IdentityView} from "../src/Components/WorkItemControls/IdentityView";
 
 interface ICommonComponentsDemoState {
@@ -30,7 +29,6 @@ export class CommonComponentsDemo extends React.Component<{}, ICommonComponentsD
                     }} />
                     <Loading />
                     <InputError error="This is an input error" />
-                    <MessagePanel messageType={MessageType.Success} message={"No results."} />
                     <IdentityView identityDistinctName="Mohit Bagra <mbagra@microsoft.com>" />
                     <InfoLabel info="Information" label="Info" />
                 </div>

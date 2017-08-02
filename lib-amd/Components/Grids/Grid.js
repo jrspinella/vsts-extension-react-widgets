@@ -14,7 +14,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric/utilities/selection", "OfficeFabric/Utilities", "OfficeFabric/ContextualMenu", "VSS/Utils/String", "../Common/MessagePanel", "../Common/BaseComponent", "./Grid.Props", "./Grid.scss"], function (require, exports, React, DetailsList_1, selection_1, Utilities_1, ContextualMenu_1, Utils_String, MessagePanel_1, BaseComponent_1, Grid_Props_1) {
+define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric/utilities/selection", "OfficeFabric/Utilities", "OfficeFabric/ContextualMenu", "OfficeFabric/MessageBar", "VSS/Utils/String", "../Common/BaseComponent", "./Grid.Props", "./Grid.scss"], function (require, exports, React, DetailsList_1, selection_1, Utilities_1, ContextualMenu_1, MessageBar_1, Utils_String, BaseComponent_1, Grid_Props_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Grid = (function (_super) {
@@ -54,7 +54,7 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         };
         Grid.prototype._renderGrid = function () {
             if (this.state.items.length === 0) {
-                return React.createElement(MessagePanel_1.MessagePanel, { messageType: MessagePanel_1.MessageType.Info, message: this.props.noResultsText || "No results." });
+                return React.createElement(MessageBar_1.MessageBar, { messageBarType: MessageBar_1.MessageBarType.info }, this.props.noResultsText || "No results.");
             }
             else {
                 return React.createElement("div", { className: "grid-container" },

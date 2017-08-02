@@ -6,10 +6,10 @@ import { DetailsList, DetailsListLayoutMode, IColumn, CheckboxVisibility, Constr
 import { Selection, SelectionMode } from "OfficeFabric/utilities/selection";
 import { autobind } from "OfficeFabric/Utilities";
 import { ContextualMenu } from "OfficeFabric/ContextualMenu";
+import { MessageBar, MessageBarType } from "OfficeFabric/MessageBar";
 
 import Utils_String = require("VSS/Utils/String");
 
-import { MessagePanel, MessageType } from "../Common/MessagePanel";
 import { BaseComponent } from "../Common/BaseComponent"; 
 import { IGridProps, IGridState, SortOrder, GridColumn } from "./Grid.Props";
 
@@ -66,7 +66,9 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
 
     private _renderGrid(): JSX.Element {
         if (this.state.items.length === 0) {
-            return <MessagePanel messageType={MessageType.Info} message={this.props.noResultsText || "No results."} />
+            return <MessageBar messageBarType={MessageBarType.info}>
+                {this.props.noResultsText || "No results."}
+            </MessageBar>;
         }
         else {
             return <div className="grid-container">
