@@ -10,6 +10,7 @@ export interface BaseWorkItemGridProps extends IBaseComponentProps {
     setKey?: string;
     filterText?: string;
     selectionPreservedOnEmptyClick?: boolean;
+    compact?: boolean;
 }
 export interface IWorkItemGridProps extends BaseWorkItemGridProps {
     workItemIds: number[];

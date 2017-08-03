@@ -86,6 +86,7 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
                     onItemInvoked={this._onItemInvoked}
                     selection={this._selection}
                     onItemContextMenu={this._showContextMenu}
+                    compact={this.props.compact}
                 />
             </div>;
         }

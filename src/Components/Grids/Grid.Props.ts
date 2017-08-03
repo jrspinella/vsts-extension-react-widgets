@@ -14,6 +14,7 @@ export interface IGridProps extends IBaseComponentProps {
     setKey?: string;
     filterText?: string;
     selectionPreservedOnEmptyClick?: boolean;
+    compact?: boolean;
 }
 
 export interface IGridState extends IBaseComponentState {

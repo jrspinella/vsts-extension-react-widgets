@@ -85,7 +85,7 @@ define(["require", "exports", "react", "TFS/WorkItemTracking/RestClient", "VSS/U
                 return React.createElement(Loading_1.Loading, null);
             }
             else {
-                return (React.createElement(WorkItemGrid_1.WorkItemGrid, { className: this.getClassName(), filterText: this.props.filterText, workItemIds: this.state.workItemIds, fieldRefNames: this.state.fieldRefNames, contextMenuProps: this.props.contextMenuProps, selectionMode: this.props.selectionMode, extraColumns: this.props.extraColumns, setKey: this.props.setKey, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, noResultsText: this.props.noResultsText || "Query returned no results." }));
+                return (React.createElement(WorkItemGrid_1.WorkItemGrid, { className: this.getClassName(), filterText: this.props.filterText, workItemIds: this.state.workItemIds, fieldRefNames: this.state.fieldRefNames, contextMenuProps: this.props.contextMenuProps, selectionMode: this.props.selectionMode, extraColumns: this.props.extraColumns, setKey: this.props.setKey, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, noResultsText: this.props.noResultsText || "Query returned no results.", compact: this.props.compact }));
             }
         };
         QueryResultGrid.prototype._refreshQuery = function () {

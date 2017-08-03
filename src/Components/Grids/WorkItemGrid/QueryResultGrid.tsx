@@ -58,6 +58,7 @@ export class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQuery
                     setKey={this.props.setKey}
                     selectionPreservedOnEmptyClick={this.props.selectionPreservedOnEmptyClick || false}
                     noResultsText={this.props.noResultsText || "Query returned no results."}
+                    compact={this.props.compact}
                 />                        
             );
         }

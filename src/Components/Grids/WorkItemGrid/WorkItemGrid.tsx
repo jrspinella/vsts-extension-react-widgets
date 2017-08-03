@@ -98,6 +98,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
                 contextMenuProps={this._getContextMenuProps()}
                 onItemInvoked={this._onItemInvoked}
                 noResultsText={this.props.noResultsText}
+                compact={this.props.compact}
             />
         );    
     }
