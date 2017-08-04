@@ -16,7 +16,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-define(["require", "exports", "react", "VSS/Controls", "VSS/Controls/Combos", "../BaseComponent"], function (require, exports, React, Controls, Combos, BaseComponent_1) {
+define(["require", "exports", "react", "VSS/Controls", "VSS/Controls/Combos", "../BaseComponent", "./ComboBox.scss"], function (require, exports, React, Controls, Combos, BaseComponent_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ComboBox = (function (_super) {

@@ -1,3 +1,5 @@
+import "./ComboBox.scss";
+
 import * as React from "react";
 import * as Controls from "VSS/Controls";
 import * as Combos from "VSS/Controls/Combos";

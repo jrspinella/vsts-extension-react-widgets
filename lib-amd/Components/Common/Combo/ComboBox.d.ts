@@ -1,4 +1,5 @@
 /// <reference types="react" />
+import "./ComboBox.scss";
 import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "../BaseComponent";
 export interface IComboBoxProps extends IBaseComponentProps {
     value?: string;
