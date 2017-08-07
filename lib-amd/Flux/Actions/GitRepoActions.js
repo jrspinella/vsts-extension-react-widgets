@@ -33,7 +33,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "TFS/VersionControl/GitRestClient", "../Stores/BaseStore", "../Stores/GitRepoStore", "./ActionsHub"], function (require, exports, GitClient, BaseStore_1, GitRepoStore_1, ActionsHub_1) {
+define(["require", "exports", "TFS/VersionControl/GitRestClient", "VSS/Utils/String", "../Stores/BaseStore", "../Stores/GitRepoStore", "./ActionsHub"], function (require, exports, GitClient, Utils_String, BaseStore_1, GitRepoStore_1, ActionsHub_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var GitRepoActions;
@@ -57,6 +57,7 @@ define(["require", "exports", "TFS/VersionControl/GitRestClient", "../Stores/Bas
                             return [4, GitClient.getClient().getRepositories(VSS.getWebContext().project.id)];
                         case 3:
                             gitRepos = _a.sent();
+                            gitRepos.sort(function (a, b) { return Utils_String.localeIgnoreCaseComparer(a.name, b.name); });
                             ActionsHub_1.GitRepoActionsHub.InitializeGitRepos.invoke(gitRepos);
                             gitRepoStore.setLoading(false);
                             return [3, 5];
