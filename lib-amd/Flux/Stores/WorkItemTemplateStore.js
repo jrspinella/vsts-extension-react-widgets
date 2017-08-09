@@ -8,22 +8,30 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "VSS/Utils/String", "VSS/Utils/Array", "./BaseStore", "../Actions/ActionsHub"], function (require, exports, Utils_String, Utils_Array, BaseStore_1, ActionsHub_1) {
+define(["require", "exports", "./BaseStore", "../Actions/ActionsHub"], function (require, exports, BaseStore_1, ActionsHub_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var WorkItemTemplateStore = (function (_super) {
         __extends(WorkItemTemplateStore, _super);
         function WorkItemTemplateStore() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            var _this = _super.call(this) || this;
+            _this._itemsIdMap = {};
+            return _this;
         }
         WorkItemTemplateStore.prototype.getItem = function (id) {
-            return Utils_Array.first(this.items || [], function (item) { return Utils_String.equals(item.id, id, true); });
+            var key = (id || "").toLowerCase();
+            return this._itemsIdMap[key];
         };
         WorkItemTemplateStore.prototype.initializeActionListeners = function () {
             var _this = this;
             ActionsHub_1.WorkItemTemplateActionsHub.InitializeWorkItemTemplates.addListener(function (templates) {
                 if (templates) {
                     _this.items = templates;
+                    _this._itemsIdMap = {};
+                    for (var _i = 0, _a = _this.items; _i < _a.length; _i++) {
+                        var item = _a[_i];
+                        _this._itemsIdMap[item.id.toLowerCase()] = item;
+                    }
                 }
                 _this.emitChanged();
             });

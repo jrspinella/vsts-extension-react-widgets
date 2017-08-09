@@ -4,11 +4,13 @@ import * as React from "react";
 import * as Controls from "VSS/Controls";
 import * as Combos from "VSS/Controls/Combos";
 import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "../BaseComponent";
+import { InputError } from "../InputError";
 
 export interface IComboBoxProps extends IBaseComponentProps {
     value?: string;
     options?: any;
     onChange: (newValue: string) => void;
+    error?: string;
 }
 
 export class ComboBox extends BaseComponent<IComboBoxProps, IBaseComponentState> {
@@ -27,7 +29,10 @@ export class ComboBox extends BaseComponent<IComboBoxProps, IBaseComponentState>
     }
 
     public render(): JSX.Element {
-        return <div ref="container" className={this.getClassName()}></div>;
+        return <div className={this.getClassName()}>
+            <div ref="container"></div>
+            { this.props.error && <InputError error={this.props.error} />}
+        </div>
     }
 
     public componentDidMount(): void {

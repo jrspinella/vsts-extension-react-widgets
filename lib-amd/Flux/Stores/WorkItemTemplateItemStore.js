@@ -16,10 +16,12 @@ define(["require", "exports", "VSS/Utils/String", "VSS/Utils/Array", "./BaseStor
         function WorkItemTemplateItemStore() {
             var _this = _super.call(this) || this;
             _this.items = [];
+            _this._itemsIdMap = {};
             return _this;
         }
         WorkItemTemplateItemStore.prototype.getItem = function (id) {
-            return Utils_Array.first(this.items, function (item) { return Utils_String.equals(item.id, id, true); });
+            var key = (id || "").toLowerCase();
+            return this._itemsIdMap[key];
         };
         WorkItemTemplateItemStore.prototype.initializeActionListeners = function () {
             var _this = this;
@@ -32,6 +34,7 @@ define(["require", "exports", "VSS/Utils/String", "VSS/Utils/Array", "./BaseStor
                     else {
                         _this.items[index] = template;
                     }
+                    _this._itemsIdMap[template.id.toLowerCase()] = template;
                 }
                 _this.emitChanged();
             });

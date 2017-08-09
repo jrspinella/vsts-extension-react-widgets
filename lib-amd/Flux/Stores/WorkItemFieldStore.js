@@ -8,22 +8,33 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "VSS/Utils/String", "VSS/Utils/Array", "./BaseStore", "../Actions/ActionsHub"], function (require, exports, Utils_String, Utils_Array, BaseStore_1, ActionsHub_1) {
+define(["require", "exports", "./BaseStore", "../Actions/ActionsHub"], function (require, exports, BaseStore_1, ActionsHub_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var WorkItemFieldStore = (function (_super) {
         __extends(WorkItemFieldStore, _super);
         function WorkItemFieldStore() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            var _this = _super.call(this) || this;
+            _this._itemsRefNameMap = {};
+            _this._itemsNameMap = {};
+            return _this;
         }
         WorkItemFieldStore.prototype.getItem = function (fieldRefName) {
-            return Utils_Array.first(this.items || [], function (item) { return Utils_String.equals(item.referenceName, fieldRefName, true) || Utils_String.equals(item.name, fieldRefName, true); });
+            var key = (fieldRefName || "").toLowerCase();
+            return this._itemsRefNameMap[key] || this._itemsNameMap[key];
         };
         WorkItemFieldStore.prototype.initializeActionListeners = function () {
             var _this = this;
             ActionsHub_1.WorkItemFieldActionsHub.InitializeWorkItemFields.addListener(function (fields) {
                 if (fields) {
                     _this.items = fields;
+                    _this._itemsRefNameMap = {};
+                    _this._itemsNameMap = {};
+                    for (var _i = 0, _a = _this.items; _i < _a.length; _i++) {
+                        var item = _a[_i];
+                        _this._itemsRefNameMap[item.referenceName.toLowerCase()] = item;
+                        _this._itemsNameMap[item.name.toLowerCase()] = item;
+                    }
                 }
                 _this.emitChanged();
             });

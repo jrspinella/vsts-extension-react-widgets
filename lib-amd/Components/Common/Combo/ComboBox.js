@@ -16,7 +16,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-define(["require", "exports", "react", "VSS/Controls", "VSS/Controls/Combos", "../BaseComponent", "./ComboBox.scss"], function (require, exports, React, Controls, Combos, BaseComponent_1) {
+define(["require", "exports", "react", "VSS/Controls", "VSS/Controls/Combos", "../BaseComponent", "../InputError", "./ComboBox.scss"], function (require, exports, React, Controls, Combos, BaseComponent_1, InputError_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ComboBox = (function (_super) {
@@ -28,7 +28,9 @@ define(["require", "exports", "react", "VSS/Controls", "VSS/Controls/Combos", ".
             return "combobox bowtie";
         };
         ComboBox.prototype.render = function () {
-            return React.createElement("div", { ref: "container", className: this.getClassName() });
+            return React.createElement("div", { className: this.getClassName() },
+                React.createElement("div", { ref: "container" }),
+                this.props.error && React.createElement(InputError_1.InputError, { error: this.props.error }));
         };
         ComboBox.prototype.componentDidMount = function () {
             var _this = this;

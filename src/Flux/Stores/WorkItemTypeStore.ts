@@ -1,19 +1,30 @@
-import Utils_String = require("VSS/Utils/String");
-import Utils_Array = require("VSS/Utils/Array");
 import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
 
 import { BaseStore } from "./BaseStore";
 import { WorkItemTypeActionsHub } from "../Actions/ActionsHub";
 
 export class WorkItemTypeStore extends BaseStore<WorkItemType[], WorkItemType, string> {
+    private _itemsIdMap: IDictionaryStringTo<WorkItemType>;
+
+    constructor() {
+        super();
+        this._itemsIdMap = {};
+    }
+
     public getItem(typeName: string): WorkItemType {
-        return Utils_Array.first(this.items || [], (item: WorkItemType) => Utils_String.equals(item.name, typeName, true));
+        const key = (typeName || "").toLowerCase();
+        return this._itemsIdMap[key];
     }    
 
     protected initializeActionListeners() {
         WorkItemTypeActionsHub.InitializeWorkItemTypes.addListener((workItemTypes: WorkItemType[]) => {
             if (workItemTypes) {
                 this.items = workItemTypes;
+                this._itemsIdMap = {};
+
+                for (const item of this.items) {
+                    this._itemsIdMap[item.name.toLowerCase()] = item;
+                }
             }
 
             this.emitChanged();

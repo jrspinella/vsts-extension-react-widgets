@@ -6,13 +6,17 @@ import { BaseStore } from "./BaseStore";
 import { WorkItemTemplateItemActionsHub } from "../Actions/ActionsHub";
 
 export class WorkItemTemplateItemStore extends BaseStore<WorkItemTemplate[], WorkItemTemplate, string> {
+    private _itemsIdMap: IDictionaryStringTo<WorkItemTemplate>;
+
     constructor() {
         super();
-        this.items = [];    
+        this.items = [];   
+        this._itemsIdMap = {}; 
     }
 
     public getItem(id: string): WorkItemTemplate {
-         return Utils_Array.first(this.items, (item: WorkItemTemplate) => Utils_String.equals(item.id, id, true));
+        const key = (id || "").toLowerCase();
+        return this._itemsIdMap[key];
     }
 
     protected initializeActionListeners() {
@@ -25,6 +29,8 @@ export class WorkItemTemplateItemStore extends BaseStore<WorkItemTemplate[], Wor
                 else {
                     this.items[index] = template;
                 }
+
+                this._itemsIdMap[template.id.toLowerCase()] = template;
             }
 
             this.emitChanged();
