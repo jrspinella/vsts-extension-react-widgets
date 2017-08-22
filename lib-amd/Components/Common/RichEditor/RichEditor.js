@@ -19,7 +19,8 @@ define(["require", "exports", "react", "trumbowyg/dist/trumbowyg", "trumbowyg/di
         RichEditor.prototype.componentDidMount = function () {
             var _this = this;
             this._richEditorContainer = $("#" + this.props.containerId);
-            this._richEditorContainer.trumbowyg(this.props.editorOptions || {})
+            this._richEditorContainer
+                .trumbowyg(this.props.editorOptions || {})
                 .on("tbwchange", function () { return _this.props.onChange(_this._richEditorContainer.trumbowyg("html")); })
                 .on("tbwblur", function () { return _this.props.onChange(_this._richEditorContainer.trumbowyg("html")); });
             this._richEditorContainer.trumbowyg("html", this.props.data);
@@ -33,7 +34,7 @@ define(["require", "exports", "react", "trumbowyg/dist/trumbowyg", "trumbowyg/di
             }
         };
         RichEditor.prototype.render = function () {
-            return (React.createElement("div", { id: this.props.containerId, className: "rich-editor", placeholder: this.props.placeholder || "" }));
+            return (React.createElement("div", { id: this.props.containerId, className: "rich-editor" }));
         };
         return RichEditor;
     }(React.Component));

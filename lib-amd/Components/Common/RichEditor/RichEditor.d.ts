@@ -5,7 +5,6 @@ import "trumbowyg/dist/ui/trumbowyg.min.css";
 import { IBaseComponentProps } from "../BaseComponent";
 export interface IRichEditorProps extends IBaseComponentProps {
     containerId: string;
-    placeholder?: string;
     data: string;
     onChange: (newValue: string) => void;
     editorOptions?: any;
