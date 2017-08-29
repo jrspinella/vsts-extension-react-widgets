@@ -1,19 +1,31 @@
-import { Store } from "VSS/Flux/Store";
+import { EventManager } from "../../Utilities/EventManager";
 
-export abstract class BaseStore<TCollection, TItem, TKey> extends Store {    
+export abstract class BaseStore<TCollection, TItem, TKey> {
     protected items: TCollection;
+
+    private _eventManager = new EventManager();
     private _isLoading: boolean;
     private _isItemLoadingMap: IDictionaryStringTo<boolean>;
 
-    constructor() {
-        super();
-
+    constructor() {        
         this.items = null;
         this._isLoading = false;
         this._isItemLoadingMap = {};
 
         this.initializeActionListeners();
     }    
+
+    public addChangedListener(handler: () => void) {
+        this._eventManager.subscribe(handler);
+    }
+
+    public removeChangedListener(handler: () => void) {
+        this._eventManager.unsubscribe(handler);
+    }
+
+    protected emitChanged(): void {
+        this._eventManager.invokeHandlers(null);
+    }
 
     public isLoaded(key?: TKey): boolean {
         let dataLoaded: boolean;
