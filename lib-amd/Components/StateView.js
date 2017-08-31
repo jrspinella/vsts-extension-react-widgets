@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "react", "OfficeFabric/Label", "VSS/Utils/String", "VSS/Utils/Array", "./BaseComponent", "../Flux/Stores/BaseStore", "../Flux/Stores/WorkItemStateItemStore", "../Flux/Actions/WorkItemStateItemActions", "./StateView.scss"], function (require, exports, React, Label_1, Utils_String, Utils_Array, BaseComponent_1, BaseStore_1, WorkItemStateItemStore_1, WorkItemStateItemActions_1) {
+define(["require", "exports", "react", "OfficeFabric/Label", "VSS/Utils/String", "../Utils/Array", "./BaseComponent", "../Flux/Stores/BaseStore", "../Flux/Stores/WorkItemStateItemStore", "../Flux/Actions/WorkItemStateItemActions", "./StateView.scss"], function (require, exports, React, Label_1, Utils_String, Utils_Array, BaseComponent_1, BaseStore_1, WorkItemStateItemStore_1, WorkItemStateItemActions_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var StateView = (function (_super) {

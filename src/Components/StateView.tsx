@@ -4,10 +4,10 @@ import * as React from "react";
 
 import { Label } from "OfficeFabric/Label";
 
-import Utils_String = require("VSS/Utils/String");
-import Utils_Array = require("VSS/Utils/Array");
 import { WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
+import Utils_String = require("VSS/Utils/String");
 
+import * as Utils_Array from "../Utils/Array";
 import { BaseComponent, IBaseComponentState, IBaseComponentProps } from "./BaseComponent"; 
 import { BaseStore, StoreFactory } from "../Flux/Stores/BaseStore";
 import { WorkItemStateItemStore } from "../Flux/Stores/WorkItemStateItemStore";

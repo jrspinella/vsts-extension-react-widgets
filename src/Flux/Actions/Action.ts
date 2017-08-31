@@ -1,4 +1,4 @@
-import { EventManager } from "../../Utilities/EventManager";
+import { EventManager } from "../../Utils/EventManager";
 
 export class Action<T> {
     private static executing: boolean = false;

@@ -1,4 +1,4 @@
-import { EventManager } from "../../Utilities/EventManager";
+import { EventManager } from "../../Utils/EventManager";
 
 export abstract class BaseStore<TCollection, TItem, TKey> {
     protected items: TCollection;

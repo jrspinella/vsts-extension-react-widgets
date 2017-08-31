@@ -1,7 +1,7 @@
 import Utils_String = require("VSS/Utils/String");
-import Utils_Array = require("VSS/Utils/Array");
 import { WorkItemTemplate } from "TFS/WorkItemTracking/Contracts";
 
+import * as Utils_Array from "../../Utils/Array";
 import { BaseStore } from "./BaseStore";
 import { WorkItemTemplateItemActionsHub } from "../Actions/ActionsHub";
 

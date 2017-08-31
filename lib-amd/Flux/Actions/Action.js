@@ -1,4 +1,4 @@
-define(["require", "exports", "../../Utilities/EventManager"], function (require, exports, EventManager_1) {
+define(["require", "exports", "../../Utils/EventManager"], function (require, exports, EventManager_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Action = (function () {
