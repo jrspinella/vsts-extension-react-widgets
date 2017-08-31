@@ -1,0 +1,32 @@
+.base-grid {
+    height: 100%;
+    
+    .grid-container {
+        overflow: auto;
+        height: 100%;
+        position: relative;
+
+        .grid-list {
+            overflow-x: initial;
+            overflow-y: initial;
+
+            .ms-DetailsRow {
+                a {
+                    color: inherit;
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                        color: #0078d7;
+                    }
+                }
+
+                &:hover, &.is-selected {
+                    a {
+                        color: #0078d7;
+                    }
+                }                
+            }
+        }
+    }        
+}

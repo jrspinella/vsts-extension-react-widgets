@@ -1,4 +1,4 @@
-import { Action } from "VSS/Flux/Action";
+import { Action } from "./Action";
 import { WorkItem, WorkItemType, WorkItemField, WorkItemTemplate, WorkItemTemplateReference, WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
 import { WebApiTeam } from "TFS/Core/Contracts";
 import { GitRepository } from "TFS/VersionControl/Contracts";
@@ -36,4 +36,7 @@ export declare module TeamFieldActionsHub {
 export declare module WorkItemActionsHub {
     var AddOrUpdateWorkItems: Action<WorkItem[]>;
     var DeleteWorkItems: Action<number[]>;
+}
+export declare module UIActionsHub {
+    var RefreshQueryInGrid: Action<void>;
 }

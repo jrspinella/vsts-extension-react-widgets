@@ -1,9 +1,12 @@
-import { Store } from "VSS/Flux/Store";
-export declare abstract class BaseStore<TCollection, TItem, TKey> extends Store {
+export declare abstract class BaseStore<TCollection, TItem, TKey> {
     protected items: TCollection;
+    private _eventManager;
     private _isLoading;
     private _isItemLoadingMap;
     constructor();
+    addChangedListener(handler: () => void): void;
+    removeChangedListener(handler: () => void): void;
+    protected emitChanged(): void;
     isLoaded(key?: TKey): boolean;
     isLoading(key?: TKey): boolean;
     setLoading(loading: boolean, key?: TKey): void;

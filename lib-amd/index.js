@@ -1,4 +1,4 @@
-define(["require", "exports", "./Components/index", "./Utilities/index", "./Flux/index"], function (require, exports, index_1, index_2, index_3) {
+define(["require", "exports", "./Components/index", "./Flux/index", "./Utilities/index"], function (require, exports, index_1, index_2, index_3) {
     "use strict";
     function __export(m) {
         for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];

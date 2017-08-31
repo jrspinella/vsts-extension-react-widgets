@@ -1,26 +1,23 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-define(["require", "exports", "VSS/Flux/Store"], function (require, exports, Store_1) {
+define(["require", "exports", "../../Utilities/EventManager"], function (require, exports, EventManager_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var BaseStore = (function (_super) {
-        __extends(BaseStore, _super);
+    var BaseStore = (function () {
         function BaseStore() {
-            var _this = _super.call(this) || this;
-            _this.items = null;
-            _this._isLoading = false;
-            _this._isItemLoadingMap = {};
-            _this.initializeActionListeners();
-            return _this;
+            this._eventManager = new EventManager_1.EventManager();
+            this.items = null;
+            this._isLoading = false;
+            this._isItemLoadingMap = {};
+            this.initializeActionListeners();
         }
+        BaseStore.prototype.addChangedListener = function (handler) {
+            this._eventManager.subscribe(handler);
+        };
+        BaseStore.prototype.removeChangedListener = function (handler) {
+            this._eventManager.unsubscribe(handler);
+        };
+        BaseStore.prototype.emitChanged = function () {
+            this._eventManager.invokeHandlers(null);
+        };
         BaseStore.prototype.isLoaded = function (key) {
             var dataLoaded;
             if (key) {
@@ -60,7 +57,7 @@ define(["require", "exports", "VSS/Flux/Store"], function (require, exports, Sto
             return this.items;
         };
         return BaseStore;
-    }(Store_1.Store));
+    }());
     exports.BaseStore = BaseStore;
     var StoreFactory;
     (function (StoreFactory) {

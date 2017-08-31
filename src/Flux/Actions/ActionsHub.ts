@@ -41,3 +41,7 @@ export module WorkItemActionsHub {
     export var AddOrUpdateWorkItems = new Action<WorkItem[]>();
     export var DeleteWorkItems = new Action<number[]>();
 }
+
+export module UIActionsHub {
+    export var RefreshQueryInGrid = new Action<void>();
+}

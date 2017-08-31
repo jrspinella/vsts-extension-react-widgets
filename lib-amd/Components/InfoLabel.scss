@@ -1,0 +1,24 @@
+@import "./mixins";
+
+.info-label {
+    display: flex;
+
+    .info-icon {
+        color: #0078d7;
+        font-size: 12px;
+        height: 10px;
+        padding-top: 3px;
+        font-weight: 600;
+        cursor: help;
+    }
+
+    .info-label-text {
+        padding: 0;
+        margin: 0 3px 0 0;
+        @include TextOverflowEllipsis();
+    }
+
+    .info-icon-container {
+        position: relative;
+    }
+}

@@ -1,4 +1,4 @@
-define(["require", "exports", "VSS/Flux/Action"], function (require, exports, Action_1) {
+define(["require", "exports", "./Action"], function (require, exports, Action_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var WorkItemTypeActionsHub;
@@ -38,4 +38,8 @@ define(["require", "exports", "VSS/Flux/Action"], function (require, exports, Ac
         WorkItemActionsHub.AddOrUpdateWorkItems = new Action_1.Action();
         WorkItemActionsHub.DeleteWorkItems = new Action_1.Action();
     })(WorkItemActionsHub = exports.WorkItemActionsHub || (exports.WorkItemActionsHub = {}));
+    var UIActionsHub;
+    (function (UIActionsHub) {
+        UIActionsHub.RefreshQueryInGrid = new Action_1.Action();
+    })(UIActionsHub = exports.UIActionsHub || (exports.UIActionsHub = {}));
 });
