@@ -129,6 +129,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
                 onItemInvoked={this._onItemInvoked}
                 noResultsText={this.props.noResultsText}
                 compact={this.props.compact}
+                getKey={(item: WorkItem) => `${item.id}`}
             />
         );    
     }

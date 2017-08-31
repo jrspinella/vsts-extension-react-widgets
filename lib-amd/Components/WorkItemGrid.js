@@ -118,7 +118,7 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "../Utils/Strin
             if (this.state.loading) {
                 return React.createElement(Loading_1.Loading, null);
             }
-            return (React.createElement(Grid_1.Grid, { setKey: this.props.setKey, filterText: this.props.filterText, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, className: this.getClassName(), items: this.state.workItems, columns: this._mapFieldsToColumn(), selectionMode: this.props.selectionMode, contextMenuProps: this._getContextMenuProps(), onItemInvoked: this._onItemInvoked, noResultsText: this.props.noResultsText, compact: this.props.compact }));
+            return (React.createElement(Grid_1.Grid, { setKey: this.props.setKey, filterText: this.props.filterText, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, className: this.getClassName(), items: this.state.workItems, columns: this._mapFieldsToColumn(), selectionMode: this.props.selectionMode, contextMenuProps: this._getContextMenuProps(), onItemInvoked: this._onItemInvoked, noResultsText: this.props.noResultsText, compact: this.props.compact, getKey: function (item) { return "" + item.id; } }));
         };
         WorkItemGrid.prototype._itemFilter = function (workItem, filterText, field) {
             return String_1.StringUtils.caseInsensitiveContains(workItem.fields[field.referenceName] == null ? "" : "" + workItem.fields[field.referenceName], filterText);

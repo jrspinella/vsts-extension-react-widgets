@@ -1,6 +1,6 @@
 /// <reference types="react" />
 import "./Grid.scss";
-import { SelectionMode } from "OfficeFabric/utilities/selection";
+import { SelectionMode, ISelection } from "OfficeFabric/utilities/selection";
 import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
 import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "./BaseComponent";
 export interface IGridProps extends IBaseComponentProps {
@@ -10,11 +10,12 @@ export interface IGridProps extends IBaseComponentProps {
     selectionMode?: SelectionMode;
     contextMenuProps?: IContextMenuProps;
     onItemInvoked?: (item: any, index: number) => void;
-    events?: IGridEvents;
     setKey?: string;
     filterText?: string;
     selectionPreservedOnEmptyClick?: boolean;
     compact?: boolean;
+    getKey?: (item: any, index?: number) => string;
+    selection?: ISelection;
 }
 export interface IGridState extends IBaseComponentState {
     items?: any[];
@@ -36,9 +37,6 @@ export interface GridColumn {
 }
 export interface IContextMenuProps {
     menuItems?: (selectedItems: any[]) => IContextualMenuItem[];
-}
-export interface IGridEvents {
-    onSelectionChanged?: (selectedItems: any[]) => void;
 }
 export declare enum SortOrder {
     ASC = 0,

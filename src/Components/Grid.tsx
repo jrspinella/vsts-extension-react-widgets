@@ -3,7 +3,7 @@ import "./Grid.scss";
 import * as React from "react";
 
 import { DetailsList, DetailsListLayoutMode, IColumn, CheckboxVisibility, ConstrainMode } from "OfficeFabric/DetailsList";
-import { Selection, SelectionMode } from "OfficeFabric/utilities/selection";
+import { Selection, SelectionMode, ISelection } from "OfficeFabric/utilities/selection";
 import { autobind } from "OfficeFabric/Utilities";
 import { ContextualMenu, IContextualMenuItem } from "OfficeFabric/ContextualMenu";
 import { MessageBar, MessageBarType } from "OfficeFabric/MessageBar";
@@ -18,11 +18,12 @@ export interface IGridProps extends IBaseComponentProps {
     selectionMode?: SelectionMode;
     contextMenuProps?: IContextMenuProps;
     onItemInvoked?: (item: any, index: number) => void;
-    events?: IGridEvents;
     setKey?: string;
     filterText?: string;
     selectionPreservedOnEmptyClick?: boolean;
     compact?: boolean;
+    getKey?: (item: any, index?: number) => string;
+    selection?: ISelection;
 }
 
 export interface IGridState extends IBaseComponentState {
@@ -49,27 +50,17 @@ export interface IContextMenuProps {
     menuItems?: (selectedItems: any[]) => IContextualMenuItem[];
 }
 
-export interface IGridEvents {
-    onSelectionChanged?: (selectedItems: any[]) => void;
-}
-
 export enum SortOrder {
     ASC,
     DESC
 }
 
 export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
-    private _selection: Selection;
+    private _selection: ISelection;
 
     constructor(props: IGridProps, context?: any) {
         super(props, context);
-        this._selection = new Selection({
-            onSelectionChanged: () => {
-                if (props.events && props.events.onSelectionChanged) {
-                    props.events.onSelectionChanged(this._selection.getSelection());
-                }
-            }
-        });
+        this._selection = props.selection || new Selection();
     }    
 
     protected initializeState() {
@@ -118,6 +109,7 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
         else {
             return <div className="grid-container">
                 <DetailsList 
+                    getKey={this.props.getKey}
                     setKey={this.props.setKey}
                     selectionPreservedOnEmptyClick={this.props.selectionPreservedOnEmptyClick || false}
                     layoutMode={DetailsListLayoutMode.justified}

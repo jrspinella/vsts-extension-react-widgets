@@ -26,13 +26,7 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         __extends(Grid, _super);
         function Grid(props, context) {
             var _this = _super.call(this, props, context) || this;
-            _this._selection = new selection_1.Selection({
-                onSelectionChanged: function () {
-                    if (props.events && props.events.onSelectionChanged) {
-                        props.events.onSelectionChanged(_this._selection.getSelection());
-                    }
-                }
-            });
+            _this._selection = props.selection || new selection_1.Selection();
             return _this;
         }
         Grid.prototype.initializeState = function () {
@@ -63,7 +57,7 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
             }
             else {
                 return React.createElement("div", { className: "grid-container" },
-                    React.createElement(DetailsList_1.DetailsList, { setKey: this.props.setKey, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, layoutMode: DetailsList_1.DetailsListLayoutMode.justified, constrainMode: DetailsList_1.ConstrainMode.horizontalConstrained, selectionMode: this.props.selectionMode || selection_1.SelectionMode.multiple, isHeaderVisible: true, checkboxVisibility: this.props.selectionMode === selection_1.SelectionMode.none ? DetailsList_1.CheckboxVisibility.hidden : DetailsList_1.CheckboxVisibility.onHover, columns: this._prepareColumns(), items: this.state.items, className: "grid-list", onItemInvoked: this._onItemInvoked, selection: this._selection, onItemContextMenu: this._showContextMenu, compact: this.props.compact }));
+                    React.createElement(DetailsList_1.DetailsList, { getKey: this.props.getKey, setKey: this.props.setKey, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, layoutMode: DetailsList_1.DetailsListLayoutMode.justified, constrainMode: DetailsList_1.ConstrainMode.horizontalConstrained, selectionMode: this.props.selectionMode || selection_1.SelectionMode.multiple, isHeaderVisible: true, checkboxVisibility: this.props.selectionMode === selection_1.SelectionMode.none ? DetailsList_1.CheckboxVisibility.hidden : DetailsList_1.CheckboxVisibility.onHover, columns: this._prepareColumns(), items: this.state.items, className: "grid-list", onItemInvoked: this._onItemInvoked, selection: this._selection, onItemContextMenu: this._showContextMenu, compact: this.props.compact }));
             }
         };
         Grid.prototype._onItemInvoked = function (item, index) {
