@@ -49,7 +49,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "react", "OfficeFabric/Utilities", "VSS/Utils/String", "./BaseComponent", "./Loading", "./Grid", "../Utils/WorkItemGridHelpers", "../Flux/Stores/BaseStore", "../Flux/Stores/WorkItemStore", "../Flux/Stores/WorkItemFieldStore", "../Flux/Actions/WorkItemActions", "../Flux/Actions/WorkItemFieldActions", "./WorkItemsGrid.scss"], function (require, exports, React, Utilities_1, Utils_String, BaseComponent_1, Loading_1, Grid_1, WorkItemHelpers, BaseStore_1, WorkItemStore_1, WorkItemFieldStore_1, WorkItemActions_1, WorkItemFieldActions_1) {
+define(["require", "exports", "react", "OfficeFabric/Utilities", "../Utils/String", "./BaseComponent", "./Loading", "./Grid", "../Utils/WorkItemGridHelpers", "../Flux/Stores/BaseStore", "../Flux/Stores/WorkItemStore", "../Flux/Stores/WorkItemFieldStore", "../Flux/Actions/WorkItemActions", "../Flux/Actions/WorkItemFieldActions", "./WorkItemsGrid.scss"], function (require, exports, React, Utilities_1, String_1, BaseComponent_1, Loading_1, Grid_1, WorkItemHelpers, BaseStore_1, WorkItemStore_1, WorkItemFieldStore_1, WorkItemActions_1, WorkItemFieldActions_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ColumnPosition;
@@ -121,7 +121,7 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "VSS/Utils/Stri
             return (React.createElement(Grid_1.Grid, { setKey: this.props.setKey, filterText: this.props.filterText, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, className: this.getClassName(), items: this.state.workItems, columns: this._mapFieldsToColumn(), selectionMode: this.props.selectionMode, contextMenuProps: this._getContextMenuProps(), onItemInvoked: this._onItemInvoked, noResultsText: this.props.noResultsText, compact: this.props.compact }));
         };
         WorkItemGrid.prototype._itemFilter = function (workItem, filterText, field) {
-            return Utils_String.caseInsensitiveContains(workItem.fields[field.referenceName] == null ? "" : "" + workItem.fields[field.referenceName], filterText);
+            return String_1.StringUtils.caseInsensitiveContains(workItem.fields[field.referenceName] == null ? "" : "" + workItem.fields[field.referenceName], filterText);
         };
         WorkItemGrid.prototype._mapFieldsToColumn = function () {
             var _this = this;

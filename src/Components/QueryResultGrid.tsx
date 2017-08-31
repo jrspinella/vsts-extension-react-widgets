@@ -1,10 +1,10 @@
 import * as React from "react";
 
 import * as WitClient from "TFS/WorkItemTracking/RestClient";
-import Utils_String = require("VSS/Utils/String");
 
 import { autobind } from "OfficeFabric/Utilities";
 
+import { StringUtils } from "../Utils/String";
 import { Loading } from "./Loading";
 import { BaseComponent, IBaseComponentState } from "./BaseComponent"; 
 import { WorkItemGrid, BaseWorkItemGridProps } from "./WorkItemGrid";
@@ -34,8 +34,8 @@ export class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQuery
     }
 
     public componentWillReceiveProps(nextProps: Readonly<IQueryResultGridProps>): void {
-        if (!Utils_String.equals(this.props.wiql, nextProps.wiql, true) || 
-            !Utils_String.equals(this.props.project, nextProps.project, true) || 
+        if (!StringUtils.equals(this.props.wiql, nextProps.wiql, true) || 
+            !StringUtils.equals(this.props.project, nextProps.project, true) || 
             this.props.top !== nextProps.top) {
 
             this._runQuery(nextProps);
@@ -43,7 +43,7 @@ export class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQuery
     }
 
     public componentWillUnmount() {
-        super.componentWillMount();
+        super.componentWillUnmount();
         UIActionsHub.RefreshQueryInGrid.removeListener(this._refreshQuery);
     }
 

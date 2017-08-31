@@ -6,9 +6,9 @@ import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
 import { autobind } from "OfficeFabric/Utilities";
 import { SelectionMode } from "OfficeFabric/utilities/selection/interfaces";
 
-import Utils_String = require("VSS/Utils/String");
 import { WorkItem, WorkItemField } from "TFS/WorkItemTracking/Contracts";
 
+import { StringUtils } from "../Utils/String";
 import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "./BaseComponent"; 
 import { Loading } from "./Loading"; 
 import { Grid, SortOrder, GridColumn, IContextMenuProps } from "./Grid";
@@ -134,7 +134,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
     }
 
     private _itemFilter(workItem: WorkItem, filterText: string, field: WorkItemField): boolean {
-        return Utils_String.caseInsensitiveContains(workItem.fields[field.referenceName] == null ? "" : `${workItem.fields[field.referenceName]}`, filterText);
+        return StringUtils.caseInsensitiveContains(workItem.fields[field.referenceName] == null ? "" : `${workItem.fields[field.referenceName]}`, filterText);
     }
 
     private _mapFieldsToColumn(): GridColumn[] {

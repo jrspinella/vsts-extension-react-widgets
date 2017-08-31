@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Persona, PersonaSize } from "OfficeFabric/Persona";
 
-import Utils_String = require("VSS/Utils/String");
+import { StringUtils } from "../Utils/String";
 
 export interface IIdentityViewProps {
     identityDistinctName: string;
@@ -46,7 +46,7 @@ export function parseUniquefiedIdentityName(name: string): {displayName: string,
         rightPart = name.substr(i + 1, j - i - 1).trim();
         let vsIdFromAlias: string = getVsIdFromGroupUniqueName(rightPart); // if it has vsid in unique name (for TFS groups)
 
-        if (rightPart.indexOf("@") !== -1 || rightPart.indexOf("\\") !== -1 || vsIdFromAlias || Utils_String.isGuid(rightPart)) {
+        if (rightPart.indexOf("@") !== -1 || rightPart.indexOf("\\") !== -1 || vsIdFromAlias || StringUtils.isGuid(rightPart)) {
             // if its a valid alias
             alias = rightPart;
 
@@ -91,9 +91,9 @@ function getVsIdFromGroupUniqueName(str: string): string {
         leftPart = str.substr(0, i);
     }
 
-    if (Utils_String.startsWith(leftPart, "id:")) {
+    if (StringUtils.startsWith(leftPart, "id:")) {
         let rightPart = leftPart.substr(3).trim();
-        vsid = Utils_String.isGuid(rightPart) ? rightPart : "";
+        vsid = StringUtils.isGuid(rightPart) ? rightPart : "";
     }
 
     return vsid;

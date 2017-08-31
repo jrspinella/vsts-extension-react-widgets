@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {QueryResultGrid} from "../src/Components/Grids/WorkItemGrid";
+import {QueryResultGrid} from "../src/Components/QueryResultGrid";
 
 interface IQueryResultGridDemoState {
 
@@ -19,7 +19,7 @@ export class QueryResultGridDemo extends React.Component<{}, IQueryResultGridDem
                     project={VSS.getWebContext().project.id}
                     filterText="Active"              
                     compact={true}      
-                    wiql="select [System.Id], [System.State], [System.WorkItemType], [System.AreaPath], [Microsoft.VSTS.Common.Priority], [c1.boolean], [c1.integer], [System.CreatedBy], [System.AssignedTo], [System.State],[System.Title],  [System.Tags] from Workitems where [System.TeamProject] = @project and [System.WorkItemType] <> '' and [System.State] <> ''"                     
+                    wiql="select [System.Id], [System.CreatedDate], [System.State], [System.WorkItemType], [System.AreaPath], [Microsoft.VSTS.Common.Priority], [c1.boolean], [c1.integer], [System.CreatedBy], [System.AssignedTo], [System.State],[System.Title],  [System.Tags] from Workitems where [System.TeamProject] = @project and [System.WorkItemType] <> '' and [System.State] <> ''"                     
                 />
     }
 }

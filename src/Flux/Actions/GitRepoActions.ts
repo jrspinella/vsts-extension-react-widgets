@@ -1,7 +1,7 @@
 import * as GitClient from "TFS/VersionControl/GitRestClient";
 import { GitRepository } from "TFS/VersionControl/Contracts";
-import * as Utils_String from "VSS/Utils/String";
 
+import { StringUtils } from "../../Utils/String";
 import { StoreFactory } from "../Stores/BaseStore";
 import { GitRepoStore } from "../Stores/GitRepoStore";
 import { GitRepoActionsHub} from "./ActionsHub";
@@ -17,7 +17,7 @@ export module GitRepoActions {
             gitRepoStore.setLoading(true);
             try {
                 const gitRepos =  await GitClient.getClient().getRepositories(VSS.getWebContext().project.id);
-                gitRepos.sort((a: GitRepository, b: GitRepository) => Utils_String.localeIgnoreCaseComparer(a.name, b.name));
+                gitRepos.sort((a: GitRepository, b: GitRepository) => StringUtils.localeIgnoreCaseComparer(a.name, b.name));
                 GitRepoActionsHub.InitializeGitRepos.invoke(gitRepos);
                 gitRepoStore.setLoading(false);
             }

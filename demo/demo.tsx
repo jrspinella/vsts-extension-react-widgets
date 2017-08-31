@@ -4,7 +4,7 @@ import * as ReactDOM from "react-dom";
 import {Fabric} from "OfficeFabric/Fabric";
 import {CommonComponentsDemo} from "./CommonComponentsDemo";
 import {QueryResultGridDemo} from "./QueryResultGridDemo";
-import {Hub} from "../src/Components/Common/Hub/Hub";
+import {Hub} from "../src/Components/Hub";
 
 export class Demo extends React.Component<{}, {}> {
 

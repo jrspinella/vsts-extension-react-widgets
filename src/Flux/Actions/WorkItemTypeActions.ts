@@ -1,7 +1,7 @@
 import * as WitClient from "TFS/WorkItemTracking/RestClient";
 import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
-import * as Utils_String from "VSS/Utils/String";
 
+import { StringUtils } from "../../Utils/String";
 import { StoreFactory } from "../Stores/BaseStore";
 import { WorkItemTypeStore } from "../Stores/WorkItemTypeStore";
 import { WorkItemTypeActionsHub } from "./ActionsHub";
@@ -17,7 +17,7 @@ export module WorkItemTypeActions {
             workItemTypeStore.setLoading(true);
             try {
                 const workItemTypes = await WitClient.getClient().getWorkItemTypes(VSS.getWebContext().project.id);
-                workItemTypes.sort((a: WorkItemType, b: WorkItemType) => Utils_String.localeIgnoreCaseComparer(a.name, b.name));
+                workItemTypes.sort((a: WorkItemType, b: WorkItemType) => StringUtils.localeIgnoreCaseComparer(a.name, b.name));
 
                 WorkItemTypeActionsHub.InitializeWorkItemTypes.invoke(workItemTypes);
                 workItemTypeStore.setLoading(false);

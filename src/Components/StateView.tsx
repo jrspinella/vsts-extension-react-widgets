@@ -5,9 +5,9 @@ import * as React from "react";
 import { Label } from "OfficeFabric/Label";
 
 import { WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
-import Utils_String = require("VSS/Utils/String");
 
-import * as Utils_Array from "../Utils/Array";
+import { StringUtils } from "../Utils/String";
+import { ArrayUtils } from "../Utils/Array";
 import { BaseComponent, IBaseComponentState, IBaseComponentProps } from "./BaseComponent"; 
 import { BaseStore, StoreFactory } from "../Flux/Stores/BaseStore";
 import { WorkItemStateItemStore } from "../Flux/Stores/WorkItemStateItemStore";
@@ -46,7 +46,7 @@ export class StateView extends BaseComponent<IStateViewProps, IStateViewState> {
         const workItemTypeStates = this._workItemStateItemStore.getItem(this.props.workItemType);
 
         return {
-            workItemTypeState: workItemTypeStates ? Utils_Array.first(workItemTypeStates, s => Utils_String.equals(s.name, this.props.state, true)) : null
+            workItemTypeState: workItemTypeStates ? ArrayUtils.first(workItemTypeStates, s => StringUtils.equals(s.name, this.props.state, true)) : null
         }
     }
 

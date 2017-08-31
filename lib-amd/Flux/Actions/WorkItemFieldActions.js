@@ -33,7 +33,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "TFS/WorkItemTracking/RestClient", "VSS/Utils/String", "../Stores/BaseStore", "../Stores/WorkItemFieldStore", "./ActionsHub"], function (require, exports, WitClient, Utils_String, BaseStore_1, WorkItemFieldStore_1, ActionsHub_1) {
+define(["require", "exports", "TFS/WorkItemTracking/RestClient", "../../Utils/String", "../Stores/BaseStore", "../Stores/WorkItemFieldStore", "./ActionsHub"], function (require, exports, WitClient, String_1, BaseStore_1, WorkItemFieldStore_1, ActionsHub_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var WorkItemFieldActions;
@@ -57,7 +57,7 @@ define(["require", "exports", "TFS/WorkItemTracking/RestClient", "VSS/Utils/Stri
                             return [4, WitClient.getClient().getFields(VSS.getWebContext().project.id)];
                         case 3:
                             workItemFields = _a.sent();
-                            workItemFields.sort(function (a, b) { return Utils_String.localeIgnoreCaseComparer(a.name, b.name); });
+                            workItemFields.sort(function (a, b) { return String_1.StringUtils.localeIgnoreCaseComparer(a.name, b.name); });
                             ActionsHub_1.WorkItemFieldActionsHub.InitializeWorkItemFields.invoke(workItemFields);
                             workItemFieldStore.setLoading(false);
                             return [3, 5];

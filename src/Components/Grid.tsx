@@ -8,8 +8,7 @@ import { autobind } from "OfficeFabric/Utilities";
 import { ContextualMenu, IContextualMenuItem } from "OfficeFabric/ContextualMenu";
 import { MessageBar, MessageBarType } from "OfficeFabric/MessageBar";
 
-import Utils_String = require("VSS/Utils/String");
-
+import { StringUtils } from "../Utils/String";
 import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "./BaseComponent"; 
 
 export interface IGridProps extends IBaseComponentProps {
@@ -155,7 +154,7 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
                 maxWidth: column.maxWidth,
                 isResizable: column.resizable,
                 onRender: (item?: any, index?: number) => column.onRenderCell(item, index),
-                isSorted: column.sortFunction && this.state.sortColumn && Utils_String.equals(this.state.sortColumn.key, column.key, true),
+                isSorted: column.sortFunction && this.state.sortColumn && StringUtils.equals(this.state.sortColumn.key, column.key, true),
                 isSortedDescending: column.sortFunction && this.state.sortOrder === SortOrder.DESC,
                 onColumnClick: () => this._onColumnHeaderClick(column)
             }

@@ -2,12 +2,12 @@ import * as React from "react";
 
 import { WorkItem, WorkItemField, FieldType } from "TFS/WorkItemTracking/Contracts";
 import { WorkItemFormNavigationService } from "TFS/WorkItemTracking/Services";
-import Utils_String = require("VSS/Utils/String");
-import Utils_Date = require("VSS/Utils/Date");
 
 import { TooltipHost, TooltipDelay, DirectionalHint, TooltipOverflowMode } from "OfficeFabric/Tooltip";
 import { Label } from "OfficeFabric/Label";
 
+import { StringUtils } from "./String";
+import { DateUtils } from "./Date";
 import { SortOrder } from "../Components/Grid";
 import { IdentityView } from "../Components/IdentityView";
 import { TagsView } from "../Components/TagsView";
@@ -23,18 +23,18 @@ export function workItemFieldValueComparer(w1: WorkItem, w2: WorkItem, field: Wo
     const v2 = w2.fields[field.referenceName];
     let compareValue: number;
 
-    if (Utils_String.equals(field.referenceName, "System.Id", true)) {
+    if (StringUtils.equals(field.referenceName, "System.Id", true)) {
         compareValue = (w1.id > w2.id) ? 1 : -1;
     }
     else if (field.type === FieldType.DateTime) {
         const date1 = new Date(v1 || null);
         const date2 = new Date(v2 || null);
-        compareValue = Utils_Date.defaultComparer(date1, date2);
+        compareValue = DateUtils.defaultComparer(date1, date2);
     }
     else if (field.type === FieldType.Boolean) {
         const b1 = v1 == null ? "" : (!v1 ? "False" : "True");
         const b2 = v2 == null ? "" : (!v2 ? "False" : "True");
-        compareValue = Utils_String.ignoreCaseComparer(b1, b2);
+        compareValue = StringUtils.ignoreCaseComparer(b1, b2);
     }
     else if (field.type === FieldType.Integer || field.type === FieldType.Double) {
         if (v1 == null && v2 == null) {
@@ -51,7 +51,7 @@ export function workItemFieldValueComparer(w1: WorkItem, w2: WorkItem, field: Wo
         }
     }
     else {
-        compareValue = Utils_String.ignoreCaseComparer(v1, v2);
+        compareValue = StringUtils.ignoreCaseComparer(v1, v2);
     }
 
     return sortOrder === SortOrder.DESC ? -1 * compareValue : compareValue;
@@ -70,7 +70,7 @@ export function workItemFieldCellRenderer(item: WorkItem, field: WorkItemField, 
         }
         else {
             const date = new Date(dateStr);
-            text = Utils_Date.format(date, "M/d/yyyy h:mm tt");
+            text = DateUtils.format(date, "mm/dd/yyyy h:MM TT");
         }
         innerElement = <Label className={className}>{text}</Label>;
     }
@@ -118,19 +118,19 @@ export function workItemFieldCellRenderer(item: WorkItem, field: WorkItemField, 
 }
 
 export function getColumnSize(field: WorkItemField): {minWidth: number, maxWidth: number} {
-    if (Utils_String.equals(field.referenceName, "System.Id", true)) {
+    if (StringUtils.equals(field.referenceName, "System.Id", true)) {
         return { minWidth: 40, maxWidth: 70}
     }
-    else if (Utils_String.equals(field.referenceName, "System.WorkItemType", true)) {
+    else if (StringUtils.equals(field.referenceName, "System.WorkItemType", true)) {
         return { minWidth: 50, maxWidth: 100}
     }
-    else if (Utils_String.equals(field.referenceName, "System.Title", true)) {
+    else if (StringUtils.equals(field.referenceName, "System.Title", true)) {
         return { minWidth: 150, maxWidth: 300}
     }
-    else if (Utils_String.equals(field.referenceName, "System.State", true)) {
+    else if (StringUtils.equals(field.referenceName, "System.State", true)) {
         return { minWidth: 50, maxWidth: 100}
     }
-    else if (Utils_String.equals(field.referenceName, "System.Tags", true)) {
+    else if (StringUtils.equals(field.referenceName, "System.Tags", true)) {
         return { minWidth: 100, maxWidth: 250}
     }
     else if (field.type === FieldType.TreePath) {

@@ -33,7 +33,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "TFS/Core/RestClient", "VSS/Utils/String", "../Stores/BaseStore", "../Stores/TeamStore", "./ActionsHub"], function (require, exports, CoreClient, Utils_String, BaseStore_1, TeamStore_1, ActionsHub_1) {
+define(["require", "exports", "TFS/Core/RestClient", "../../Utils/String", "../Stores/BaseStore", "../Stores/TeamStore", "./ActionsHub"], function (require, exports, CoreClient, String_1, BaseStore_1, TeamStore_1, ActionsHub_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var TeamActions;
@@ -57,7 +57,7 @@ define(["require", "exports", "TFS/Core/RestClient", "VSS/Utils/String", "../Sto
                             return [4, CoreClient.getClient().getTeams(VSS.getWebContext().project.id, 300)];
                         case 3:
                             teams = _a.sent();
-                            teams.sort(function (a, b) { return Utils_String.localeIgnoreCaseComparer(a.name, b.name); });
+                            teams.sort(function (a, b) { return String_1.StringUtils.localeIgnoreCaseComparer(a.name, b.name); });
                             ActionsHub_1.TeamActionsHub.InitializeTeams.invoke(teams);
                             teamStore.setLoading(false);
                             return [3, 5];

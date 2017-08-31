@@ -1,7 +1,7 @@
 import * as CoreClient from "TFS/Core/RestClient";
 import { WebApiTeam } from "TFS/Core/Contracts";
-import * as Utils_String from "VSS/Utils/String";
 
+import { StringUtils } from "../../Utils/String";
 import { StoreFactory } from "../Stores/BaseStore";
 import { TeamStore } from "../Stores/TeamStore";
 import { TeamActionsHub } from "./ActionsHub";
@@ -17,7 +17,7 @@ export module TeamActions {
             teamStore.setLoading(true);
             try {
                 const teams =  await CoreClient.getClient().getTeams(VSS.getWebContext().project.id, 300);
-                teams.sort((a: WebApiTeam, b: WebApiTeam) => Utils_String.localeIgnoreCaseComparer(a.name, b.name));
+                teams.sort((a: WebApiTeam, b: WebApiTeam) => StringUtils.localeIgnoreCaseComparer(a.name, b.name));
                 TeamActionsHub.InitializeTeams.invoke(teams);
                 teamStore.setLoading(false);
             }

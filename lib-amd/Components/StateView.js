@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "react", "OfficeFabric/Label", "VSS/Utils/String", "../Utils/Array", "./BaseComponent", "../Flux/Stores/BaseStore", "../Flux/Stores/WorkItemStateItemStore", "../Flux/Actions/WorkItemStateItemActions", "./StateView.scss"], function (require, exports, React, Label_1, Utils_String, Utils_Array, BaseComponent_1, BaseStore_1, WorkItemStateItemStore_1, WorkItemStateItemActions_1) {
+define(["require", "exports", "react", "OfficeFabric/Label", "../Utils/String", "../Utils/Array", "./BaseComponent", "../Flux/Stores/BaseStore", "../Flux/Stores/WorkItemStateItemStore", "../Flux/Actions/WorkItemStateItemActions", "./StateView.scss"], function (require, exports, React, Label_1, String_1, Array_1, BaseComponent_1, BaseStore_1, WorkItemStateItemStore_1, WorkItemStateItemActions_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var StateView = (function (_super) {
@@ -35,7 +35,7 @@ define(["require", "exports", "react", "OfficeFabric/Label", "VSS/Utils/String",
             var _this = this;
             var workItemTypeStates = this._workItemStateItemStore.getItem(this.props.workItemType);
             return {
-                workItemTypeState: workItemTypeStates ? Utils_Array.first(workItemTypeStates, function (s) { return Utils_String.equals(s.name, _this.props.state, true); }) : null
+                workItemTypeState: workItemTypeStates ? Array_1.ArrayUtils.first(workItemTypeStates, function (s) { return String_1.StringUtils.equals(s.name, _this.props.state, true); }) : null
             };
         };
         StateView.prototype.render = function () {

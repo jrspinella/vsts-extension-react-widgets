@@ -49,7 +49,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "react", "TFS/WorkItemTracking/RestClient", "VSS/Utils/String", "OfficeFabric/Utilities", "./Loading", "./BaseComponent", "./WorkItemGrid", ".././Flux/Actions/ActionsHub"], function (require, exports, React, WitClient, Utils_String, Utilities_1, Loading_1, BaseComponent_1, WorkItemGrid_1, ActionsHub_1) {
+define(["require", "exports", "react", "TFS/WorkItemTracking/RestClient", "OfficeFabric/Utilities", "../Utils/String", "./Loading", "./BaseComponent", "./WorkItemGrid", ".././Flux/Actions/ActionsHub"], function (require, exports, React, WitClient, Utilities_1, String_1, Loading_1, BaseComponent_1, WorkItemGrid_1, ActionsHub_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var QueryResultGrid = (function (_super) {
@@ -66,14 +66,14 @@ define(["require", "exports", "react", "TFS/WorkItemTracking/RestClient", "VSS/U
             return "query-results-grid";
         };
         QueryResultGrid.prototype.componentWillReceiveProps = function (nextProps) {
-            if (!Utils_String.equals(this.props.wiql, nextProps.wiql, true) ||
-                !Utils_String.equals(this.props.project, nextProps.project, true) ||
+            if (!String_1.StringUtils.equals(this.props.wiql, nextProps.wiql, true) ||
+                !String_1.StringUtils.equals(this.props.project, nextProps.project, true) ||
                 this.props.top !== nextProps.top) {
                 this._runQuery(nextProps);
             }
         };
         QueryResultGrid.prototype.componentWillUnmount = function () {
-            _super.prototype.componentWillMount.call(this);
+            _super.prototype.componentWillUnmount.call(this);
             ActionsHub_1.UIActionsHub.RefreshQueryInGrid.removeListener(this._refreshQuery);
         };
         QueryResultGrid.prototype.render = function () {

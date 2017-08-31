@@ -1,5 +1,4 @@
-import * as Utils_Core from "VSS/Utils/Core";
-
+import { CoreUtils } from "../Utils/Core";
 import {BaseComponent} from "./BaseComponent"; 
 
 export abstract class AutoResizableComponent<TP, TS> extends BaseComponent<TP, TS> {
@@ -10,7 +9,7 @@ export abstract class AutoResizableComponent<TP, TS> extends BaseComponent<TP, T
         super(props, context);
 
         this._bodyElement = document.getElementsByTagName("body").item(0) as HTMLBodyElement; 
-        this._windowResizeThrottleDelegate = Utils_Core.throttledDelegate(this, 50, this.resize);
+        this._windowResizeThrottleDelegate = CoreUtils.throttledDelegate(this, 50, this.resize);
 
         $(window).resize(this._windowResizeThrottleDelegate);
     }

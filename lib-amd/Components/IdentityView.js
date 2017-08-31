@@ -1,4 +1,4 @@
-define(["require", "exports", "react", "OfficeFabric/Persona", "VSS/Utils/String"], function (require, exports, React, Persona_1, Utils_String) {
+define(["require", "exports", "react", "OfficeFabric/Persona", "../Utils/String"], function (require, exports, React, Persona_1, String_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.IdentityView = function (props) {
@@ -26,7 +26,7 @@ define(["require", "exports", "react", "OfficeFabric/Persona", "VSS/Utils/String
             displayName = name.substr(0, i).trim();
             rightPart = name.substr(i + 1, j - i - 1).trim();
             var vsIdFromAlias = getVsIdFromGroupUniqueName(rightPart);
-            if (rightPart.indexOf("@") !== -1 || rightPart.indexOf("\\") !== -1 || vsIdFromAlias || Utils_String.isGuid(rightPart)) {
+            if (rightPart.indexOf("@") !== -1 || rightPart.indexOf("\\") !== -1 || vsIdFromAlias || String_1.StringUtils.isGuid(rightPart)) {
                 alias = rightPart;
                 if (vsIdFromAlias != "") {
                     id = vsIdFromAlias;
@@ -64,9 +64,9 @@ define(["require", "exports", "react", "OfficeFabric/Persona", "VSS/Utils/String
         else {
             leftPart = str.substr(0, i);
         }
-        if (Utils_String.startsWith(leftPart, "id:")) {
+        if (String_1.StringUtils.startsWith(leftPart, "id:")) {
             var rightPart = leftPart.substr(3).trim();
-            vsid = Utils_String.isGuid(rightPart) ? rightPart : "";
+            vsid = String_1.StringUtils.isGuid(rightPart) ? rightPart : "";
         }
         return vsid;
     }

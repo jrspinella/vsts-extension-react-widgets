@@ -33,25 +33,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "react", "TFS/WorkItemTracking/Contracts", "TFS/WorkItemTracking/Services", "VSS/Utils/String", "VSS/Utils/Date", "OfficeFabric/Tooltip", "OfficeFabric/Label", "../Components/Grid", "../Components/IdentityView", "../Components/TagsView", "../Components/TitleView", "../Components/StateView"], function (require, exports, React, Contracts_1, Services_1, Utils_String, Utils_Date, Tooltip_1, Label_1, Grid_1, IdentityView_1, TagsView_1, TitleView_1, StateView_1) {
+define(["require", "exports", "react", "TFS/WorkItemTracking/Contracts", "TFS/WorkItemTracking/Services", "OfficeFabric/Tooltip", "OfficeFabric/Label", "./String", "./Date", "../Components/Grid", "../Components/IdentityView", "../Components/TagsView", "../Components/TitleView", "../Components/StateView"], function (require, exports, React, Contracts_1, Services_1, Tooltip_1, Label_1, String_1, Date_1, Grid_1, IdentityView_1, TagsView_1, TitleView_1, StateView_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function workItemFieldValueComparer(w1, w2, field, sortOrder) {
         var v1 = w1.fields[field.referenceName];
         var v2 = w2.fields[field.referenceName];
         var compareValue;
-        if (Utils_String.equals(field.referenceName, "System.Id", true)) {
+        if (String_1.StringUtils.equals(field.referenceName, "System.Id", true)) {
             compareValue = (w1.id > w2.id) ? 1 : -1;
         }
         else if (field.type === Contracts_1.FieldType.DateTime) {
             var date1 = new Date(v1 || null);
             var date2 = new Date(v2 || null);
-            compareValue = Utils_Date.defaultComparer(date1, date2);
+            compareValue = Date_1.DateUtils.defaultComparer(date1, date2);
         }
         else if (field.type === Contracts_1.FieldType.Boolean) {
             var b1 = v1 == null ? "" : (!v1 ? "False" : "True");
             var b2 = v2 == null ? "" : (!v2 ? "False" : "True");
-            compareValue = Utils_String.ignoreCaseComparer(b1, b2);
+            compareValue = String_1.StringUtils.ignoreCaseComparer(b1, b2);
         }
         else if (field.type === Contracts_1.FieldType.Integer || field.type === Contracts_1.FieldType.Double) {
             if (v1 == null && v2 == null) {
@@ -68,7 +68,7 @@ define(["require", "exports", "react", "TFS/WorkItemTracking/Contracts", "TFS/Wo
             }
         }
         else {
-            compareValue = Utils_String.ignoreCaseComparer(v1, v2);
+            compareValue = String_1.StringUtils.ignoreCaseComparer(v1, v2);
         }
         return sortOrder === Grid_1.SortOrder.DESC ? -1 * compareValue : compareValue;
     }
@@ -85,7 +85,7 @@ define(["require", "exports", "react", "TFS/WorkItemTracking/Contracts", "TFS/Wo
             }
             else {
                 var date = new Date(dateStr);
-                text = Utils_Date.format(date, "M/d/yyyy h:mm tt");
+                text = Date_1.DateUtils.format(date, "mm/dd/yyyy h:MM TT");
             }
             innerElement = React.createElement(Label_1.Label, { className: className }, text);
         }
@@ -124,19 +124,19 @@ define(["require", "exports", "react", "TFS/WorkItemTracking/Contracts", "TFS/Wo
     }
     exports.workItemFieldCellRenderer = workItemFieldCellRenderer;
     function getColumnSize(field) {
-        if (Utils_String.equals(field.referenceName, "System.Id", true)) {
+        if (String_1.StringUtils.equals(field.referenceName, "System.Id", true)) {
             return { minWidth: 40, maxWidth: 70 };
         }
-        else if (Utils_String.equals(field.referenceName, "System.WorkItemType", true)) {
+        else if (String_1.StringUtils.equals(field.referenceName, "System.WorkItemType", true)) {
             return { minWidth: 50, maxWidth: 100 };
         }
-        else if (Utils_String.equals(field.referenceName, "System.Title", true)) {
+        else if (String_1.StringUtils.equals(field.referenceName, "System.Title", true)) {
             return { minWidth: 150, maxWidth: 300 };
         }
-        else if (Utils_String.equals(field.referenceName, "System.State", true)) {
+        else if (String_1.StringUtils.equals(field.referenceName, "System.State", true)) {
             return { minWidth: 50, maxWidth: 100 };
         }
-        else if (Utils_String.equals(field.referenceName, "System.Tags", true)) {
+        else if (String_1.StringUtils.equals(field.referenceName, "System.Tags", true)) {
             return { minWidth: 100, maxWidth: 250 };
         }
         else if (field.type === Contracts_1.FieldType.TreePath) {

@@ -2,11 +2,11 @@ import "./CommonComponentsDemo.scss";
 
 import * as React from "react";
 
-import {Loading} from "../src/Components/Common/Loading";
-import {FavoriteStar} from "../src/Components/Common/FavoriteStar";
-import {InputError} from "../src/Components/Common/InputError";
-import {InfoLabel} from "../src/Components/Common/InfoLabel";
-import {IdentityView} from "../src/Components/WorkItemControls/IdentityView";
+import {Loading} from "../src/Components/Loading";
+import {FavoriteStar} from "../src/Components/FavoriteStar";
+import {InputError} from "../src/Components/InputError";
+import {InfoLabel} from "../src/Components/InfoLabel";
+import {IdentityView} from "../src/Components/IdentityView";
 
 interface ICommonComponentsDemoState {
 
