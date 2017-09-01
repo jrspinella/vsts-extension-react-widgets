@@ -4,4 +4,6 @@ export declare module DateUtils {
     function shiftToUTC(date: Date): Date;
     function shiftToLocal(date: Date): Date;
     function format(date: Date, format: string): string;
+    function ago(date: Date): string;
+    function friendly(date: Date): string;
 }

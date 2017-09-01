@@ -37,4 +37,76 @@ export module DateUtils {
     export function format(date: Date, format: string): string {
         return dateFormat(date, format);
     }
+
+    export function ago(date: Date): string {
+        const minute = 60;
+        const hour = minute * 60;
+        const day = hour * 24;
+        const week = day * 7;
+        const month = (day * 365) / 12;
+        const year = day * 365;        
+        const now = new Date();
+        const diff = (now.getTime() - date.getTime()) / 1000;
+
+        const steps = [
+            { limit: minute, format: "just now" },
+            { limit: minute * 1.5, format: "a minute ago" },
+            { limit: hour, format: `${diff / minute} minutes ago` },
+            { limit: hour * 1.5, format: "an hour ago" },
+            { limit: day, format: `${diff / hour} hours ago` },
+            { limit: day * 1.5, format: "a day ago" },
+            { limit: week, format: `${diff / day} days ago` },
+            { limit: week * 1.5, format: "a week ago" },
+            { limit: month, format: `${diff / week} weeks ago` },
+            { limit: month * 1.5, format: "a month ago" },
+            { limit: year, format: `${diff / month} months ago` },
+            { limit: year * 1.5, format: "a year ago" },
+            { limit: Number.POSITIVE_INFINITY, format: `${diff / year} years ago` }
+        ];
+    
+    
+        for (const step of steps) {            
+            if (diff < step.limit) {
+                return step.format;
+            }
+        }
+    
+        return "";
+    }
+    
+    export function friendly(date: Date): string {        
+        const day = 60 * 60 * 24;
+        const now = new Date();
+        const diff = (now.getTime() - date.getTime()) / 1000;        
+        const firstDayOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+
+        const steps = [
+            {
+                limit: day,
+                format: (dt) => {
+                    return ago(dt);
+                }
+            },
+            {
+                limit: (<any>now - <any>firstDayOfWeek) / 1000,
+                format: (dt) => {
+                    return format(dt, 'dddd');
+                }
+            },
+            {
+                limit: Number.POSITIVE_INFINITY,
+                format: (dt) => {
+                    return format(dt, 'd');
+                }
+            }
+        ];
+
+        for (const step of steps) {            
+            if (diff < step.limit && step.limit > 0) {
+                return step.format(date);                
+            }
+        }
+
+        return "";
+    }
 }
