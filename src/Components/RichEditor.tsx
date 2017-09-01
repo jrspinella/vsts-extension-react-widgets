@@ -25,12 +25,12 @@ export class RichEditor extends React.Component<IRichEditorProps, {}> {
     }
 
     public componentWillUnmount() {
-        this._richEditorContainer.trumbowyg('destroy');
+        this._richEditorContainer.trumbowyg("destroy");
     }
 
     public componentWillReceiveProps(nextProps: IRichEditorProps) {
         if (nextProps.data !== this._richEditorContainer.trumbowyg("html")) {
-            this._richEditorContainer.trumbowyg('html', nextProps.data);
+            this._richEditorContainer.trumbowyg("html", nextProps.data);
         }
     }
 

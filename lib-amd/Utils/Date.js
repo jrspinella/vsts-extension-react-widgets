@@ -49,17 +49,17 @@ define(["require", "exports", "dateFormat"], function (require, exports, dateFor
             var steps = [
                 { limit: minute, format: "just now" },
                 { limit: minute * 1.5, format: "a minute ago" },
-                { limit: hour, format: diff / minute + " minutes ago" },
+                { limit: hour, format: Math.round(diff / minute) + " minutes ago" },
                 { limit: hour * 1.5, format: "an hour ago" },
-                { limit: day, format: diff / hour + " hours ago" },
+                { limit: day, format: Math.round(diff / hour) + " hours ago" },
                 { limit: day * 1.5, format: "a day ago" },
-                { limit: week, format: diff / day + " days ago" },
+                { limit: week, format: Math.round(diff / day) + " days ago" },
                 { limit: week * 1.5, format: "a week ago" },
-                { limit: month, format: diff / week + " weeks ago" },
+                { limit: month, format: Math.round(diff / week) + " weeks ago" },
                 { limit: month * 1.5, format: "a month ago" },
-                { limit: year, format: diff / month + " months ago" },
+                { limit: year, format: Math.round(diff / month) + " months ago" },
                 { limit: year * 1.5, format: "a year ago" },
-                { limit: Number.POSITIVE_INFINITY, format: diff / year + " years ago" }
+                { limit: Number.POSITIVE_INFINITY, format: Math.round(diff / year) + " years ago" }
             ];
             for (var _i = 0, steps_1 = steps; _i < steps_1.length; _i++) {
                 var step = steps_1[_i];
@@ -85,13 +85,13 @@ define(["require", "exports", "dateFormat"], function (require, exports, dateFor
                 {
                     limit: (now - firstDayOfWeek) / 1000,
                     format: function (dt) {
-                        return format(dt, 'dddd');
+                        return format(dt, "dddd");
                     }
                 },
                 {
                     limit: Number.POSITIVE_INFINITY,
                     format: function (dt) {
-                        return format(dt, 'd');
+                        return format(dt, "m/d/yyyy");
                     }
                 }
             ];

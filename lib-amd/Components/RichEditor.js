@@ -26,11 +26,11 @@ define(["require", "exports", "react", "trumbowyg/dist/trumbowyg", "trumbowyg/di
             this._richEditorContainer.trumbowyg("html", this.props.data);
         };
         RichEditor.prototype.componentWillUnmount = function () {
-            this._richEditorContainer.trumbowyg('destroy');
+            this._richEditorContainer.trumbowyg("destroy");
         };
         RichEditor.prototype.componentWillReceiveProps = function (nextProps) {
             if (nextProps.data !== this._richEditorContainer.trumbowyg("html")) {
-                this._richEditorContainer.trumbowyg('html', nextProps.data);
+                this._richEditorContainer.trumbowyg("html", nextProps.data);
             }
         };
         RichEditor.prototype.render = function () {
