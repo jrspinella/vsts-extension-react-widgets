@@ -14,7 +14,7 @@ export module WorkItemFieldActionsHub {
 }
 
 export module WorkItemTemplateActionsHub {
-    export var InitializeWorkItemTemplates = new Action<WorkItemTemplateReference[]>();
+    export var InitializeWorkItemTemplates = new Action<{teamId: string, templates: WorkItemTemplateReference[]}>();
 }
 
 export module WorkItemTemplateItemActionsHub {

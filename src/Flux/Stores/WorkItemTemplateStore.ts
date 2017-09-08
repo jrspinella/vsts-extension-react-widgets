@@ -3,27 +3,32 @@ import { WorkItemTemplateReference } from "TFS/WorkItemTracking/Contracts";
 import { BaseStore } from "./BaseStore";
 import { WorkItemTemplateActionsHub } from "../Actions/ActionsHub";
 
-export class WorkItemTemplateStore extends BaseStore<WorkItemTemplateReference[], WorkItemTemplateReference, string> {
+export class WorkItemTemplateStore extends BaseStore<IDictionaryStringTo<WorkItemTemplateReference[]>, WorkItemTemplateReference[], string> {
     private _itemsIdMap: IDictionaryStringTo<WorkItemTemplateReference>;
 
     constructor() {
         super();
+        this.items = {};
         this._itemsIdMap = {};
     }
 
-    public getItem(id: string): WorkItemTemplateReference {
+    public getItem(teamId: string): WorkItemTemplateReference[] {
+        const key = (teamId || "").toLowerCase();
+        return this.items[key];
+    }
+
+    public getTemplate(id: string): WorkItemTemplateReference {
         const key = (id || "").toLowerCase();
         return this._itemsIdMap[key];
     }
 
     protected initializeActionListeners() {
-        WorkItemTemplateActionsHub.InitializeWorkItemTemplates.addListener((templates: WorkItemTemplateReference[]) => {
-            if (templates) {
-                this.items = templates;
-                this._itemsIdMap = {};
+        WorkItemTemplateActionsHub.InitializeWorkItemTemplates.addListener((data: {teamId: string, templates: WorkItemTemplateReference[]}) => {
+            if (data.teamId && data.templates) {
+                this.items[data.teamId.toLowerCase()] = data.templates;
 
-                for (const item of this.items) {
-                    this._itemsIdMap[item.id.toLowerCase()] = item;
+                for (const template of data.templates) {
+                    this._itemsIdMap[template.id.toLowerCase()] = template;
                 }
             }
 

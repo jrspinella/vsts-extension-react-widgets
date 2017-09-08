@@ -9,21 +9,21 @@ import { WorkItemTemplateActionsHub } from "./ActionsHub";
 export module WorkItemTemplateActions {
     var workItemTemplateStore: WorkItemTemplateStore = StoreFactory.getInstance<WorkItemTemplateStore>(WorkItemTemplateStore);
 
-    export async function initializeWorkItemTemplates() {
-        if (workItemTemplateStore.isLoaded()) {
+    export async function initializeWorkItemTemplates(teamId: string) {
+        if (workItemTemplateStore.isLoaded(teamId)) {
             WorkItemTemplateActionsHub.InitializeWorkItemTemplates.invoke(null);
         }
-        else if (!workItemTemplateStore.isLoading()) {
-            workItemTemplateStore.setLoading(true);
+        else if (!workItemTemplateStore.isLoading(teamId)) {
+            workItemTemplateStore.setLoading(true, teamId);
             try {
-                const workItemTemplates = await WitClient.getClient().getTemplates(VSS.getWebContext().project.id, VSS.getWebContext().team.id);
+                const workItemTemplates = await WitClient.getClient().getTemplates(VSS.getWebContext().project.id, teamId);
                 workItemTemplates.sort((a: WorkItemTemplateReference, b: WorkItemTemplateReference) => StringUtils.localeIgnoreCaseComparer(a.name, b.name));
 
-                WorkItemTemplateActionsHub.InitializeWorkItemTemplates.invoke(workItemTemplates);
-                workItemTemplateStore.setLoading(false);
+                WorkItemTemplateActionsHub.InitializeWorkItemTemplates.invoke({teamId: teamId, templates: workItemTemplates});
+                workItemTemplateStore.setLoading(false, teamId);
             }
             catch (e) {
-                workItemTemplateStore.setLoading(false);
+                workItemTemplateStore.setLoading(false, teamId);
                 throw e.message;
             }
         }

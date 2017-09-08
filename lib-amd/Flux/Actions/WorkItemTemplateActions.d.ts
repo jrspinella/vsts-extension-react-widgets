@@ -1,3 +1,3 @@
 export declare module WorkItemTemplateActions {
-    function initializeWorkItemTemplates(): Promise<void>;
+    function initializeWorkItemTemplates(teamId: string): Promise<void>;
 }

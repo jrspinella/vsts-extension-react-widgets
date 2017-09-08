@@ -10,7 +10,7 @@ export class WorkItemStateItemStore extends BaseStore<IDictionaryStringTo<WorkIt
     }
 
     public getItem(witName: string): WorkItemStateColor[] {
-        return this.items[witName.toLowerCase()] || null;
+        return this.items[witName.toLowerCase()];
     }
 
     protected initializeActionListeners() {

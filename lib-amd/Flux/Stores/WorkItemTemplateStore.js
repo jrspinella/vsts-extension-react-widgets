@@ -15,22 +15,26 @@ define(["require", "exports", "./BaseStore", "../Actions/ActionsHub"], function 
         __extends(WorkItemTemplateStore, _super);
         function WorkItemTemplateStore() {
             var _this = _super.call(this) || this;
+            _this.items = {};
             _this._itemsIdMap = {};
             return _this;
         }
-        WorkItemTemplateStore.prototype.getItem = function (id) {
+        WorkItemTemplateStore.prototype.getItem = function (teamId) {
+            var key = (teamId || "").toLowerCase();
+            return this.items[key];
+        };
+        WorkItemTemplateStore.prototype.getTemplate = function (id) {
             var key = (id || "").toLowerCase();
             return this._itemsIdMap[key];
         };
         WorkItemTemplateStore.prototype.initializeActionListeners = function () {
             var _this = this;
-            ActionsHub_1.WorkItemTemplateActionsHub.InitializeWorkItemTemplates.addListener(function (templates) {
-                if (templates) {
-                    _this.items = templates;
-                    _this._itemsIdMap = {};
-                    for (var _i = 0, _a = _this.items; _i < _a.length; _i++) {
-                        var item = _a[_i];
-                        _this._itemsIdMap[item.id.toLowerCase()] = item;
+            ActionsHub_1.WorkItemTemplateActionsHub.InitializeWorkItemTemplates.addListener(function (data) {
+                if (data.teamId && data.templates) {
+                    _this.items[data.teamId.toLowerCase()] = data.templates;
+                    for (var _i = 0, _a = data.templates; _i < _a.length; _i++) {
+                        var template = _a[_i];
+                        _this._itemsIdMap[template.id.toLowerCase()] = template;
                     }
                 }
                 _this.emitChanged();

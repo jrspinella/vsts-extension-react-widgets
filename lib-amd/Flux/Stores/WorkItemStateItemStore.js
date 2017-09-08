@@ -19,7 +19,7 @@ define(["require", "exports", "./BaseStore", "../Actions/ActionsHub"], function 
             return _this;
         }
         WorkItemStateItemStore.prototype.getItem = function (witName) {
-            return this.items[witName.toLowerCase()] || null;
+            return this.items[witName.toLowerCase()];
         };
         WorkItemStateItemStore.prototype.initializeActionListeners = function () {
             var _this = this;

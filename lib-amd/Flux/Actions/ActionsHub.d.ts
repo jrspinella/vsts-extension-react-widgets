@@ -10,7 +10,10 @@ export declare module WorkItemFieldActionsHub {
     var InitializeWorkItemFields: Action<WorkItemField[]>;
 }
 export declare module WorkItemTemplateActionsHub {
-    var InitializeWorkItemTemplates: Action<WorkItemTemplateReference[]>;
+    var InitializeWorkItemTemplates: Action<{
+        teamId: string;
+        templates: WorkItemTemplateReference[];
+    }>;
 }
 export declare module WorkItemTemplateItemActionsHub {
     var InitializeWorkItemTemplateItem: Action<WorkItemTemplate>;
