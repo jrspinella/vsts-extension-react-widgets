@@ -27,6 +27,7 @@
         .seperator {
             align-self: center;
             width: 1px;
+            min-width: 1px;
             height: 24px;
             background-color: #c8c8c8;
             margin: 0 10px;
@@ -57,7 +58,8 @@
         .hub-pivot-menu-bar {
             flex: 1;
             background-color: #ffffff;
-
+            white-space: normal;
+            
             .ms-CommandBar-primaryCommands {
                 margin-left: 0;
             }

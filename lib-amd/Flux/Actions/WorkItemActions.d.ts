@@ -7,4 +7,5 @@ export declare module WorkItemActions {
     function createWorkItem(workItemType: string, fieldValues: IDictionaryStringTo<string>): Promise<WorkItem>;
     function updateWorkItem(workItemId: number, fieldValues: IDictionaryStringTo<string>): Promise<WorkItem>;
     function refreshWorkItemInStore(workItems: WorkItem[]): void;
+    function clearWorkItemsCache(): void;
 }

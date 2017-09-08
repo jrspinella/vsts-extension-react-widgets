@@ -149,4 +149,8 @@ export module WorkItemActions {
     export function refreshWorkItemInStore(workItems: WorkItem[]) {
         WorkItemActionsHub.AddOrUpdateWorkItems.invoke(workItems);
     }
+
+    export function clearWorkItemsCache() {
+        WorkItemActionsHub.ClearWorkItems.invoke(null);
+    }
 }

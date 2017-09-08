@@ -43,10 +43,20 @@ export class WorkItemStore extends BaseStore<IDictionaryNumberTo<WorkItem>, Work
 
             this.emitChanged();
         });
+
+        WorkItemActionsHub.ClearWorkItems.addListener(() => {
+            this.clearStore();
+            this.emitChanged();
+        });
+
     } 
 
     public getKey(): string {
         return "WorkItemStore";
+    }
+
+    public clearStore() {
+        this.items = {};
     }
 
     protected convertItemKeyToString(key: number): string {

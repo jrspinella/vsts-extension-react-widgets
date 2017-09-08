@@ -36,6 +36,7 @@ export declare module TeamFieldActionsHub {
 export declare module WorkItemActionsHub {
     var AddOrUpdateWorkItems: Action<WorkItem[]>;
     var DeleteWorkItems: Action<number[]>;
+    var ClearWorkItems: Action<{}>;
 }
 export declare module UIActionsHub {
     var RefreshQueryInGrid: Action<void>;

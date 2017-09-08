@@ -40,6 +40,7 @@ export module TeamFieldActionsHub {
 export module WorkItemActionsHub {
     export var AddOrUpdateWorkItems = new Action<WorkItem[]>();
     export var DeleteWorkItems = new Action<number[]>();
+    export var ClearWorkItems = new Action();
 }
 
 export module UIActionsHub {

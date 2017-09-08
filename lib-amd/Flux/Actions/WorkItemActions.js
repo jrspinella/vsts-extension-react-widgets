@@ -244,5 +244,9 @@ define(["require", "exports", "./ActionsHub", "../Stores/WorkItemStore", "../Sto
             ActionsHub_1.WorkItemActionsHub.AddOrUpdateWorkItems.invoke(workItems);
         }
         WorkItemActions.refreshWorkItemInStore = refreshWorkItemInStore;
+        function clearWorkItemsCache() {
+            ActionsHub_1.WorkItemActionsHub.ClearWorkItems.invoke(null);
+        }
+        WorkItemActions.clearWorkItemsCache = clearWorkItemsCache;
     })(WorkItemActions = exports.WorkItemActions || (exports.WorkItemActions = {}));
 });

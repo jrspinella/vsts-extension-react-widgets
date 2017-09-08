@@ -37,6 +37,7 @@ define(["require", "exports", "./Action"], function (require, exports, Action_1)
     (function (WorkItemActionsHub) {
         WorkItemActionsHub.AddOrUpdateWorkItems = new Action_1.Action();
         WorkItemActionsHub.DeleteWorkItems = new Action_1.Action();
+        WorkItemActionsHub.ClearWorkItems = new Action_1.Action();
     })(WorkItemActionsHub = exports.WorkItemActionsHub || (exports.WorkItemActionsHub = {}));
     var UIActionsHub;
     (function (UIActionsHub) {

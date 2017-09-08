@@ -51,9 +51,16 @@ define(["require", "exports", "./BaseStore", "../Actions/ActionsHub"], function 
                 }
                 _this.emitChanged();
             });
+            ActionsHub_1.WorkItemActionsHub.ClearWorkItems.addListener(function () {
+                _this.clearStore();
+                _this.emitChanged();
+            });
         };
         WorkItemStore.prototype.getKey = function () {
             return "WorkItemStore";
+        };
+        WorkItemStore.prototype.clearStore = function () {
+            this.items = {};
         };
         WorkItemStore.prototype.convertItemKeyToString = function (key) {
             return "" + key;
