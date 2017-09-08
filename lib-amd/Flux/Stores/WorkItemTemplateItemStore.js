@@ -8,33 +8,25 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "../../Utils/String", "../../Utils/Array", "./BaseStore", "../Actions/ActionsHub"], function (require, exports, String_1, Array_1, BaseStore_1, ActionsHub_1) {
+define(["require", "exports", "./BaseStore", "../Actions/ActionsHub"], function (require, exports, BaseStore_1, ActionsHub_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var WorkItemTemplateItemStore = (function (_super) {
         __extends(WorkItemTemplateItemStore, _super);
         function WorkItemTemplateItemStore() {
             var _this = _super.call(this) || this;
-            _this.items = [];
-            _this._itemsIdMap = {};
+            _this.items = {};
             return _this;
         }
         WorkItemTemplateItemStore.prototype.getItem = function (id) {
             var key = (id || "").toLowerCase();
-            return this._itemsIdMap[key];
+            return this.items[key];
         };
         WorkItemTemplateItemStore.prototype.initializeActionListeners = function () {
             var _this = this;
             ActionsHub_1.WorkItemTemplateItemActionsHub.InitializeWorkItemTemplateItem.addListener(function (template) {
                 if (template) {
-                    var index = Array_1.ArrayUtils.findIndex(_this.items, function (item) { return String_1.StringUtils.equals(item.id, template.id, true); });
-                    if (index === -1) {
-                        _this.items.push(template);
-                    }
-                    else {
-                        _this.items[index] = template;
-                    }
-                    _this._itemsIdMap[template.id.toLowerCase()] = template;
+                    _this.items[template.id.toLowerCase()] = template;
                 }
                 _this.emitChanged();
             });
