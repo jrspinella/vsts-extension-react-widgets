@@ -30,7 +30,7 @@ define(["require", "exports", "./BaseStore", "../Actions/ActionsHub"], function 
         WorkItemTemplateStore.prototype.initializeActionListeners = function () {
             var _this = this;
             ActionsHub_1.WorkItemTemplateActionsHub.InitializeWorkItemTemplates.addListener(function (data) {
-                if (data.teamId && data.templates) {
+                if (data && data.teamId && data.templates) {
                     _this.items[data.teamId.toLowerCase()] = data.templates;
                     for (var _i = 0, _a = data.templates; _i < _a.length; _i++) {
                         var template = _a[_i];
