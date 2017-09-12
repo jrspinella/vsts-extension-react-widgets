@@ -2,7 +2,7 @@ import * as React from "react";
 
 import "trumbowyg/dist/trumbowyg";
 import "trumbowyg/dist/ui/trumbowyg.min.css";
-import { IBaseComponentProps } from "./BaseComponent";
+import { IBaseComponentProps, IBaseComponentState, BaseComponent } from "./BaseComponent";
 
 export interface IRichEditorProps extends IBaseComponentProps {
     containerId: string;
@@ -11,8 +11,12 @@ export interface IRichEditorProps extends IBaseComponentProps {
     editorOptions?: any;
 }
 
-export class RichEditor extends React.Component<IRichEditorProps, {}> {
+export class RichEditor extends BaseComponent<IRichEditorProps, IBaseComponentState> {
     private _richEditorContainer: any;
+
+    protected getDefaultClassName(): string {
+        return "rich-editor";
+    }
 
     public componentDidMount() {
         this._richEditorContainer = $("#" + this.props.containerId);
@@ -36,7 +40,7 @@ export class RichEditor extends React.Component<IRichEditorProps, {}> {
 
     public render() {
         return (
-            <div id={this.props.containerId} className="rich-editor">
+            <div id={this.props.containerId} className={this.getClassName()}>
                 
             </div>
         );

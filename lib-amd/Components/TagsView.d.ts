@@ -1,7 +1,8 @@
 /// <reference types="react" />
 import "./TagsView.scss";
 import * as React from "react";
-export interface ITagsViewProps extends React.HTMLProps<HTMLLabelElement> {
+import { IBaseComponentProps } from "./BaseComponent";
+export interface ITagsViewProps extends IBaseComponentProps {
     tags: string[];
 }
 export declare var TagsView: React.StatelessComponent<ITagsViewProps>;

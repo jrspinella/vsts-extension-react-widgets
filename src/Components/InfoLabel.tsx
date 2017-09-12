@@ -2,11 +2,12 @@ import "./InfoLabel.scss";
 
 import * as React from "react";
 
+import { IBaseComponentProps } from "./BaseComponent";
 import { Label } from "OfficeFabric/Label";
 import { Icon } from "OfficeFabric/Icon";
 import { TooltipHost, TooltipDelay, DirectionalHint } from "OfficeFabric/Tooltip";
 
-export interface IInfoLabelProps {
+export interface IInfoLabelProps extends IBaseComponentProps {
     label: string;
     info: string;
 }
@@ -14,7 +15,7 @@ export interface IInfoLabelProps {
 export var InfoLabel: React.StatelessComponent<IInfoLabelProps> =
     (props: IInfoLabelProps): JSX.Element => {        
         return (
-            <div className="info-label">
+            <div className={props.className ? `info-label ${props.className}` : "info-label"}>
                 <Label className="info-label-text">{props.label}</Label>
                 <TooltipHost 
                     content={ props.info }

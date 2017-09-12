@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "react", "trumbowyg/dist/trumbowyg", "trumbowyg/dist/ui/trumbowyg.min.css"], function (require, exports, React) {
+define(["require", "exports", "react", "./BaseComponent", "trumbowyg/dist/trumbowyg", "trumbowyg/dist/ui/trumbowyg.min.css"], function (require, exports, React, BaseComponent_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var RichEditor = (function (_super) {
@@ -16,6 +16,9 @@ define(["require", "exports", "react", "trumbowyg/dist/trumbowyg", "trumbowyg/di
         function RichEditor() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
+        RichEditor.prototype.getDefaultClassName = function () {
+            return "rich-editor";
+        };
         RichEditor.prototype.componentDidMount = function () {
             var _this = this;
             this._richEditorContainer = $("#" + this.props.containerId);
@@ -34,9 +37,9 @@ define(["require", "exports", "react", "trumbowyg/dist/trumbowyg", "trumbowyg/di
             }
         };
         RichEditor.prototype.render = function () {
-            return (React.createElement("div", { id: this.props.containerId, className: "rich-editor" }));
+            return (React.createElement("div", { id: this.props.containerId, className: this.getClassName() }));
         };
         return RichEditor;
-    }(React.Component));
+    }(BaseComponent_1.BaseComponent));
     exports.RichEditor = RichEditor;
 });

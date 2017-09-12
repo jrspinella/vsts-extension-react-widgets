@@ -1,24 +1,29 @@
 import "./FavoriteStar.scss";
 
 import * as React from "react";
+
 import { Icon } from "OfficeFabric/Icon";
+
+import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "./BaseComponent";
 import { TooltipHost, TooltipDelay } from "OfficeFabric/Tooltip";
 
-export interface IFavoriteStarProps {
+export interface IFavoriteStarProps extends IBaseComponentProps {
     isFavorite: boolean;
     onChange: (favorited: boolean) => void;
 }
 
-export interface IFavoriteStarState {
+export interface IFavoriteStarState extends IBaseComponentState {
     isFavorited: boolean;
 }
 
-export class FavoriteStar extends React.Component<IFavoriteStarProps, IFavoriteStarState> {
-    constructor(props: IFavoriteStarProps, context?: any) {
-        super(props, context);
+export class FavoriteStar extends BaseComponent<IFavoriteStarProps, IFavoriteStarState> {
+    protected getDefaultClassName(): string {
+        return "favorite-star";
+    }
 
+    protected initializeState(): void {
         this.state = {
-            isFavorited: props.isFavorite
+            isFavorited: this.props.isFavorite
         } as IFavoriteStarState;
     }
 
@@ -27,7 +32,7 @@ export class FavoriteStar extends React.Component<IFavoriteStarProps, IFavoriteS
     }
 
     public render(): JSX.Element {
-        let className = "favorite-star";
+        let className = this.getClassName();
         if (this.state.isFavorited) {
             className += " favorited";
         }

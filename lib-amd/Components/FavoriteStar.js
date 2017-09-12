@@ -8,24 +8,28 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "react", "OfficeFabric/Icon", "OfficeFabric/Tooltip", "./FavoriteStar.scss"], function (require, exports, React, Icon_1, Tooltip_1) {
+define(["require", "exports", "react", "OfficeFabric/Icon", "./BaseComponent", "OfficeFabric/Tooltip", "./FavoriteStar.scss"], function (require, exports, React, Icon_1, BaseComponent_1, Tooltip_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var FavoriteStar = (function (_super) {
         __extends(FavoriteStar, _super);
-        function FavoriteStar(props, context) {
-            var _this = _super.call(this, props, context) || this;
-            _this.state = {
-                isFavorited: props.isFavorite
-            };
-            return _this;
+        function FavoriteStar() {
+            return _super !== null && _super.apply(this, arguments) || this;
         }
+        FavoriteStar.prototype.getDefaultClassName = function () {
+            return "favorite-star";
+        };
+        FavoriteStar.prototype.initializeState = function () {
+            this.state = {
+                isFavorited: this.props.isFavorite
+            };
+        };
         FavoriteStar.prototype.componentWillReceiveProps = function (nextProps) {
             this.setState({ isFavorited: nextProps.isFavorite });
         };
         FavoriteStar.prototype.render = function () {
             var _this = this;
-            var className = "favorite-star";
+            var className = this.getClassName();
             if (this.state.isFavorited) {
                 className += " favorited";
             }
@@ -38,6 +42,6 @@ define(["require", "exports", "react", "OfficeFabric/Icon", "OfficeFabric/Toolti
                         } })));
         };
         return FavoriteStar;
-    }(React.Component));
+    }(BaseComponent_1.BaseComponent));
     exports.FavoriteStar = FavoriteStar;
 });

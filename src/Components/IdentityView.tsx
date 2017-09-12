@@ -2,12 +2,12 @@ import * as React from "react";
 
 import { Persona, PersonaSize } from "OfficeFabric/Persona";
 
+import { IBaseComponentProps } from "./BaseComponent";
 import { StringUtils } from "../Utils/String";
 
-export interface IIdentityViewProps {
+export interface IIdentityViewProps extends IBaseComponentProps {
     identityDistinctName: string;
     size?: PersonaSize;
-    className?: string;
 }
 
 export var IdentityView: React.StatelessComponent<IIdentityViewProps> =
@@ -18,7 +18,7 @@ export var IdentityView: React.StatelessComponent<IIdentityViewProps> =
         }
 
         return <Persona 
-                    className="identity-view"
+                    className={props.className ? `identity-view ${props.className}` : "identity-view"}
                     size={props.size || PersonaSize.extraExtraSmall}
                     imageUrl={identityRef.imageUrl}
                     primaryText={identityRef.displayName}

@@ -6,7 +6,7 @@ define(["require", "exports", "react", "OfficeFabric/Persona", "../Utils/String"
         if (!identityRef || !identityRef.displayName) {
             return null;
         }
-        return React.createElement(Persona_1.Persona, { className: "identity-view", size: props.size || Persona_1.PersonaSize.extraExtraSmall, imageUrl: identityRef.imageUrl, primaryText: identityRef.displayName, secondaryText: identityRef.uniqueName });
+        return React.createElement(Persona_1.Persona, { className: props.className ? "identity-view " + props.className : "identity-view", size: props.size || Persona_1.PersonaSize.extraExtraSmall, imageUrl: identityRef.imageUrl, primaryText: identityRef.displayName, secondaryText: identityRef.uniqueName });
     };
     function parseUniquefiedIdentityName(name) {
         if (!name) {
