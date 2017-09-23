@@ -57,6 +57,13 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "../Utils/Strin
         ColumnPosition[ColumnPosition["FarLeft"] = 0] = "FarLeft";
         ColumnPosition[ColumnPosition["FarRight"] = 1] = "FarRight";
     })(ColumnPosition = exports.ColumnPosition || (exports.ColumnPosition = {}));
+    var WIGrid = (function (_super) {
+        __extends(WIGrid, _super);
+        function WIGrid() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        return WIGrid;
+    }(Grid_1.Grid));
     var WorkItemGrid = (function (_super) {
         __extends(WorkItemGrid, _super);
         function WorkItemGrid() {
@@ -65,23 +72,33 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "../Utils/Strin
             _this._workItemFieldStore = BaseStore_1.StoreFactory.getInstance(WorkItemFieldStore_1.WorkItemFieldStore);
             return _this;
         }
+        WorkItemGrid.prototype.initializeState = function () {
+            this.state = {
+                workItems: null,
+                loading: true,
+                fieldsMap: null
+            };
+        };
         WorkItemGrid.prototype.componentDidMount = function () {
             _super.prototype.componentDidMount.call(this);
             WorkItemFieldActions_1.WorkItemFieldActions.initializeWorkItemFields();
-            if (this.props.workItemIds && this.props.workItemIds.length > 0) {
+            if (Array.isArray(this.props.workItemIds)) {
                 WorkItemActions_1.WorkItemActions.initializeWorkItems(this.props.workItemIds);
             }
         };
         WorkItemGrid.prototype.componentWillReceiveProps = function (nextProps) {
-            for (var _i = 0, _a = nextProps.workItemIds; _i < _a.length; _i++) {
-                var id = _a[_i];
-                if (!this._workItemStore.isLoaded(id)) {
-                    WorkItemActions_1.WorkItemActions.initializeWorkItems(nextProps.workItemIds);
-                    return;
+            if (Array.isArray(nextProps.workItemIds)) {
+                for (var _i = 0, _a = nextProps.workItemIds; _i < _a.length; _i++) {
+                    var id = _a[_i];
+                    if (!this._workItemStore.isLoaded(id)) {
+                        WorkItemActions_1.WorkItemActions.initializeWorkItems(nextProps.workItemIds);
+                        return;
+                    }
                 }
             }
+            var workItems = Array.isArray(nextProps.workItemIds) ? this._workItemStore.getItems(nextProps.workItemIds) : (nextProps.workItems || []);
             this.updateState({
-                workItems: this._workItemStore.getItems(nextProps.workItemIds),
+                workItems: this._filterItems(workItems, nextProps.filterText, nextProps.fieldRefNames),
                 loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading()
             });
         };
@@ -95,20 +112,14 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "../Utils/Strin
                 fieldsMap = {};
                 for (var _i = 0, allFields_1 = allFields; _i < allFields_1.length; _i++) {
                     var field = allFields_1[_i];
-                    fieldsMap[field.referenceName] = field;
+                    fieldsMap[field.referenceName.toLowerCase()] = field;
                 }
             }
+            var workItems = Array.isArray(this.props.workItemIds) ? this._workItemStore.getItems(this.props.workItemIds) : (this.props.workItems || []);
             return {
                 loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading(),
                 fieldsMap: fieldsMap,
-                workItems: this._workItemStore.getItems(this.props.workItemIds)
-            };
-        };
-        WorkItemGrid.prototype.initializeState = function () {
-            this.state = {
-                workItems: null,
-                loading: true,
-                fieldsMap: null
+                workItems: this._filterItems(workItems, this.props.filterText, this.props.fieldRefNames)
             };
         };
         WorkItemGrid.prototype.getDefaultClassName = function () {
@@ -118,15 +129,36 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "../Utils/Strin
             if (this.state.loading) {
                 return React.createElement(Loading_1.Loading, null);
             }
-            return (React.createElement(Grid_1.Grid, { setKey: this.props.setKey, filterText: this.props.filterText, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, className: this.getClassName(), items: this.state.workItems, columns: this._mapFieldsToColumn(), selectionMode: this.props.selectionMode, contextMenuProps: this._getContextMenuProps(), onItemInvoked: this._onItemInvoked, noResultsText: this.props.noResultsText, compact: this.props.compact, getKey: function (item) { return "" + item.id; } }));
+            return (React.createElement(WIGrid, { setKey: this.props.setKey, selectionPreservedOnEmptyClick: this.props.selectionPreservedOnEmptyClick || false, className: this.getClassName(), items: this.state.workItems, columns: this._mapFieldsToColumn(), selectionMode: this.props.selectionMode, getContextMenuItems: this._getContextMenuItems, onItemInvoked: this._onItemInvoked, noResultsText: this.props.noResultsText, compact: this.props.compact, getKey: function (workItem) { return "" + workItem.id; } }));
         };
-        WorkItemGrid.prototype._itemFilter = function (workItem, filterText, field) {
-            return String_1.StringUtils.caseInsensitiveContains(workItem.fields[field.referenceName] == null ? "" : "" + workItem.fields[field.referenceName], filterText);
+        WorkItemGrid.prototype._filterItems = function (workItems, filterText, fieldRefNames) {
+            var _this = this;
+            if (workItems == null) {
+                return null;
+            }
+            if (filterText == null || filterText.trim() === "") {
+                return workItems;
+            }
+            return workItems.filter(function (workItem) {
+                if ("" + workItem.id === filterText) {
+                    return true;
+                }
+                if (_this.state.fieldsMap) {
+                    for (var _i = 0, fieldRefNames_1 = fieldRefNames; _i < fieldRefNames_1.length; _i++) {
+                        var fieldRefName = fieldRefNames_1[_i];
+                        var match = String_1.StringUtils.caseInsensitiveContains(workItem.fields[fieldRefName] == null ? "" : "" + workItem.fields[fieldRefName], filterText);
+                        if (match) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            });
         };
         WorkItemGrid.prototype._mapFieldsToColumn = function () {
             var _this = this;
             var columns = this.props.fieldRefNames.map(function (fieldRefName) {
-                var field = _this.state.fieldsMap[fieldRefName];
+                var field = _this.state.fieldsMap[fieldRefName.toLowerCase()];
                 var columnSize = WorkItemHelpers.getColumnSize(field);
                 return {
                     key: field.referenceName,
@@ -134,10 +166,8 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "../Utils/Strin
                     minWidth: columnSize.minWidth,
                     maxWidth: columnSize.maxWidth,
                     resizable: true,
-                    sortFunction: function (item1, item2, sortOrder) { return _this._itemComparer(item1, item2, field, sortOrder); },
-                    filterFunction: function (item, filterText) { return "" + item.id === filterText || _this._itemFilter(item, filterText, field); },
-                    data: { field: field },
-                    onRenderCell: function (item) { return WorkItemHelpers.workItemFieldCellRenderer(item, field, field.referenceName === "System.Title" ? { onClick: function (ev) { return _this._onItemInvoked(item, 0, ev); } } : null); }
+                    comparer: function (workItem1, workItem2, sortOrder) { return WorkItemHelpers.workItemFieldValueComparer(workItem1, workItem2, field, sortOrder); },
+                    onRenderCell: function (workItem) { return WorkItemHelpers.workItemFieldCellRenderer(workItem, field, field.referenceName === "System.Title" ? { onClick: function (ev) { return _this._onItemInvoked(workItem, 0, ev); } } : null); }
                 };
             });
             var extraColumns = this.props.extraColumns || [];
@@ -151,27 +181,23 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "../Utils/Strin
             }
             return columns;
         };
-        WorkItemGrid.prototype._getContextMenuProps = function () {
+        WorkItemGrid.prototype._getContextMenuItems = function (selectedWorkItems) {
             var _this = this;
-            return {
-                menuItems: function (selectedWorkItems) {
-                    var contextMenuItems = [{
-                            key: "OpenQuery", name: "Open as query", title: "Open selected workitems as a query", iconProps: { iconName: "OpenInNewWindow" },
-                            disabled: selectedWorkItems.length == 0,
-                            onClick: function () {
-                                var url = VSS.getWebContext().host.uri + "/" + VSS.getWebContext().project.id + "/_workitems?_a=query&wiql=" + encodeURIComponent(_this._getWiql(selectedWorkItems));
-                                window.open(url, "_blank");
-                            }
-                        }];
-                    if (_this.props.contextMenuProps && _this.props.contextMenuProps.menuItems) {
-                        var extraMenuItems = _this.props.contextMenuProps.menuItems(selectedWorkItems);
-                        if (extraMenuItems && extraMenuItems.length > 0) {
-                            contextMenuItems = contextMenuItems.concat(extraMenuItems);
-                        }
+            var contextMenuItems = [{
+                    key: "OpenQuery", name: "Open as query", title: "Open selected workitems as a query", iconProps: { iconName: "OpenInNewWindow" },
+                    disabled: selectedWorkItems.length == 0,
+                    onClick: function () {
+                        var url = VSS.getWebContext().host.uri + "/" + VSS.getWebContext().project.id + "/_workitems?_a=query&wiql=" + encodeURIComponent(_this._getWiql(selectedWorkItems));
+                        window.open(url, "_blank");
                     }
-                    return contextMenuItems;
+                }];
+            if (this.props.getContextMenuItems) {
+                var extraMenuItems = this.props.getContextMenuItems(selectedWorkItems);
+                if (extraMenuItems && extraMenuItems.length > 0) {
+                    contextMenuItems = contextMenuItems.concat(extraMenuItems);
                 }
-            };
+            }
+            return contextMenuItems;
         };
         WorkItemGrid.prototype._onItemInvoked = function (workItem, _index, ev) {
             return __awaiter(this, void 0, void 0, function () {
@@ -189,14 +215,14 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "../Utils/Strin
                 });
             });
         };
-        WorkItemGrid.prototype._itemComparer = function (workItem1, workItem2, field, sortOrder) {
-            return WorkItemHelpers.workItemFieldValueComparer(workItem1, workItem2, field, sortOrder);
-        };
         WorkItemGrid.prototype._getWiql = function (workItems) {
             var fieldStr = this.props.fieldRefNames.join(",");
             var ids = (workItems || this.state.workItems).map(function (w) { return w.id; }).join(",");
             return "SELECT " + fieldStr + "\n                 FROM WorkItems \n                 WHERE [System.ID] IN (" + ids + ")";
         };
+        __decorate([
+            Utilities_1.autobind
+        ], WorkItemGrid.prototype, "_getContextMenuItems", null);
         __decorate([
             Utilities_1.autobind
         ], WorkItemGrid.prototype, "_onItemInvoked", null);

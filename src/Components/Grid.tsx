@@ -11,43 +11,36 @@ import { MessageBar, MessageBarType } from "OfficeFabric/MessageBar";
 import { StringUtils } from "../Utils/String";
 import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "./BaseComponent"; 
 
-export interface IGridProps extends IBaseComponentProps {
-    items: any[];
-    columns: GridColumn[];
+export interface IGridProps<TItem> extends IBaseComponentProps {
+    items: TItem[];
+    columns: GridColumn<TItem>[];
     noResultsText?: string;
     selectionMode?: SelectionMode;
-    contextMenuProps?: IContextMenuProps;
-    onItemInvoked?: (item: any, index: number) => void;
+    getContextMenuItems?: (selectedItems: TItem[]) => IContextualMenuItem[];
+    onItemInvoked?: (item: TItem, index: number) => void;
     setKey?: string;
-    filterText?: string;
     selectionPreservedOnEmptyClick?: boolean;
     compact?: boolean;
-    getKey?: (item: any, index?: number) => string;
+    getKey?: (item: TItem, index?: number) => string;
     selection?: ISelection;
 }
 
-export interface IGridState extends IBaseComponentState {
-    items?: any[];
+export interface IGridState<TItem> extends IBaseComponentState {
+    items?: TItem[];
     isContextMenuVisible?: boolean;
     contextMenuTarget?: MouseEvent;
-    sortColumn?: GridColumn;
+    sortColumn?: GridColumn<TItem>;
     sortOrder?: SortOrder;
 }
 
-export interface GridColumn {
+export interface GridColumn<TItem> {
     key: string;
     name: string;
     minWidth: number;
     maxWidth?: number;
     resizable?: boolean;
-    sortFunction?: (item1: any, item2: any, sortOrder: SortOrder) => number;
-    filterFunction?: (item: any, filterText: string) => boolean;
-    onRenderCell?: (item?: any, index?: number) => JSX.Element;
-    data?: any;
-}
-
-export interface IContextMenuProps {
-    menuItems?: (selectedItems: any[]) => IContextualMenuItem[];
+    comparer?: (item1: TItem, item2: TItem, sortOrder: SortOrder) => number;
+    onRenderCell?: (item?: TItem, index?: number) => JSX.Element;
 }
 
 export enum SortOrder {
@@ -55,25 +48,25 @@ export enum SortOrder {
     DESC
 }
 
-export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
+export class Grid<TItem> extends BaseComponent<IGridProps<TItem>, IGridState<TItem>> {
     private _selection: ISelection;
 
-    constructor(props: IGridProps, context?: any) {
+    constructor(props: IGridProps<TItem>, context?: any) {
         super(props, context);
         this._selection = props.selection || new Selection();
     }    
 
     protected initializeState() {
         this.state = {
-            items: this._sortAndFilterItems(this.props.items, this.props.columns, null, SortOrder.ASC, this.props.filterText),
+            items: this._sortItems(this.props.items, null, SortOrder.ASC),
             sortColumn: null,
             sortOrder: SortOrder.ASC
         };
     }
 
-    public componentWillReceiveProps(nextProps: Readonly<IGridProps>): void {
+    public componentWillReceiveProps(nextProps: Readonly<IGridProps<TItem>>): void {
         this.updateState({
-            items: this._sortAndFilterItems(nextProps.items, nextProps.columns, this.state.sortColumn, this.state.sortOrder, nextProps.filterText),
+            items: this._sortItems(nextProps.items, this.state.sortColumn, this.state.sortOrder),
             isContextMenuVisible: false,
             contextMenuTarget: null
         })
@@ -87,10 +80,10 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
         return (
             <div className={this.getClassName()}>
                 {this._renderGrid()}
-                {this.state.isContextMenuVisible && this.props.contextMenuProps && this.props.contextMenuProps.menuItems && (
+                {this.state.isContextMenuVisible && this.props.getContextMenuItems && (
                     <ContextualMenu
                         className="context-menu"
-                        items={this.props.contextMenuProps.menuItems(this._selection.getSelection())}
+                        items={this.props.getContextMenuItems(this._selection.getSelection() as TItem[])}
                         target={this.state.contextMenuTarget}
                         shouldFocusOnMount={true}
                         onDismiss={this._hideContextMenu}
@@ -130,7 +123,7 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
     }
 
     @autobind
-    private _onItemInvoked(item: any, index: number) {
+    private _onItemInvoked(item: TItem, index: number) {
         if (this.props.onItemInvoked) {
             this.props.onItemInvoked(item, index);
         }
@@ -145,26 +138,26 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
                 minWidth: column.minWidth,
                 maxWidth: column.maxWidth,
                 isResizable: column.resizable,
-                onRender: (item?: any, index?: number) => column.onRenderCell(item, index),
-                isSorted: column.sortFunction && this.state.sortColumn && StringUtils.equals(this.state.sortColumn.key, column.key, true),
-                isSortedDescending: column.sortFunction && this.state.sortOrder === SortOrder.DESC,
+                onRender: (item?: TItem, index?: number) => column.onRenderCell(item, index),
+                isSorted: column.comparer && this.state.sortColumn && StringUtils.equals(this.state.sortColumn.key, column.key, true),
+                isSortedDescending: column.comparer && this.state.sortOrder === SortOrder.DESC,
                 onColumnClick: () => this._onColumnHeaderClick(column)
             }
         });
     }
 
     @autobind
-    private _onColumnHeaderClick(column: GridColumn) {
-        if (column.sortFunction) {
+    private _onColumnHeaderClick(column: GridColumn<TItem>) {
+        if (column.comparer) {
             const sortOrder = this.state.sortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-            const sortedItems = this._sortAndFilterItems(this.state.items, this.props.columns, column, sortOrder);
+            const sortedItems = this._sortItems(this.state.items, column, sortOrder);
             this.updateState({sortColumn: column, sortOrder: sortOrder, items: sortedItems});
         }
     }
 
     @autobind
-    private _showContextMenu(_item?: any, index?: number, e?: MouseEvent) {
-        if (this.props.contextMenuProps && this.props.contextMenuProps.menuItems) {
+    private _showContextMenu(_item?: TItem, index?: number, e?: MouseEvent) {
+        if (this.props.getContextMenuItems) {
             if (!this._selection.isIndexSelected(index)) {
                 // if not already selected, unselect every other row and select this one
                 this._selection.setAllSelected(false);
@@ -179,24 +172,13 @@ export abstract class Grid extends BaseComponent<IGridProps, IGridState> {
         this.updateState({contextMenuTarget: null, isContextMenuVisible: false});
     }
 
-    private _sortAndFilterItems(items: any[], columns: GridColumn[], sortColumn: GridColumn, sortOrder: SortOrder, filterText?: string): any[] {
-        let filteredItems = (items || []).slice();
-        if (filterText != null && filterText.trim() !== "") {
-            filteredItems = filteredItems.filter((item: any) => {
-                for (let column of columns) {
-                    if (column.filterFunction && column.filterFunction(item, filterText)) {
-                        return true;
-                    }
-                }
- 
-                return false;
-            });
-        }
+    private _sortItems(items: TItem[], sortColumn: GridColumn<TItem>, sortOrder: SortOrder): TItem[] {
+        let sortedItems = (items || []).slice();
         
-        if (sortColumn && sortColumn.sortFunction) {
-            filteredItems = filteredItems.sort((item1: any, item2: any) => sortColumn.sortFunction(item1, item2, sortOrder));
+        if (sortColumn && sortColumn.comparer) {
+            sortedItems.sort((item1: TItem, item2: TItem) => sortColumn.comparer(item1, item2, sortOrder));
         }
 
-        return filteredItems;
+        return sortedItems;
     }
 }

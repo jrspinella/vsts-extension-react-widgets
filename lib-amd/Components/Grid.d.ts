@@ -3,50 +3,44 @@ import "./Grid.scss";
 import { SelectionMode, ISelection } from "OfficeFabric/utilities/selection";
 import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
 import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "./BaseComponent";
-export interface IGridProps extends IBaseComponentProps {
-    items: any[];
-    columns: GridColumn[];
+export interface IGridProps<TItem> extends IBaseComponentProps {
+    items: TItem[];
+    columns: GridColumn<TItem>[];
     noResultsText?: string;
     selectionMode?: SelectionMode;
-    contextMenuProps?: IContextMenuProps;
-    onItemInvoked?: (item: any, index: number) => void;
+    getContextMenuItems?: (selectedItems: TItem[]) => IContextualMenuItem[];
+    onItemInvoked?: (item: TItem, index: number) => void;
     setKey?: string;
-    filterText?: string;
     selectionPreservedOnEmptyClick?: boolean;
     compact?: boolean;
-    getKey?: (item: any, index?: number) => string;
+    getKey?: (item: TItem, index?: number) => string;
     selection?: ISelection;
 }
-export interface IGridState extends IBaseComponentState {
-    items?: any[];
+export interface IGridState<TItem> extends IBaseComponentState {
+    items?: TItem[];
     isContextMenuVisible?: boolean;
     contextMenuTarget?: MouseEvent;
-    sortColumn?: GridColumn;
+    sortColumn?: GridColumn<TItem>;
     sortOrder?: SortOrder;
 }
-export interface GridColumn {
+export interface GridColumn<TItem> {
     key: string;
     name: string;
     minWidth: number;
     maxWidth?: number;
     resizable?: boolean;
-    sortFunction?: (item1: any, item2: any, sortOrder: SortOrder) => number;
-    filterFunction?: (item: any, filterText: string) => boolean;
-    onRenderCell?: (item?: any, index?: number) => JSX.Element;
-    data?: any;
-}
-export interface IContextMenuProps {
-    menuItems?: (selectedItems: any[]) => IContextualMenuItem[];
+    comparer?: (item1: TItem, item2: TItem, sortOrder: SortOrder) => number;
+    onRenderCell?: (item?: TItem, index?: number) => JSX.Element;
 }
 export declare enum SortOrder {
     ASC = 0,
     DESC = 1,
 }
-export declare abstract class Grid extends BaseComponent<IGridProps, IGridState> {
+export declare class Grid<TItem> extends BaseComponent<IGridProps<TItem>, IGridState<TItem>> {
     private _selection;
-    constructor(props: IGridProps, context?: any);
+    constructor(props: IGridProps<TItem>, context?: any);
     protected initializeState(): void;
-    componentWillReceiveProps(nextProps: Readonly<IGridProps>): void;
+    componentWillReceiveProps(nextProps: Readonly<IGridProps<TItem>>): void;
     protected getDefaultClassName(): string;
     render(): JSX.Element;
     private _renderGrid();
@@ -55,5 +49,5 @@ export declare abstract class Grid extends BaseComponent<IGridProps, IGridState>
     private _onColumnHeaderClick(column);
     private _showContextMenu(_item?, index?, e?);
     private _hideContextMenu();
-    private _sortAndFilterItems(items, columns, sortColumn, sortOrder, filterText?);
+    private _sortItems(items, sortColumn, sortOrder);
 }

@@ -21,6 +21,7 @@ export interface IQueryResultGridState extends IBaseComponentState {
     fieldRefNames: string[]; 
 }
 
+
 export class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQueryResultGridState> {
     public componentDidMount() {
         super.componentDidMount();
@@ -58,7 +59,7 @@ export class QueryResultGrid extends BaseComponent<IQueryResultGridProps, IQuery
                     filterText={this.props.filterText}
                     workItemIds={this.state.workItemIds}
                     fieldRefNames={this.state.fieldRefNames}
-                    contextMenuProps={this.props.contextMenuProps}
+                    getContextMenuItems={this.props.getContextMenuItems}
                     selectionMode={this.props.selectionMode}
                     extraColumns={this.props.extraColumns}
                     setKey={this.props.setKey}

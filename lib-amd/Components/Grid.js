@@ -31,14 +31,14 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         }
         Grid.prototype.initializeState = function () {
             this.state = {
-                items: this._sortAndFilterItems(this.props.items, this.props.columns, null, SortOrder.ASC, this.props.filterText),
+                items: this._sortItems(this.props.items, null, SortOrder.ASC),
                 sortColumn: null,
                 sortOrder: SortOrder.ASC
             };
         };
         Grid.prototype.componentWillReceiveProps = function (nextProps) {
             this.updateState({
-                items: this._sortAndFilterItems(nextProps.items, nextProps.columns, this.state.sortColumn, this.state.sortOrder, nextProps.filterText),
+                items: this._sortItems(nextProps.items, this.state.sortColumn, this.state.sortOrder),
                 isContextMenuVisible: false,
                 contextMenuTarget: null
             });
@@ -49,7 +49,7 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         Grid.prototype.render = function () {
             return (React.createElement("div", { className: this.getClassName() },
                 this._renderGrid(),
-                this.state.isContextMenuVisible && this.props.contextMenuProps && this.props.contextMenuProps.menuItems && (React.createElement(ContextualMenu_1.ContextualMenu, { className: "context-menu", items: this.props.contextMenuProps.menuItems(this._selection.getSelection()), target: this.state.contextMenuTarget, shouldFocusOnMount: true, onDismiss: this._hideContextMenu }))));
+                this.state.isContextMenuVisible && this.props.getContextMenuItems && (React.createElement(ContextualMenu_1.ContextualMenu, { className: "context-menu", items: this.props.getContextMenuItems(this._selection.getSelection()), target: this.state.contextMenuTarget, shouldFocusOnMount: true, onDismiss: this._hideContextMenu }))));
         };
         Grid.prototype._renderGrid = function () {
             if (this.state.items.length === 0) {
@@ -76,21 +76,21 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
                     maxWidth: column.maxWidth,
                     isResizable: column.resizable,
                     onRender: function (item, index) { return column.onRenderCell(item, index); },
-                    isSorted: column.sortFunction && _this.state.sortColumn && String_1.StringUtils.equals(_this.state.sortColumn.key, column.key, true),
-                    isSortedDescending: column.sortFunction && _this.state.sortOrder === SortOrder.DESC,
+                    isSorted: column.comparer && _this.state.sortColumn && String_1.StringUtils.equals(_this.state.sortColumn.key, column.key, true),
+                    isSortedDescending: column.comparer && _this.state.sortOrder === SortOrder.DESC,
                     onColumnClick: function () { return _this._onColumnHeaderClick(column); }
                 };
             });
         };
         Grid.prototype._onColumnHeaderClick = function (column) {
-            if (column.sortFunction) {
+            if (column.comparer) {
                 var sortOrder = this.state.sortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-                var sortedItems = this._sortAndFilterItems(this.state.items, this.props.columns, column, sortOrder);
+                var sortedItems = this._sortItems(this.state.items, column, sortOrder);
                 this.updateState({ sortColumn: column, sortOrder: sortOrder, items: sortedItems });
             }
         };
         Grid.prototype._showContextMenu = function (_item, index, e) {
-            if (this.props.contextMenuProps && this.props.contextMenuProps.menuItems) {
+            if (this.props.getContextMenuItems) {
                 if (!this._selection.isIndexSelected(index)) {
                     this._selection.setAllSelected(false);
                     this._selection.setIndexSelected(index, true, true);
@@ -101,23 +101,12 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         Grid.prototype._hideContextMenu = function () {
             this.updateState({ contextMenuTarget: null, isContextMenuVisible: false });
         };
-        Grid.prototype._sortAndFilterItems = function (items, columns, sortColumn, sortOrder, filterText) {
-            var filteredItems = (items || []).slice();
-            if (filterText != null && filterText.trim() !== "") {
-                filteredItems = filteredItems.filter(function (item) {
-                    for (var _i = 0, columns_1 = columns; _i < columns_1.length; _i++) {
-                        var column = columns_1[_i];
-                        if (column.filterFunction && column.filterFunction(item, filterText)) {
-                            return true;
-                        }
-                    }
-                    return false;
-                });
+        Grid.prototype._sortItems = function (items, sortColumn, sortOrder) {
+            var sortedItems = (items || []).slice();
+            if (sortColumn && sortColumn.comparer) {
+                sortedItems.sort(function (item1, item2) { return sortColumn.comparer(item1, item2, sortOrder); });
             }
-            if (sortColumn && sortColumn.sortFunction) {
-                filteredItems = filteredItems.sort(function (item1, item2) { return sortColumn.sortFunction(item1, item2, sortOrder); });
-            }
-            return filteredItems;
+            return sortedItems;
         };
         __decorate([
             Utilities_1.autobind
