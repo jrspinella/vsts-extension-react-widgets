@@ -14,7 +14,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric/utilities/selection", "OfficeFabric/Utilities", "OfficeFabric/ContextualMenu", "OfficeFabric/MessageBar", "../Utils/String", "../Flux/Actions/UIActions", "./BaseComponent", "./Grid.scss"], function (require, exports, React, DetailsList_1, selection_1, Utilities_1, ContextualMenu_1, MessageBar_1, String_1, UIActions_1, BaseComponent_1) {
+define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric/utilities/selection", "OfficeFabric/Utilities", "OfficeFabric/ContextualMenu", "OfficeFabric/MessageBar", "../Utils/String", "../Utils/Core", "../Flux/Actions/UIActions", "./BaseComponent", "./Grid.scss"], function (require, exports, React, DetailsList_1, selection_1, Utilities_1, ContextualMenu_1, MessageBar_1, String_1, Core_1, UIActions_1, BaseComponent_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var SortOrder;
@@ -117,7 +117,12 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
             if (sortColumn && sortColumn.comparer) {
                 filteredItems.sort(function (item1, item2) { return sortColumn.comparer(item1, item2, sortOrder); });
             }
-            UIActions_1.UIActions.onGridItemCountChanged(filteredItems.length);
+            if (this._delayedFunction) {
+                this._delayedFunction.cancel();
+            }
+            this._delayedFunction = Core_1.CoreUtils.delay(this, 10, function () {
+                UIActions_1.UIActions.onGridItemCountChanged(filteredItems.length);
+            });
             return filteredItems;
         };
         __decorate([

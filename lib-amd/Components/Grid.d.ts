@@ -40,6 +40,7 @@ export declare enum SortOrder {
 }
 export declare class Grid<TItem> extends BaseComponent<IGridProps<TItem>, IGridState<TItem>> {
     private _selection;
+    private _delayedFunction;
     constructor(props: IGridProps<TItem>, context?: any);
     protected initializeState(): void;
     componentWillReceiveProps(nextProps: Readonly<IGridProps<TItem>>): void;

@@ -9,6 +9,7 @@ import { ContextualMenu, IContextualMenuItem } from "OfficeFabric/ContextualMenu
 import { MessageBar, MessageBarType } from "OfficeFabric/MessageBar";
 
 import { StringUtils } from "../Utils/String";
+import { CoreUtils } from "../Utils/Core";
 import { UIActions } from "../Flux/Actions/UIActions";
 import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "./BaseComponent"; 
 
@@ -53,6 +54,7 @@ export enum SortOrder {
 
 export class Grid<TItem> extends BaseComponent<IGridProps<TItem>, IGridState<TItem>> {
     private _selection: ISelection;
+    private _delayedFunction: CoreUtils.DelayedFunction;
 
     constructor(props: IGridProps<TItem>, context?: any) {
         super(props, context);
@@ -193,7 +195,13 @@ export class Grid<TItem> extends BaseComponent<IGridProps<TItem>, IGridState<TIt
             filteredItems.sort((item1: TItem, item2: TItem) => sortColumn.comparer(item1, item2, sortOrder));
         }
             
-        UIActions.onGridItemCountChanged(filteredItems.length);
+        if (this._delayedFunction) {
+            this._delayedFunction.cancel();
+        }
+        this._delayedFunction = CoreUtils.delay(this, 10, () => {
+            UIActions.onGridItemCountChanged(filteredItems.length);
+        })
+        
         return filteredItems;
     }
 }
