@@ -43,4 +43,5 @@ export declare module WorkItemActionsHub {
 }
 export declare module UIActionsHub {
     var RefreshQueryInGrid: Action<void>;
+    var OnGridItemCountChanged: Action<number>;
 }

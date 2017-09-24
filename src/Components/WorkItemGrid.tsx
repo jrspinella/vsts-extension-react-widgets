@@ -32,7 +32,6 @@ export interface BaseWorkItemGridProps extends IBaseComponentProps {
 
 export interface IWorkItemGridProps extends BaseWorkItemGridProps {    
     workItemIds?: number[];
-    workItems?: WorkItem[];
     fieldRefNames: string[];
 }
 
@@ -70,24 +69,21 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
 
         WorkItemFieldActions.initializeWorkItemFields();
 
-        if (Array.isArray(this.props.workItemIds)) {
+        if (this.props.workItemIds && this.props.workItemIds.length > 0) {
             WorkItemActions.initializeWorkItems(this.props.workItemIds);
         }
     }
 
     public componentWillReceiveProps(nextProps: IWorkItemGridProps) {
-        if (Array.isArray(nextProps.workItemIds)) {
-            for (const id of nextProps.workItemIds) {
-                if (!this._workItemStore.isLoaded(id)) {
-                    WorkItemActions.initializeWorkItems(nextProps.workItemIds);
-                    return;
-                }
+        for (const id of nextProps.workItemIds) {
+            if (!this._workItemStore.isLoaded(id)) {
+                WorkItemActions.initializeWorkItems(nextProps.workItemIds);
+                return;
             }
         }
         
-        const workItems = Array.isArray(nextProps.workItemIds) ? this._workItemStore.getItems(nextProps.workItemIds) : (nextProps.workItems || []);
         this.updateState({
-            workItems: this._filterItems(workItems, nextProps.filterText, nextProps.fieldRefNames),
+            workItems: this._workItemStore.getItems(nextProps.workItemIds),
             loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading()
         } as IWorkItemGridState);
     }
@@ -106,11 +102,10 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
             }
         }
 
-        const workItems = Array.isArray(this.props.workItemIds) ? this._workItemStore.getItems(this.props.workItemIds) : (this.props.workItems || []);
         return {
             loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading(),
             fieldsMap: fieldsMap,
-            workItems: this._filterItems(workItems, this.props.filterText, this.props.fieldRefNames)
+            workItems: this._workItemStore.getItems(this.props.workItemIds)
         } as IWorkItemGridState;
     }
 
@@ -126,6 +121,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
         return (
             <WIGrid
                 setKey={this.props.setKey}
+                filterText={this.props.filterText}
                 selectionPreservedOnEmptyClick={this.props.selectionPreservedOnEmptyClick || false}
                 className={this.getClassName()}
                 items={this.state.workItems}
@@ -140,30 +136,9 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
         );    
     }
 
-    private _filterItems(workItems: WorkItem[], filterText: string, fieldRefNames: string[]): WorkItem[] {
-        if (workItems == null) {
-            return null;
-        }
-
-        if (filterText == null || filterText.trim() === "") {
-            return workItems;
-        }
-
-        return workItems.filter(workItem => {
-            if (`${workItem.id}` === filterText) {
-                return true;
-            }
-            if (this.state.fieldsMap) {
-                for (const fieldRefName of fieldRefNames) {
-                    const match = StringUtils.caseInsensitiveContains(workItem.fields[fieldRefName] == null ? "" : `${workItem.fields[fieldRefName]}`, filterText);
-                    if (match) {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        });
+    private _itemFilter(workItem: WorkItem, filterText: string, field: WorkItemField): boolean {
+        return `${workItem.id}` === filterText 
+            || StringUtils.caseInsensitiveContains(workItem.fields[field.referenceName] == null ? "" : `${workItem.fields[field.referenceName]}`, filterText);
     }
 
     private _mapFieldsToColumn(): GridColumn<WorkItem>[] {
@@ -178,6 +153,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
                 maxWidth: columnSize.maxWidth,                
                 resizable: true,
                 comparer: (workItem1: WorkItem, workItem2: WorkItem, sortOrder: SortOrder) => WorkItemHelpers.workItemFieldValueComparer(workItem1, workItem2, field, sortOrder),
+                filterFunction: (item: WorkItem, filterText: string) => this._itemFilter(item, filterText, field),
                 onRenderCell: (workItem: WorkItem) => WorkItemHelpers.workItemFieldCellRenderer(workItem, field, field.referenceName === "System.Title" ? {onClick: (ev: React.MouseEvent<HTMLElement>) => this._onItemInvoked(workItem, 0, ev)} : null)
             };
         });

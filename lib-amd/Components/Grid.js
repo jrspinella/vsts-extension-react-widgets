@@ -14,7 +14,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric/utilities/selection", "OfficeFabric/Utilities", "OfficeFabric/ContextualMenu", "OfficeFabric/MessageBar", "../Utils/String", "./BaseComponent", "./Grid.scss"], function (require, exports, React, DetailsList_1, selection_1, Utilities_1, ContextualMenu_1, MessageBar_1, String_1, BaseComponent_1) {
+define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric/utilities/selection", "OfficeFabric/Utilities", "OfficeFabric/ContextualMenu", "OfficeFabric/MessageBar", "../Utils/String", "../Flux/Actions/UIActions", "./BaseComponent", "./Grid.scss"], function (require, exports, React, DetailsList_1, selection_1, Utilities_1, ContextualMenu_1, MessageBar_1, String_1, UIActions_1, BaseComponent_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var SortOrder;
@@ -31,14 +31,14 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         }
         Grid.prototype.initializeState = function () {
             this.state = {
-                items: this._sortItems(this.props.items, null, SortOrder.ASC),
+                items: this._sortAndFilterItems(this.props.items, this.props.columns, null, SortOrder.ASC, this.props.filterText),
                 sortColumn: null,
                 sortOrder: SortOrder.ASC
             };
         };
         Grid.prototype.componentWillReceiveProps = function (nextProps) {
             this.updateState({
-                items: this._sortItems(nextProps.items, this.state.sortColumn, this.state.sortOrder),
+                items: this._sortAndFilterItems(nextProps.items, nextProps.columns, this.state.sortColumn, this.state.sortOrder, nextProps.filterText),
                 isContextMenuVisible: false,
                 contextMenuTarget: null
             });
@@ -85,7 +85,7 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         Grid.prototype._onColumnHeaderClick = function (column) {
             if (column.comparer) {
                 var sortOrder = this.state.sortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-                var sortedItems = this._sortItems(this.state.items, column, sortOrder);
+                var sortedItems = this._sortAndFilterItems(this.state.items, this.props.columns, column, sortOrder);
                 this.updateState({ sortColumn: column, sortOrder: sortOrder, items: sortedItems });
             }
         };
@@ -101,12 +101,24 @@ define(["require", "exports", "react", "OfficeFabric/DetailsList", "OfficeFabric
         Grid.prototype._hideContextMenu = function () {
             this.updateState({ contextMenuTarget: null, isContextMenuVisible: false });
         };
-        Grid.prototype._sortItems = function (items, sortColumn, sortOrder) {
-            var sortedItems = (items || []).slice();
-            if (sortColumn && sortColumn.comparer) {
-                sortedItems.sort(function (item1, item2) { return sortColumn.comparer(item1, item2, sortOrder); });
+        Grid.prototype._sortAndFilterItems = function (items, columns, sortColumn, sortOrder, filterText) {
+            var filteredItems = (items || []).slice();
+            if (filterText != null && filterText.trim() !== "") {
+                filteredItems = filteredItems.filter(function (item) {
+                    for (var _i = 0, columns_1 = columns; _i < columns_1.length; _i++) {
+                        var column = columns_1[_i];
+                        if (column.filterFunction && column.filterFunction(item, filterText)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
             }
-            return sortedItems;
+            if (sortColumn && sortColumn.comparer) {
+                filteredItems.sort(function (item1, item2) { return sortColumn.comparer(item1, item2, sortOrder); });
+            }
+            UIActions_1.UIActions.onGridItemCountChanged(filteredItems.length);
+            return filteredItems;
         };
         __decorate([
             Utilities_1.autobind

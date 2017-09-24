@@ -14,6 +14,14 @@ define(["require", "exports"], function (require, exports) {
             }
             return result;
         }
+        function isNullOrWhiteSpace(str) {
+            return str == null || str.trim() === "";
+        }
+        StringUtils.isNullOrWhiteSpace = isNullOrWhiteSpace;
+        function isNullOrEmpty(str) {
+            return str == null || str === "";
+        }
+        StringUtils.isNullOrEmpty = isNullOrEmpty;
         function defaultComparer(a, b) {
             if (a === b) {
                 return 0;

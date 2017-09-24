@@ -1,4 +1,6 @@
 export declare module StringUtils {
+    function isNullOrWhiteSpace(str: string): boolean;
+    function isNullOrEmpty(str: string): boolean;
     function defaultComparer(a: string, b: string): number;
     function ignoreCaseComparer(a: string, b: string): number;
     function localeComparer(a: string, b: string): number;

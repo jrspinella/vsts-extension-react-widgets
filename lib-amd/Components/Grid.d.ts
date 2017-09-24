@@ -11,6 +11,7 @@ export interface IGridProps<TItem> extends IBaseComponentProps {
     getContextMenuItems?: (selectedItems: TItem[]) => IContextualMenuItem[];
     onItemInvoked?: (item: TItem, index: number) => void;
     setKey?: string;
+    filterText?: string;
     selectionPreservedOnEmptyClick?: boolean;
     compact?: boolean;
     getKey?: (item: TItem, index?: number) => string;
@@ -30,6 +31,7 @@ export interface GridColumn<TItem> {
     maxWidth?: number;
     resizable?: boolean;
     comparer?: (item1: TItem, item2: TItem, sortOrder: SortOrder) => number;
+    filterFunction?: (item: TItem, filterText: string) => boolean;
     onRenderCell?: (item?: TItem, index?: number) => JSX.Element;
 }
 export declare enum SortOrder {
@@ -49,5 +51,5 @@ export declare class Grid<TItem> extends BaseComponent<IGridProps<TItem>, IGridS
     private _onColumnHeaderClick(column);
     private _showContextMenu(_item?, index?, e?);
     private _hideContextMenu();
-    private _sortItems(items, sortColumn, sortOrder);
+    private _sortAndFilterItems(items, columns, sortColumn, sortOrder, filterText?);
 }

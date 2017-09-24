@@ -18,7 +18,6 @@ export interface BaseWorkItemGridProps extends IBaseComponentProps {
 }
 export interface IWorkItemGridProps extends BaseWorkItemGridProps {
     workItemIds?: number[];
-    workItems?: WorkItem[];
     fieldRefNames: string[];
 }
 export interface IWorkItemGridState extends IBaseComponentState {
@@ -43,7 +42,7 @@ export declare class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWor
     protected getStoresState(): IWorkItemGridState;
     protected getDefaultClassName(): string;
     render(): JSX.Element;
-    private _filterItems(workItems, filterText, fieldRefNames);
+    private _itemFilter(workItem, filterText, field);
     private _mapFieldsToColumn();
     private _getContextMenuItems(selectedWorkItems);
     private _onItemInvoked(workItem, _index?, ev?);

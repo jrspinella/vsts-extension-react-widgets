@@ -9,6 +9,7 @@ import { ContextualMenu, IContextualMenuItem } from "OfficeFabric/ContextualMenu
 import { MessageBar, MessageBarType } from "OfficeFabric/MessageBar";
 
 import { StringUtils } from "../Utils/String";
+import { UIActions } from "../Flux/Actions/UIActions";
 import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "./BaseComponent"; 
 
 export interface IGridProps<TItem> extends IBaseComponentProps {
@@ -19,6 +20,7 @@ export interface IGridProps<TItem> extends IBaseComponentProps {
     getContextMenuItems?: (selectedItems: TItem[]) => IContextualMenuItem[];
     onItemInvoked?: (item: TItem, index: number) => void;
     setKey?: string;
+    filterText?: string;
     selectionPreservedOnEmptyClick?: boolean;
     compact?: boolean;
     getKey?: (item: TItem, index?: number) => string;
@@ -40,6 +42,7 @@ export interface GridColumn<TItem> {
     maxWidth?: number;
     resizable?: boolean;
     comparer?: (item1: TItem, item2: TItem, sortOrder: SortOrder) => number;
+    filterFunction?: (item: TItem, filterText: string) => boolean;
     onRenderCell?: (item?: TItem, index?: number) => JSX.Element;
 }
 
@@ -58,15 +61,15 @@ export class Grid<TItem> extends BaseComponent<IGridProps<TItem>, IGridState<TIt
 
     protected initializeState() {
         this.state = {
-            items: this._sortItems(this.props.items, null, SortOrder.ASC),
+            items: this._sortAndFilterItems(this.props.items, this.props.columns, null, SortOrder.ASC, this.props.filterText),
             sortColumn: null,
             sortOrder: SortOrder.ASC
         };
     }
 
-    public componentWillReceiveProps(nextProps: Readonly<IGridProps<TItem>>): void {
+    public componentWillReceiveProps(nextProps: Readonly<IGridProps<TItem>>): void {        
         this.updateState({
-            items: this._sortItems(nextProps.items, this.state.sortColumn, this.state.sortOrder),
+            items: this._sortAndFilterItems(nextProps.items, nextProps.columns, this.state.sortColumn, this.state.sortOrder, nextProps.filterText),
             isContextMenuVisible: false,
             contextMenuTarget: null
         })
@@ -150,7 +153,7 @@ export class Grid<TItem> extends BaseComponent<IGridProps<TItem>, IGridState<TIt
     private _onColumnHeaderClick(column: GridColumn<TItem>) {
         if (column.comparer) {
             const sortOrder = this.state.sortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-            const sortedItems = this._sortItems(this.state.items, column, sortOrder);
+            const sortedItems = this._sortAndFilterItems(this.state.items, this.props.columns, column, sortOrder);
             this.updateState({sortColumn: column, sortOrder: sortOrder, items: sortedItems});
         }
     }
@@ -172,13 +175,25 @@ export class Grid<TItem> extends BaseComponent<IGridProps<TItem>, IGridState<TIt
         this.updateState({contextMenuTarget: null, isContextMenuVisible: false});
     }
 
-    private _sortItems(items: TItem[], sortColumn: GridColumn<TItem>, sortOrder: SortOrder): TItem[] {
-        let sortedItems = (items || []).slice();
+    private _sortAndFilterItems(items: TItem[], columns: GridColumn<TItem>[], sortColumn: GridColumn<TItem>, sortOrder: SortOrder, filterText?: string): TItem[] {
+        let filteredItems = (items || []).slice();
+        if (filterText != null && filterText.trim() !== "") {		
+            filteredItems = filteredItems.filter((item: TItem) => {		
+                for (let column of columns) {		
+                    if (column.filterFunction && column.filterFunction(item, filterText)) {		
+                        return true;		
+                    }		
+                }		
         
+                return false;		
+            });		
+        }		
+                            
         if (sortColumn && sortColumn.comparer) {
-            sortedItems.sort((item1: TItem, item2: TItem) => sortColumn.comparer(item1, item2, sortOrder));
+            filteredItems.sort((item1: TItem, item2: TItem) => sortColumn.comparer(item1, item2, sortOrder));
         }
-
-        return sortedItems;
+            
+        UIActions.onGridItemCountChanged(filteredItems.length);
+        return filteredItems;
     }
 }

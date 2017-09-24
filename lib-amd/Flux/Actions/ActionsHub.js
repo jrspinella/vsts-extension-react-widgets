@@ -42,5 +42,6 @@ define(["require", "exports", "./Action"], function (require, exports, Action_1)
     var UIActionsHub;
     (function (UIActionsHub) {
         UIActionsHub.RefreshQueryInGrid = new Action_1.Action();
+        UIActionsHub.OnGridItemCountChanged = new Action_1.Action();
     })(UIActionsHub = exports.UIActionsHub || (exports.UIActionsHub = {}));
 });

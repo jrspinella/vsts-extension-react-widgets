@@ -15,6 +15,14 @@ export module StringUtils {
         return result;
     }
 
+    export function isNullOrWhiteSpace(str: string): boolean {
+        return str == null || str.trim() === "";
+    }
+
+    export function isNullOrEmpty(str: string): boolean {
+        return str == null || str === "";
+    }
+
     export function defaultComparer(a: string, b: string): number {
         if (a === b) {
             return 0;
