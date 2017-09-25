@@ -25,7 +25,7 @@ export class ComboBox extends BaseComponent<IComboBoxProps, IBaseComponentState>
     };
 
     protected getDefaultClassName(): string {
-        return "combobox bowtie";
+        return "vss-combobox";
     }
 
     public render(): JSX.Element {

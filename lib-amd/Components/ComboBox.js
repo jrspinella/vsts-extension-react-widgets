@@ -25,7 +25,7 @@ define(["require", "exports", "react", "VSS/Controls", "VSS/Controls/Combos", ".
             return _super !== null && _super.apply(this, arguments) || this;
         }
         ComboBox.prototype.getDefaultClassName = function () {
-            return "combobox bowtie";
+            return "vss-combobox";
         };
         ComboBox.prototype.render = function () {
             return React.createElement("div", { className: this.getClassName() },

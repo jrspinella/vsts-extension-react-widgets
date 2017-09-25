@@ -1,6 +1,14 @@
-.combobox.bowtie {
+.vss-combobox {
     .combo {
         width: inherit;
+        background-color: #fff;
+        border: 1px solid #dadada;
+        padding: 0 8px;
+        height: 30px;
+
+        input {
+            padding: 0 8px;
+        }
 
         .drop {
             font-family: FabricMDL2Icons;
@@ -10,6 +18,7 @@
             width: 25px;
             transform: none;
             padding-left: 10px;
+            font-size: 12px;
             
             &::before {
                 content: "\E70D";
