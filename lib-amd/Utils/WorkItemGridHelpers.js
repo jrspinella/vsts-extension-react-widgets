@@ -77,7 +77,7 @@ define(["require", "exports", "react", "TFS/WorkItemTracking/Contracts", "TFS/Wo
         var text = item.fields[field.referenceName] != null ? item.fields[field.referenceName] : "";
         var className = "work-item-grid-cell";
         var innerElement;
-        var alwaysShowTooltip = false;
+        var noTooltip = false;
         if (field.type === Contracts_1.FieldType.DateTime) {
             var dateStr = item.fields[field.referenceName];
             if (!dateStr) {
@@ -97,7 +97,7 @@ define(["require", "exports", "react", "TFS/WorkItemTracking/Contracts", "TFS/Wo
         else if (field.isIdentity) {
             text = item.fields[field.referenceName] || "";
             innerElement = React.createElement(IdentityView_1.IdentityView, { identityDistinctName: text });
-            alwaysShowTooltip = true;
+            noTooltip = true;
         }
         else {
             switch (field.referenceName.toLowerCase()) {
@@ -120,7 +120,10 @@ define(["require", "exports", "react", "TFS/WorkItemTracking/Contracts", "TFS/Wo
                     break;
             }
         }
-        return (React.createElement(Tooltip_1.TooltipHost, { content: text, delay: Tooltip_1.TooltipDelay.medium, overflowMode: alwaysShowTooltip ? undefined : Tooltip_1.TooltipOverflowMode.Parent, directionalHint: Tooltip_1.DirectionalHint.bottomLeftEdge }, innerElement));
+        if (noTooltip) {
+            return innerElement;
+        }
+        return (React.createElement(Tooltip_1.TooltipHost, { content: text, delay: Tooltip_1.TooltipDelay.medium, overflowMode: Tooltip_1.TooltipOverflowMode.Parent, directionalHint: Tooltip_1.DirectionalHint.bottomLeftEdge }, innerElement));
     }
     exports.workItemFieldCellRenderer = workItemFieldCellRenderer;
     function getColumnSize(field) {

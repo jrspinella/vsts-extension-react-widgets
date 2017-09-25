@@ -61,7 +61,7 @@ export function workItemFieldCellRenderer(item: WorkItem, field: WorkItemField, 
     let text: string = item.fields[field.referenceName] != null ? item.fields[field.referenceName] : "";
     let className = "work-item-grid-cell";
     let innerElement: JSX.Element;
-    let alwaysShowTooltip = false;
+    let noTooltip = false;
 
     if (field.type === FieldType.DateTime) {
         const dateStr = item.fields[field.referenceName];
@@ -82,7 +82,7 @@ export function workItemFieldCellRenderer(item: WorkItem, field: WorkItemField, 
     else if (field.isIdentity) {
         text = item.fields[field.referenceName] || "";
         innerElement = <IdentityView identityDistinctName={text} />;
-        alwaysShowTooltip = true;
+        noTooltip = true;
     }
     else {
         switch (field.referenceName.toLowerCase()) {
@@ -106,11 +106,15 @@ export function workItemFieldCellRenderer(item: WorkItem, field: WorkItemField, 
         }
     }
 
+    if (noTooltip) {
+        return innerElement;
+    }
+
     return (
         <TooltipHost 
             content={text}
             delay={TooltipDelay.medium}
-            overflowMode={alwaysShowTooltip ? undefined : TooltipOverflowMode.Parent}   // use null for identity fields
+            overflowMode={TooltipOverflowMode.Parent}
             directionalHint={DirectionalHint.bottomLeftEdge}>
             {innerElement}
         </TooltipHost>
