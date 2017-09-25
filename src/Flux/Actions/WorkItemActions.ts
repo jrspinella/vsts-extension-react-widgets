@@ -30,7 +30,8 @@ export module WorkItemActions {
 
             try {
                 const workItems = await WitClient.getClient().getWorkItems(idsToFetch, null, null, null, WorkItemErrorPolicy.Omit);
-                WorkItemActionsHub.AddOrUpdateWorkItems.invoke(workItems.filter(w => w != null));
+                
+                WorkItemActionsHub.AddOrUpdateWorkItems.invoke(filterNullWorkItems(workItems, idsToFetch));
                 workItemStore.setLoading(false);
             }
             catch (e) {
@@ -49,7 +50,7 @@ export module WorkItemActions {
 
             try {
                 const workItems = await WitClient.getClient().getWorkItems(ids, null, null, null, WorkItemErrorPolicy.Omit);
-                WorkItemActionsHub.AddOrUpdateWorkItems.invoke(workItems.filter(w => w != null));
+                WorkItemActionsHub.AddOrUpdateWorkItems.invoke(filterNullWorkItems(workItems, ids));
                 workItemStore.setLoading(false);
             }
             catch (e) {
@@ -152,5 +153,33 @@ export module WorkItemActions {
 
     export function clearWorkItemsCache() {
         WorkItemActionsHub.ClearWorkItems.invoke(null);
+    }
+
+    function filterNullWorkItems(workItems: WorkItem[], idsToFetch: number[]): WorkItem[] {
+        let workItemsMap = {};
+        for (const workItem of workItems) {
+            if (workItem) {
+                workItemsMap[workItem.id] = workItem;
+            }
+        }
+
+        let filteredWorkItems: WorkItem[] = [];
+        for (const witId of idsToFetch) {
+            if (!workItemsMap[witId]) {
+                filteredWorkItems.push({
+                    id: witId,
+                    fields: {},
+                    relations: [],
+                    rev: -1,
+                    _links: null,
+                    url: null
+                })
+            }
+            else {
+                filteredWorkItems.push(workItemsMap[witId]);
+            }
+        }
+
+        return filteredWorkItems;
     }
 }

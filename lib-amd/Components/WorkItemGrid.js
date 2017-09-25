@@ -95,7 +95,7 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "../Utils/Strin
                 }
             }
             this.updateState({
-                workItems: this._workItemStore.getItems(nextProps.workItemIds),
+                workItems: this._workItemStore.getItems(nextProps.workItemIds).filter(function (w) { return w.rev !== -1; }),
                 loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading()
             });
         };
@@ -115,7 +115,7 @@ define(["require", "exports", "react", "OfficeFabric/Utilities", "../Utils/Strin
             return {
                 loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading(),
                 fieldsMap: fieldsMap,
-                workItems: this._workItemStore.getItems(this.props.workItemIds)
+                workItems: this._workItemStore.getItems(this.props.workItemIds).filter(function (w) { return w.rev !== -1; })
             };
         };
         WorkItemGrid.prototype.getDefaultClassName = function () {

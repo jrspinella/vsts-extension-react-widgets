@@ -68,7 +68,7 @@ define(["require", "exports", "./ActionsHub", "../Stores/WorkItemStore", "../Sto
                             return [4, WitClient.getClient().getWorkItems(idsToFetch, null, null, null, Contracts_2.WorkItemErrorPolicy.Omit)];
                         case 3:
                             workItems = _a.sent();
-                            ActionsHub_1.WorkItemActionsHub.AddOrUpdateWorkItems.invoke(workItems.filter(function (w) { return w != null; }));
+                            ActionsHub_1.WorkItemActionsHub.AddOrUpdateWorkItems.invoke(filterNullWorkItems(workItems, idsToFetch));
                             workItemStore.setLoading(false);
                             return [3, 5];
                         case 4:
@@ -99,7 +99,7 @@ define(["require", "exports", "./ActionsHub", "../Stores/WorkItemStore", "../Sto
                             return [4, WitClient.getClient().getWorkItems(ids, null, null, null, Contracts_2.WorkItemErrorPolicy.Omit)];
                         case 3:
                             workItems = _a.sent();
-                            ActionsHub_1.WorkItemActionsHub.AddOrUpdateWorkItems.invoke(workItems.filter(function (w) { return w != null; }));
+                            ActionsHub_1.WorkItemActionsHub.AddOrUpdateWorkItems.invoke(filterNullWorkItems(workItems, ids));
                             workItemStore.setLoading(false);
                             return [3, 5];
                         case 4:
@@ -248,5 +248,32 @@ define(["require", "exports", "./ActionsHub", "../Stores/WorkItemStore", "../Sto
             ActionsHub_1.WorkItemActionsHub.ClearWorkItems.invoke(null);
         }
         WorkItemActions.clearWorkItemsCache = clearWorkItemsCache;
+        function filterNullWorkItems(workItems, idsToFetch) {
+            var workItemsMap = {};
+            for (var _i = 0, workItems_1 = workItems; _i < workItems_1.length; _i++) {
+                var workItem = workItems_1[_i];
+                if (workItem) {
+                    workItemsMap[workItem.id] = workItem;
+                }
+            }
+            var filteredWorkItems = [];
+            for (var _a = 0, idsToFetch_1 = idsToFetch; _a < idsToFetch_1.length; _a++) {
+                var witId = idsToFetch_1[_a];
+                if (!workItemsMap[witId]) {
+                    filteredWorkItems.push({
+                        id: witId,
+                        fields: {},
+                        relations: [],
+                        rev: -1,
+                        _links: null,
+                        url: null
+                    });
+                }
+                else {
+                    filteredWorkItems.push(workItemsMap[witId]);
+                }
+            }
+            return filteredWorkItems;
+        }
     })(WorkItemActions = exports.WorkItemActions || (exports.WorkItemActions = {}));
 });

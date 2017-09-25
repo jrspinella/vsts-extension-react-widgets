@@ -83,7 +83,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
         }
         
         this.updateState({
-            workItems: this._workItemStore.getItems(nextProps.workItemIds),
+            workItems: this._workItemStore.getItems(nextProps.workItemIds).filter(w => w.rev !== -1),
             loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading()
         } as IWorkItemGridState);
     }
@@ -105,7 +105,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
         return {
             loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading(),
             fieldsMap: fieldsMap,
-            workItems: this._workItemStore.getItems(this.props.workItemIds)
+            workItems: this._workItemStore.getItems(this.props.workItemIds).filter(w => w.rev !== -1)
         } as IWorkItemGridState;
     }
 
