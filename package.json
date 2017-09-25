@@ -1,6 +1,6 @@
 {
     "name": "vsts-extension-react-widgets",
-    "version": "1.0.19",
+    "version": "1.0.20",
     "description": "Reusable React components based on office fabric for building VSTS extensions.",
     "main": "lib-amd/index.js",
     "typings": "lib-amd/index.d.ts",
@@ -41,6 +41,7 @@
         "vss-web-extension-sdk": "3.121.0",
         "office-ui-fabric-react": "4.50.0",
         "trumbowyg": "2.8.0",
-        "dateformat": "2.0.0"
+        "dateformat": "2.0.0",
+        "@xkeshi/image-compressor": "0.5.1"
     }
 }
