@@ -39,11 +39,11 @@
                                 function () {
                                     const reader = new FileReader();
 
-                                    if ($(".image-upload-progress", $modal).length === 0) {
+                                    if ($(".progress-indicator", $modal).length === 0) {
                                         $(".trumbowyg-modal-title", $modal)
                                             .after(
                                                 $('<div/>', {
-                                                    'class': "image-upload-progress"
+                                                    'class': "progress-indicator"
                                                 })
                                             );
                                     }
