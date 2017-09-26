@@ -20,7 +20,7 @@
 
                             let file;
 
-                            trumbowyg.openModalInsert(
+                            const $modal = trumbowyg.openModalInsert(
                                 // Title
                                 trumbowyg.lang.upload,
 
@@ -38,17 +38,25 @@
                                 // Callback
                                 function () {
                                     const reader = new FileReader();
+
+                                    if ($(".image-upload-progress", $modal).length === 0) {
+                                        $(".trumbowyg-modal-title", $modal)
+                                            .after(
+                                                $('<div/>', {
+                                                    'class': "image-upload-progress"
+                                                })
+                                            );
+                                    }
+
                                     reader.onloadend = (event) => {
                                         const data = (event.target as any).result;
-
+                                        
                                         $(window).trigger("imagepasted", { data: data, callback: (imageUrl: string) => {
                                             if (imageUrl) {
                                                 trumbowyg.execCmd("insertImage", imageUrl, undefined, true);
                                                 $(['img[src="' + imageUrl + '"]:not([alt])'].join(''), trumbowyg.$box).css("width", "auto").css("max-height", "400px");
                                             }
-                                            setTimeout(function () {
-                                                trumbowyg.closeModal();
-                                            }, 250);
+                                            trumbowyg.closeModal();
                                         }});
                                     };
                                     reader.readAsDataURL(file);
