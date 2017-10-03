@@ -16,5 +16,6 @@ export * from "./QueryResultGrid";
 export * from "./RichEditor";
 export * from "./StateView";
 export * from "./TagsView";
+export * from "./ThrottledTextField";
 export * from "./TitleView";
 export * from "./WorkItemGrid";

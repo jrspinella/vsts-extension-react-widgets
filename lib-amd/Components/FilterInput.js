@@ -14,7 +14,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "react", "OfficeFabric/TextField", "OfficeFabric/Icon", "OfficeFabric/Utilities", "./BaseComponent", "./FilterInput.scss"], function (require, exports, React, TextField_1, Icon_1, Utilities_1, BaseComponent_1) {
+define(["require", "exports", "react", "OfficeFabric/Icon", "OfficeFabric/Utilities", "./ThrottledTextField", "./BaseComponent", "./FilterInput.scss"], function (require, exports, React, Icon_1, Utilities_1, ThrottledTextField_1, BaseComponent_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var FilterInput = (function (_super) {
@@ -35,7 +35,7 @@ define(["require", "exports", "react", "OfficeFabric/TextField", "OfficeFabric/I
                 onKeyPress: this._onClearInputKeyPress,
                 role: "button"
             } : undefined;
-            return React.createElement(TextField_1.TextField, { componentRef: function (element) { return _this._textField = element; }, onRenderAddon: function () { return React.createElement(Icon_1.Icon, { iconName: "Filter" }); }, className: this.getClassName(), iconProps: iconProps, value: this.state.value, onChanged: this._onChange, onKeyDown: this._onKeyDown, placeholder: this.props.placeholder });
+            return React.createElement(ThrottledTextField_1.ThrottledTextField, { componentRef: function (element) { return _this._textField = element; }, delay: this.props.delay, onRenderAddon: function () { return React.createElement(Icon_1.Icon, { iconName: "Filter" }); }, className: this.getClassName(), iconProps: iconProps, value: this.state.value, onChanged: this._onChange, onKeyDown: this._onKeyDown, placeholder: this.props.placeholder });
         };
         FilterInput.prototype._onKeyDown = function (ev) {
             if (ev.which === 13) {

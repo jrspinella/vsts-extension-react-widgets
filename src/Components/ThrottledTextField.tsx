@@ -17,6 +17,12 @@ export class ThrottledTextField extends React.Component<IThrottledTextFieldProps
         return <TextField {...props} />;
     }
 
+    public componentWillUnmount() {
+        if (this._delayedFunction) {
+            this._delayedFunction.cancel();
+        }
+    }
+
     @autobind
     private _onChange(newValue: string) {
         if (this._delayedFunction) {

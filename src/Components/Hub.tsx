@@ -9,19 +9,20 @@ import { autobind } from "OfficeFabric/Utilities";
 
 import { IBaseComponentState, IBaseComponentProps, BaseComponent } from "./BaseComponent"; 
 import { FavoriteStar, IFavoriteStarProps } from "./FavoriteStar";
+import { IFilterInputProps, FilterInput } from "./FilterInput";
 
 export interface IHubProps extends IBaseComponentProps {
     title?: string;
     onTitleRender?: () => React.ReactNode;
     pivotProps: IPivotProps;
-    favoriteStarProps?: IFavoriteStarProps;    
+    favoriteStarProps?: IFavoriteStarProps;
 }
 
 export interface IPivotProps {
     initialSelectedKey?: string;
     onPivotClick?: (selectedPivotKey: string, ev?: React.MouseEvent<HTMLElement>) => void;
     pivots: IPivotItem[];
-    onRenderPivotContent: (selectedPivotKey: string) => React.ReactNode;
+    onRenderPivotContent: (selectedPivotKey: string) => React.ReactNode;    
 }
 
 export interface IPivotItem {
@@ -32,6 +33,7 @@ export interface IPivotItem {
     commands?: IContextualMenuItem[];
     overflowCommands?: IContextualMenuItem[];
     farCommands?: IContextualMenuItem[];
+    filterProps?: IFilterInputProps;
 }
 
 export interface IHubState extends IBaseComponentState {
@@ -130,12 +132,23 @@ export class Hub extends BaseComponent<IHubProps, IHubState> {
 
         if ((selectedPivot.commands && selectedPivot.commands.length > 0) ||
             (selectedPivot.overflowCommands && selectedPivot.overflowCommands.length > 0) ||
-            (selectedPivot.farCommands && selectedPivot.farCommands.length > 0)) {
+            (selectedPivot.farCommands && selectedPivot.farCommands.length > 0) || 
+            (selectedPivot.filterProps)) {
+
+            let mainCommands: IContextualMenuItem[] = selectedPivot.commands || [];
+            if (selectedPivot.filterProps) {
+                mainCommands = [{
+                    key: "filter",
+                    className: "filter-command",
+                    onRender: () => <FilterInput {...selectedPivot.filterProps} />
+                } as IContextualMenuItem].concat(mainCommands);
+            }
+
             return <CommandBar 
                         className="hub-pivot-menu-bar"
-                        items={selectedPivot.commands || []} 
-                        overflowItems={selectedPivot.overflowCommands || []}
-                        farItems={selectedPivot.farCommands || []}
+                        items={mainCommands} 
+                        overflowItems={selectedPivot.overflowCommands}
+                        farItems={selectedPivot.farCommands}
                     />;
         }
 

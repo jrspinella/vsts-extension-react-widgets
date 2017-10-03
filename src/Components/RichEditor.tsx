@@ -31,13 +31,16 @@ export class RichEditor extends BaseComponent<IRichEditorProps, IBaseComponentSt
         this._richEditorContainer
             .trumbowyg(this.props.editorOptions || {})
             .on("tbwchange", this._onChange)
-            .on("tbwblur", this._onChange);
+            .on("tbwblur", this._fireChange);
         
         this._richEditorContainer.trumbowyg("html", this.props.data || "");
     }
 
     public componentWillUnmount() {
         this._richEditorContainer.trumbowyg("destroy");
+        if (this._delayedFunction) {
+            this._delayedFunction.cancel();
+        }
     }
 
     public componentWillReceiveProps(nextProps: IRichEditorProps) {
@@ -55,20 +58,25 @@ export class RichEditor extends BaseComponent<IRichEditorProps, IBaseComponentSt
         if (this._delayedFunction) {
             this._delayedFunction.cancel();
         }
-
-        const fireChange = () => {
-            if (this.props.onChange) {
-                this.props.onChange(this._richEditorContainer.trumbowyg("html"));
-            }
-        }
-
+       
         if (this.props.delay == null) {
-            fireChange();
+            this._fireChange();
         }
         else {
             this._delayedFunction = CoreUtils.delay(this, this.props.delay, () => {
-                fireChange();
+                this._fireChange();
             });
         }      
+    }
+
+    @autobind
+    private _fireChange() {
+        if (this._delayedFunction) {
+            this._delayedFunction.cancel();
+        }
+        
+        if (this.props.onChange) {
+            this.props.onChange(this._richEditorContainer.trumbowyg("html"));
+        }
     }
 }

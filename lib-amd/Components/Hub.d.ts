@@ -4,6 +4,7 @@ import * as React from "react";
 import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
 import { IBaseComponentState, IBaseComponentProps, BaseComponent } from "./BaseComponent";
 import { IFavoriteStarProps } from "./FavoriteStar";
+import { IFilterInputProps } from "./FilterInput";
 export interface IHubProps extends IBaseComponentProps {
     title?: string;
     onTitleRender?: () => React.ReactNode;
@@ -24,23 +25,10 @@ export interface IPivotItem {
     commands?: IContextualMenuItem[];
     overflowCommands?: IContextualMenuItem[];
     farCommands?: IContextualMenuItem[];
-    filterProps?: IFilterProps;
-}
-export interface IFilterProps {
-    showFilter: boolean;
-    filterPosition: FilterPosition;
-    onChange?: (filterText: string) => void;
-    onSearch?: (filterText: string) => void;
-    onClear?: () => void;
-}
-export declare enum FilterPosition {
-    Left = 0,
-    Right = 1,
-    Middle = 2,
+    filterProps?: IFilterInputProps;
 }
 export interface IHubState extends IBaseComponentState {
     selectedPivotKey: string;
-    filterText?: string;
 }
 export declare class Hub extends BaseComponent<IHubProps, IHubState> {
     constructor(props: IHubProps, context?: any);
@@ -51,7 +39,4 @@ export declare class Hub extends BaseComponent<IHubProps, IHubState> {
     private _renderPivots();
     private _customPivotItemRenderer(props, defaultRenderer);
     private _renderCommandBar();
-    private _getMainCommands(selectedPivot);
-    private _getFarCommands(selectedPivot);
-    private _getFilterControl(selectedPivot);
 }

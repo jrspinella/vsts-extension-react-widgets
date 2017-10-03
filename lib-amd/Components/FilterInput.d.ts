@@ -6,6 +6,7 @@ export interface IFilterInputProps extends IBaseComponentProps {
     onSearch?: (filterText: string) => void;
     onClear?: () => void;
     placeholder?: string;
+    delay?: number;
 }
 export interface IFilterInputState extends IBaseComponentState {
     value?: string;

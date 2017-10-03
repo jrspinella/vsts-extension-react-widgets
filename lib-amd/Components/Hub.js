@@ -25,12 +25,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/CommandBar", "OfficeFabric/Pivot", "OfficeFabric/Utilities", "./BaseComponent", "./FavoriteStar", "./FilterInput", "./Hub.scss"], function (require, exports, React, Label_1, CommandBar_1, Pivot_1, Utilities_1, BaseComponent_1, FavoriteStar_1, FilterInput_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var FilterPosition;
-    (function (FilterPosition) {
-        FilterPosition[FilterPosition["Left"] = 0] = "Left";
-        FilterPosition[FilterPosition["Right"] = 1] = "Right";
-        FilterPosition[FilterPosition["Middle"] = 2] = "Middle";
-    })(FilterPosition = exports.FilterPosition || (exports.FilterPosition = {}));
     var Hub = (function (_super) {
         __extends(Hub, _super);
         function Hub(props, context) {
@@ -94,60 +88,18 @@ define(["require", "exports", "react", "OfficeFabric/Label", "OfficeFabric/Comma
             if ((selectedPivot.commands && selectedPivot.commands.length > 0) ||
                 (selectedPivot.overflowCommands && selectedPivot.overflowCommands.length > 0) ||
                 (selectedPivot.farCommands && selectedPivot.farCommands.length > 0) ||
-                (selectedPivot.filterProps && selectedPivot.filterProps.showFilter)) {
-                return React.createElement(CommandBar_1.CommandBar, { className: "hub-pivot-menu-bar", items: this._getMainCommands(selectedPivot), overflowItems: selectedPivot.overflowCommands || [], farItems: this._getFarCommands(selectedPivot) });
+                (selectedPivot.filterProps)) {
+                var mainCommands = selectedPivot.commands || [];
+                if (selectedPivot.filterProps) {
+                    mainCommands = [{
+                            key: "filter",
+                            className: "filter-command",
+                            onRender: function () { return React.createElement(FilterInput_1.FilterInput, __assign({}, selectedPivot.filterProps)); }
+                        }].concat(mainCommands);
+                }
+                return React.createElement(CommandBar_1.CommandBar, { className: "hub-pivot-menu-bar", items: mainCommands, overflowItems: selectedPivot.overflowCommands, farItems: selectedPivot.farCommands });
             }
             return null;
-        };
-        Hub.prototype._getMainCommands = function (selectedPivot) {
-            var _this = this;
-            if (selectedPivot.filterProps
-                && selectedPivot.filterProps.showFilter
-                && (selectedPivot.filterProps.filterPosition === FilterPosition.Left || selectedPivot.filterProps.filterPosition === FilterPosition.Middle)) {
-                var items = [{
-                        key: "filter",
-                        className: "filter-command",
-                        onRender: function () {
-                            return _this._getFilterControl(selectedPivot);
-                        }
-                    }];
-                if (selectedPivot.filterProps.filterPosition === FilterPosition.Middle) {
-                    return (selectedPivot.commands || []).concat(items);
-                }
-                else {
-                    return items.concat(selectedPivot.commands || []);
-                }
-            }
-            return selectedPivot.commands || [];
-        };
-        Hub.prototype._getFarCommands = function (selectedPivot) {
-            var _this = this;
-            var items = [];
-            if (selectedPivot.filterProps && selectedPivot.filterProps.showFilter && selectedPivot.filterProps.filterPosition === FilterPosition.Right) {
-                items.push({
-                    key: "filter",
-                    className: "filter-command",
-                    onRender: function () {
-                        return _this._getFilterControl(selectedPivot);
-                    }
-                });
-            }
-            return items.concat(selectedPivot.farCommands || []);
-        };
-        Hub.prototype._getFilterControl = function (selectedPivot) {
-            return React.createElement(FilterInput_1.FilterInput, { onChange: function (filterText) {
-                    if (selectedPivot.filterProps.onChange) {
-                        selectedPivot.filterProps.onChange(filterText);
-                    }
-                }, onSearch: function (filterText) {
-                    if (selectedPivot.filterProps.onSearch) {
-                        selectedPivot.filterProps.onSearch(filterText);
-                    }
-                }, onClear: function () {
-                    if (selectedPivot.filterProps.onClear) {
-                        selectedPivot.filterProps.onClear();
-                    }
-                }, placeholder: "Filter by Keyword" });
         };
         __decorate([
             Utilities_1.autobind

@@ -28,7 +28,7 @@ export class FilterInput extends BaseComponent<IFilterInputProps, IFilterInputSt
     protected getDefaultClassName(): string {
         return "filter-input";
     }
-
+        
     public render(): JSX.Element {
         let iconProps: IIconProps = this.state.value ? { 
             iconName: "Clear",
