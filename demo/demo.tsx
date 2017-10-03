@@ -1,10 +1,12 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
+import { initializeIcons } from "@uifabric/icons";
 import {Fabric} from "OfficeFabric/Fabric";
 import {CommonComponentsDemo} from "./CommonComponentsDemo";
 import {QueryResultGridDemo} from "./QueryResultGridDemo";
-import {Hub} from "../src/Components/Hub";
+import { Hub } from "../src/Components/Hub";
+import { FilterInput } from "../src/Components/FilterInput";
 
 export class Demo extends React.Component<{}, {}> {
 
@@ -32,11 +34,7 @@ export class Demo extends React.Component<{}, {}> {
                         {
                             key: "Common",
                             text: "Common",
-                            itemCount: 5,
-                            filterProps: {
-                                showFilter: true,
-                                onFilterChange: f => console.log(f)
-                            },
+                            itemCount: 5,                            
                             commands: [
                                 {
                                     key: "OpenQuery", name: "Open as query", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
@@ -76,8 +74,21 @@ export class Demo extends React.Component<{}, {}> {
                         },
                         {
                             key: "Grid",
-                            text: "Work item grid",                                    
+                            text: "Work item grid",
                             commands: [
+                                {
+                                    key: "filter",
+                                    className: "filter-command",
+                                    onRender: () => {
+                                        return <FilterInput
+                                            delay={200}
+                                            placeholder="FIlter"
+                                            onChange={f => console.log(f)}
+                                            onSearch={ f => console.log("Ss: " + f)}
+                                            onClear={() => console.log("clear")}
+                                        />;
+                                    }
+                                },
                                 {
                                     key: "OpenQuery aa", name: "Open as querya  aa", title: "Open all workitems as a query", iconProps: {iconName: "OpenInNewWindow"}, 
                                     onClick: async () => {
@@ -115,5 +126,6 @@ export class Demo extends React.Component<{}, {}> {
 }
 
 export function init() {
+    initializeIcons();
     ReactDOM.render(<Demo />, $("#ext-container")[0]);
 }

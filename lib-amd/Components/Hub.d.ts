@@ -28,8 +28,10 @@ export interface IPivotItem {
 }
 export interface IFilterProps {
     showFilter: boolean;
-    filterPosition?: FilterPosition;
-    onFilterChange: (filterText: string) => void;
+    filterPosition: FilterPosition;
+    onChange?: (filterText: string) => void;
+    onSearch?: (filterText: string) => void;
+    onClear?: () => void;
 }
 export declare enum FilterPosition {
     Left = 0,
@@ -38,6 +40,7 @@ export declare enum FilterPosition {
 }
 export interface IHubState extends IBaseComponentState {
     selectedPivotKey: string;
+    filterText?: string;
 }
 export declare class Hub extends BaseComponent<IHubProps, IHubState> {
     constructor(props: IHubProps, context?: any);

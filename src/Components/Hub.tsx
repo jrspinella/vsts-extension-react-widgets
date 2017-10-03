@@ -4,8 +4,6 @@ import * as React from "react";
 import { Label } from "OfficeFabric/Label";
 import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
 import { CommandBar } from "OfficeFabric/CommandBar";
-import { TextField } from "OfficeFabric/TextField";
-import { Icon } from "OfficeFabric/Icon";
 import { Pivot, PivotItem, IPivotItemProps } from "OfficeFabric/Pivot";
 import { autobind } from "OfficeFabric/Utilities";
 
@@ -34,19 +32,6 @@ export interface IPivotItem {
     commands?: IContextualMenuItem[];
     overflowCommands?: IContextualMenuItem[];
     farCommands?: IContextualMenuItem[];
-    filterProps?: IFilterProps;
-}
-
-export interface IFilterProps {
-    showFilter: boolean;
-    filterPosition?: FilterPosition,
-    onFilterChange: (filterText: string) => void;
-}
-
-export enum FilterPosition {
-    Left,
-    Right,
-    Middle
 }
 
 export interface IHubState extends IBaseComponentState {
@@ -145,62 +130,15 @@ export class Hub extends BaseComponent<IHubProps, IHubState> {
 
         if ((selectedPivot.commands && selectedPivot.commands.length > 0) ||
             (selectedPivot.overflowCommands && selectedPivot.overflowCommands.length > 0) ||
-            (selectedPivot.farCommands && selectedPivot.farCommands.length > 0) ||
-            (selectedPivot.filterProps && selectedPivot.filterProps.showFilter)) {
+            (selectedPivot.farCommands && selectedPivot.farCommands.length > 0)) {
             return <CommandBar 
                         className="hub-pivot-menu-bar"
-                        items={this._getMainCommands(selectedPivot)} 
+                        items={selectedPivot.commands || []} 
                         overflowItems={selectedPivot.overflowCommands || []}
-                        farItems={this._getFarCommands(selectedPivot)}
+                        farItems={selectedPivot.farCommands || []}
                     />;
         }
 
         return null;
-    }
-
-    private _getMainCommands(selectedPivot: IPivotItem): IContextualMenuItem[] {        
-        if (selectedPivot.filterProps 
-            && selectedPivot.filterProps.showFilter 
-            && (selectedPivot.filterProps.filterPosition === FilterPosition.Left || selectedPivot.filterProps.filterPosition === FilterPosition.Middle)) {
-            
-            let items: IContextualMenuItem[] = [{
-                key: "filter",
-                className: "filter-command",
-                onRender: () => {
-                   return this._getFilterControl(selectedPivot);
-                }
-            }];
-
-            if (selectedPivot.filterProps.filterPosition === FilterPosition.Middle) {
-                return (selectedPivot.commands || []).concat(items);
-            }
-            else {
-                return items.concat(selectedPivot.commands || []);
-            }  
-        }
-
-        return selectedPivot.commands || [];              
-    }
-
-    private _getFarCommands(selectedPivot: IPivotItem): IContextualMenuItem[] {
-        let items: IContextualMenuItem[] = [];
-        if (selectedPivot.filterProps && selectedPivot.filterProps.showFilter && selectedPivot.filterProps.filterPosition === FilterPosition.Right) {
-            items.push({
-                key: "filter",
-                className: "filter-command",
-                onRender: () => {
-                    return this._getFilterControl(selectedPivot);
-                }
-            });
-        }
-        return items.concat(selectedPivot.farCommands || []);
-    }
-
-    private _getFilterControl(selectedPivot: IPivotItem): JSX.Element {
-        return <TextField 
-            onRenderAddon={() => <Icon iconName="Filter" />}
-            className="filter-input" 
-            onChanged={filterText => selectedPivot.filterProps.onFilterChange(filterText)}
-            placeholder="Filter by Keyword" />;
     }
 }

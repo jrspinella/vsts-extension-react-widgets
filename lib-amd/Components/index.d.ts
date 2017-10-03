@@ -5,6 +5,7 @@ export * from "./BaseComponent";
 export * from "./ComboBox";
 export * from "./FavoriteStar";
 export * from "./FieldControl";
+export * from "./FilterInput";
 export * from "./Grid";
 export * from "./Hub";
 export * from "./IdentityView";
