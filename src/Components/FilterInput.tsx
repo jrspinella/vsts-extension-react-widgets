@@ -65,7 +65,7 @@ export class FilterInput extends BaseComponent<IFilterInputProps, IFilterInputSt
 
     @autobind
     private _onChange(newValue: string) {
-        this.updateState({value: newValue});
+        this.setState({value: newValue});
         if (this.props.onChange) {
             this.props.onChange(newValue);
         }
@@ -80,7 +80,7 @@ export class FilterInput extends BaseComponent<IFilterInputProps, IFilterInputSt
 
     @autobind
     private _clearText() {
-        this.updateState({value: ""});
+        this.setState({value: ""});
         if (this.props.onClear) {
             this.props.onClear();
         }

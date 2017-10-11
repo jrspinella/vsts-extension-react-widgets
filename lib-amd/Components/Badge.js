@@ -42,7 +42,7 @@ define(["require", "exports", "react", "./BaseComponent", "OfficeFabric/Callout"
                     React.createElement(Icon_1.Icon, { iconName: "Ringer", className: "badge-icon" }),
                     React.createElement("span", { className: "badge-notification-count" }, this.props.notificationCount)),
                 this.state.isCalloutVisible &&
-                    React.createElement(Callout_1.Callout, { gapSpace: 0, target: this._calloutTargetElement, onDismiss: this._onCalloutDismiss, setInitialFocus: true, isBeakVisible: true, directionalHint: Callout_1.DirectionalHint.bottomRightEdge }, this.props.children));
+                    React.createElement(Callout_1.Callout, { gapSpace: 0, target: this._calloutTargetElement, onDismiss: this._onCalloutDismiss, setInitialFocus: true, isBeakVisible: true, directionalHint: 6 }, this.props.children));
         };
         return Badge;
     }(BaseComponent_1.BaseComponent));

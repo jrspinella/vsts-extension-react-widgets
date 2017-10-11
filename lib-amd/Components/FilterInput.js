@@ -48,7 +48,7 @@ define(["require", "exports", "react", "OfficeFabric/Icon", "OfficeFabric/Utilit
             }
         };
         FilterInput.prototype._onChange = function (newValue) {
-            this.updateState({ value: newValue });
+            this.setState({ value: newValue });
             if (this.props.onChange) {
                 this.props.onChange(newValue);
             }
@@ -59,7 +59,7 @@ define(["require", "exports", "react", "OfficeFabric/Icon", "OfficeFabric/Utilit
             }
         };
         FilterInput.prototype._clearText = function () {
-            this.updateState({ value: "" });
+            this.setState({ value: "" });
             if (this.props.onClear) {
                 this.props.onClear();
             }

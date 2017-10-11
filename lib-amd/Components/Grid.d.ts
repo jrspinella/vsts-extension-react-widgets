@@ -1,38 +1,23 @@
 /// <reference types="react" />
 import "./Grid.scss";
-import { SelectionMode, ISelection } from "OfficeFabric/utilities/selection";
+import { IDetailsListProps, IColumn } from "OfficeFabric/DetailsList";
 import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
-import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "./BaseComponent";
-export interface IGridProps<TItem> extends IBaseComponentProps {
+import { BaseComponent, IBaseComponentState } from "./BaseComponent";
+export interface IGridProps<TItem> extends IDetailsListProps {
     items: TItem[];
-    columns: GridColumn<TItem>[];
+    columns?: IGridColumn<TItem>[];
     noResultsText?: string;
-    selectionMode?: SelectionMode;
     getContextMenuItems?: (selectedItems: TItem[]) => IContextualMenuItem[];
-    onItemInvoked?: (item: TItem, index: number) => void;
-    setKey?: string;
-    filterText?: string;
-    selectionPreservedOnEmptyClick?: boolean;
-    compact?: boolean;
-    getKey?: (item: TItem, index?: number) => string;
-    selection?: ISelection;
 }
 export interface IGridState<TItem> extends IBaseComponentState {
     items?: TItem[];
     isContextMenuVisible?: boolean;
     contextMenuTarget?: MouseEvent;
-    sortColumn?: GridColumn<TItem>;
+    sortColumn?: IGridColumn<TItem>;
     sortOrder?: SortOrder;
 }
-export interface GridColumn<TItem> {
-    key: string;
-    name: string;
-    minWidth: number;
-    maxWidth?: number;
-    resizable?: boolean;
+export interface IGridColumn<TItem> extends IColumn {
     comparer?: (item1: TItem, item2: TItem, sortOrder: SortOrder) => number;
-    filterFunction?: (item: TItem, filterText: string) => boolean;
-    onRenderCell?: (item?: TItem, index?: number) => JSX.Element;
 }
 export declare enum SortOrder {
     ASC = 0,
@@ -40,17 +25,15 @@ export declare enum SortOrder {
 }
 export declare class Grid<TItem> extends BaseComponent<IGridProps<TItem>, IGridState<TItem>> {
     private _selection;
-    private _delayedFunction;
     constructor(props: IGridProps<TItem>, context?: any);
     protected initializeState(): void;
     componentWillReceiveProps(nextProps: Readonly<IGridProps<TItem>>): void;
     protected getDefaultClassName(): string;
     render(): JSX.Element;
     private _renderGrid();
-    private _onItemInvoked(item, index);
     private _prepareColumns();
     private _onColumnHeaderClick(column);
     private _showContextMenu(_item?, index?, e?);
     private _hideContextMenu();
-    private _sortAndFilterItems(items, columns, sortColumn, sortOrder, filterText?);
+    private _sortItems(items, sortColumn, sortOrder);
 }

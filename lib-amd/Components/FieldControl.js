@@ -144,10 +144,10 @@ define(["require", "exports", "TFS/WorkItemTracking/Services", "./AutoResizableC
             });
         };
         FieldControl.prototype._setValue = function (value) {
-            this.updateState({ value: value, error: this.getErrorMessage(value) });
+            this.setState({ value: value, error: this.getErrorMessage(value) });
         };
         FieldControl.prototype._onError = function (error) {
-            this.updateState({ error: error });
+            this.setState({ error: error });
         };
         return FieldControl;
     }(AutoResizableComponent_1.AutoResizableComponent));

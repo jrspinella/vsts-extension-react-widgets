@@ -1,31 +1,20 @@
 /// <reference types="react" />
 import "./WorkItemsGrid.scss";
-import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
-import { SelectionMode } from "OfficeFabric/utilities/selection/interfaces";
 import { WorkItem, WorkItemField } from "TFS/WorkItemTracking/Contracts";
-import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "./BaseComponent";
-import { GridColumn } from "./Grid";
+import { BaseComponent, IBaseComponentState } from "./BaseComponent";
+import { IGridColumn, IGridProps } from "./Grid";
 import { BaseStore } from "../Flux/Stores/BaseStore";
-export interface BaseWorkItemGridProps extends IBaseComponentProps {
-    extraColumns?: IExtraWorkItemGridColumn[];
-    selectionMode?: SelectionMode;
-    getContextMenuItems?: (selectedItems: WorkItem[]) => IContextualMenuItem[];
-    noResultsText?: string;
-    setKey?: string;
-    filterText?: string;
-    selectionPreservedOnEmptyClick?: boolean;
-    compact?: boolean;
-}
-export interface IWorkItemGridProps extends BaseWorkItemGridProps {
+export interface IWorkItemGridProps extends IGridProps<WorkItem> {
     workItemIds?: number[];
-    fieldRefNames: string[];
+    fieldRefNames?: string[];
+    extraColumns?: IExtraWorkItemGridColumn[];
 }
 export interface IWorkItemGridState extends IBaseComponentState {
     workItems: WorkItem[];
     fieldsMap: IDictionaryStringTo<WorkItemField>;
 }
 export interface IExtraWorkItemGridColumn {
-    column: GridColumn<WorkItem>;
+    column: IGridColumn<WorkItem>;
     position?: ColumnPosition;
 }
 export declare enum ColumnPosition {
@@ -42,9 +31,8 @@ export declare class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWor
     protected getStoresState(): IWorkItemGridState;
     protected getDefaultClassName(): string;
     render(): JSX.Element;
-    private _itemFilter(workItem, filterText, field);
-    private _mapFieldsToColumn();
+    private _mapFieldRefNamesToColumn();
     private _getContextMenuItems(selectedWorkItems);
-    private _onItemInvoked(workItem, _index?, ev?);
+    private _onItemInvoked(workItem, ev?);
     private _getWiql(workItems?);
 }

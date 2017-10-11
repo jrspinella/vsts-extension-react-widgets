@@ -56,12 +56,9 @@ define(["require", "exports", "react", "OfficeFabric/Utilities"], function (requ
         BaseComponent.prototype.initializeState = function () {
             this.state = {};
         };
-        BaseComponent.prototype.updateState = function (updatedStates, callback) {
-            this.setState(updatedStates, callback);
-        };
         BaseComponent.prototype._onStoreChanged = function () {
             var newStoreState = this.getStoresState();
-            this.updateState(newStoreState);
+            this.setState(newStoreState);
         };
         __decorate([
             Utilities_1.autobind

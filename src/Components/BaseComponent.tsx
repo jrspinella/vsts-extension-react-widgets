@@ -55,13 +55,9 @@ export class BaseComponent<TProps extends IBaseComponentProps, TState extends IB
         this.state = {} as TState;
     }
 
-    protected updateState(updatedStates: TState, callback?: () => void) {
-        this.setState(updatedStates, callback);
-    }
-
     @autobind
     private _onStoreChanged(): void {
         var newStoreState = this.getStoresState();
-        this.updateState(newStoreState);
+        this.setState(newStoreState);
     }
 }

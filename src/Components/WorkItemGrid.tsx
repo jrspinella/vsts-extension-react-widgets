@@ -4,14 +4,12 @@ import * as React from "react";
 
 import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
 import { autobind } from "OfficeFabric/Utilities";
-import { SelectionMode } from "OfficeFabric/utilities/selection/interfaces";
 
 import { WorkItem, WorkItemField } from "TFS/WorkItemTracking/Contracts";
 
-import { StringUtils } from "../Utils/String";
-import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "./BaseComponent"; 
+import { BaseComponent, IBaseComponentState } from "./BaseComponent"; 
 import { Loading } from "./Loading"; 
-import { Grid, SortOrder, GridColumn } from "./Grid";
+import { Grid, SortOrder, IGridColumn, IGridProps } from "./Grid";
 import * as WorkItemHelpers from "../Utils/WorkItemGridHelpers";
 import { BaseStore, StoreFactory } from "../Flux/Stores/BaseStore"; 
 import { WorkItemStore } from "../Flux/Stores/WorkItemStore"; 
@@ -19,20 +17,10 @@ import { WorkItemFieldStore } from "../Flux/Stores/WorkItemFieldStore";
 import { WorkItemActions } from "../Flux/Actions/WorkItemActions"; 
 import { WorkItemFieldActions } from "../Flux/Actions/WorkItemFieldActions"; 
 
-export interface BaseWorkItemGridProps extends IBaseComponentProps {
-    extraColumns?: IExtraWorkItemGridColumn[];
-    selectionMode?: SelectionMode;
-    getContextMenuItems?: (selectedItems: WorkItem[]) => IContextualMenuItem[];
-    noResultsText?: string;
-    setKey?: string;
-    filterText?: string;
-    selectionPreservedOnEmptyClick?: boolean;
-    compact?: boolean;
-}
-
-export interface IWorkItemGridProps extends BaseWorkItemGridProps {    
+export interface IWorkItemGridProps extends IGridProps<WorkItem> {
     workItemIds?: number[];
-    fieldRefNames: string[];
+    fieldRefNames?: string[];
+    extraColumns?: IExtraWorkItemGridColumn[];
 }
 
 export interface IWorkItemGridState extends IBaseComponentState {    
@@ -41,7 +29,7 @@ export interface IWorkItemGridState extends IBaseComponentState {
 }
 
 export interface IExtraWorkItemGridColumn {
-    column: GridColumn<WorkItem>;
+    column: IGridColumn<WorkItem>;
     position?: ColumnPosition;
 }
 
@@ -58,8 +46,8 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
 
     protected initializeState(): void {
         this.state = {
-            workItems: null,
-            loading: true,
+            workItems: this.props.items,
+            loading: this.props.items == null,
             fieldsMap: null
         };
     }
@@ -69,21 +57,23 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
 
         WorkItemFieldActions.initializeWorkItemFields();
 
-        if (this.props.workItemIds && this.props.workItemIds.length > 0) {
+        if (!this.props.items && this.props.workItemIds) {
             WorkItemActions.initializeWorkItems(this.props.workItemIds);
         }
     }
 
     public componentWillReceiveProps(nextProps: IWorkItemGridProps) {
-        for (const id of nextProps.workItemIds) {
-            if (!this._workItemStore.isLoaded(id)) {
-                WorkItemActions.initializeWorkItems(nextProps.workItemIds);
-                return;
+        if (!nextProps.items && nextProps.workItemIds) {
+            for (const id of nextProps.workItemIds) {
+                if (!this._workItemStore.isLoaded(id)) {
+                    WorkItemActions.initializeWorkItems(nextProps.workItemIds);
+                    return;
+                }
             }
         }
         
-        this.updateState({
-            workItems: this._workItemStore.getItems(nextProps.workItemIds).filter(w => w.rev !== -1),
+        this.setState({
+            workItems: nextProps.items || this._workItemStore.getItems(nextProps.workItemIds).filter(w => w.rev !== -1),
             loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading()
         } as IWorkItemGridState);
     }
@@ -105,7 +95,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
         return {
             loading: this._workItemFieldStore.isLoading() || this._workItemStore.isLoading(),
             fieldsMap: fieldsMap,
-            workItems: this._workItemStore.getItems(this.props.workItemIds).filter(w => w.rev !== -1)
+            workItems: this.props.items || this._workItemStore.getItems(this.props.workItemIds).filter(w => w.rev !== -1)
         } as IWorkItemGridState;
     }
 
@@ -118,31 +108,21 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
             return <Loading />;
         }
 
-        return (
-            <WIGrid
-                setKey={this.props.setKey}
-                filterText={this.props.filterText}
-                selectionPreservedOnEmptyClick={this.props.selectionPreservedOnEmptyClick || false}
-                className={this.getClassName()}
-                items={this.state.workItems}
-                columns={this._mapFieldsToColumn()}
-                selectionMode={this.props.selectionMode}
-                getContextMenuItems={this._getContextMenuItems}
-                onItemInvoked={this._onItemInvoked}
-                noResultsText={this.props.noResultsText}
-                compact={this.props.compact}
-                getKey={(workItem: WorkItem) => `${workItem.id}`}
-            />
-        );    
+        const props: any = {
+            ...this.props,
+            columns: this.props.columns || this._mapFieldRefNamesToColumn(),
+            items: this.state.workItems,
+            className: this.getClassName(),
+            getContextMenuItems: this._getContextMenuItems,
+            onItemInvoked: (workItem: WorkItem, _index?: number, ev?: any) => this._onItemInvoked(workItem, ev),
+            getKey: (workItem: WorkItem) => `${workItem.id}`
+        } as IGridProps<WorkItem>;
+
+        return <WIGrid {...props} />;
     }
 
-    private _itemFilter(workItem: WorkItem, filterText: string, field: WorkItemField): boolean {
-        return `${workItem.id}` === filterText 
-            || StringUtils.caseInsensitiveContains(workItem.fields[field.referenceName] == null ? "" : `${workItem.fields[field.referenceName]}`, filterText);
-    }
-
-    private _mapFieldsToColumn(): GridColumn<WorkItem>[] {
-        let columns: GridColumn<WorkItem>[] = this.props.fieldRefNames.map(fieldRefName => {
+    private _mapFieldRefNamesToColumn(): IGridColumn<WorkItem>[] {
+        let columns: IGridColumn<WorkItem>[] = this.props.fieldRefNames.map(fieldRefName => {
             const field = this.state.fieldsMap[fieldRefName.toLowerCase()];
             const columnSize = WorkItemHelpers.getColumnSize(field);
 
@@ -150,12 +130,11 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
                 key: field.referenceName,
                 name: field.name,
                 minWidth: columnSize.minWidth,
-                maxWidth: columnSize.maxWidth,                
-                resizable: true,
+                maxWidth: columnSize.maxWidth,
+                isResizable: true,
                 comparer: (workItem1: WorkItem, workItem2: WorkItem, sortOrder: SortOrder) => WorkItemHelpers.workItemFieldValueComparer(workItem1, workItem2, field, sortOrder),
-                filterFunction: (item: WorkItem, filterText: string) => this._itemFilter(item, filterText, field),
-                onRenderCell: (workItem: WorkItem) => WorkItemHelpers.workItemFieldCellRenderer(workItem, field, field.referenceName === "System.Title" ? {onClick: (ev: React.MouseEvent<HTMLElement>) => this._onItemInvoked(workItem, 0, ev)} : null)
-            };
+                onRender: (workItem: WorkItem) => WorkItemHelpers.workItemFieldCellRenderer(workItem, field, field.referenceName === "System.Title" ? {onClick: (ev: React.MouseEvent<HTMLElement>) => this._onItemInvoked(workItem, ev)} : null)
+            } as IGridColumn<WorkItem>;
         });
 
         const extraColumns = this.props.extraColumns || [];
@@ -194,7 +173,7 @@ export class WorkItemGrid extends BaseComponent<IWorkItemGridProps, IWorkItemGri
     }
 
     @autobind
-    private async _onItemInvoked(workItem: WorkItem, _index?: number, ev?: React.MouseEvent<HTMLElement>) {
+    private async _onItemInvoked(workItem: WorkItem, ev?: React.MouseEvent<HTMLElement>) {
         // fire a workitem changed event here so parent can listen to it to update work items
         const updatedWorkItem: WorkItem = await WorkItemHelpers.openWorkItemDialog(ev, workItem);
         if (updatedWorkItem.rev > workItem.rev) {            

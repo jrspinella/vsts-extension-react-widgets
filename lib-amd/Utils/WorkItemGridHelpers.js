@@ -123,7 +123,7 @@ define(["require", "exports", "react", "TFS/WorkItemTracking/Contracts", "TFS/Wo
         if (noTooltip) {
             return innerElement;
         }
-        return (React.createElement(Tooltip_1.TooltipHost, { content: text, delay: Tooltip_1.TooltipDelay.medium, overflowMode: Tooltip_1.TooltipOverflowMode.Parent, directionalHint: Tooltip_1.DirectionalHint.bottomLeftEdge }, innerElement));
+        return (React.createElement(Tooltip_1.TooltipHost, { content: text, delay: Tooltip_1.TooltipDelay.medium, overflowMode: Tooltip_1.TooltipOverflowMode.Parent, directionalHint: 4 }, innerElement));
     }
     exports.workItemFieldCellRenderer = workItemFieldCellRenderer;
     function getColumnSize(field) {

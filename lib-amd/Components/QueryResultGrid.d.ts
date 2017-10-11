@@ -1,10 +1,14 @@
 /// <reference types="react" />
+import { WorkItem } from "TFS/WorkItemTracking/Contracts";
 import { BaseComponent, IBaseComponentState } from "./BaseComponent";
-import { BaseWorkItemGridProps } from "./WorkItemGrid";
-export interface IQueryResultGridProps extends BaseWorkItemGridProps {
+import { IGridProps } from "./Grid";
+import { IExtraWorkItemGridColumn } from "./WorkItemGrid";
+export interface IQueryResultGridProps extends IGridProps<WorkItem> {
     wiql: string;
     top?: number;
     project?: string;
+    queryKey?: number;
+    extraColumns?: IExtraWorkItemGridColumn[];
 }
 export interface IQueryResultGridState extends IBaseComponentState {
     workItemIds: number[];
@@ -14,8 +18,6 @@ export declare class QueryResultGrid extends BaseComponent<IQueryResultGridProps
     componentDidMount(): void;
     protected getDefaultClassName(): string;
     componentWillReceiveProps(nextProps: Readonly<IQueryResultGridProps>): void;
-    componentWillUnmount(): void;
     render(): JSX.Element;
-    private _refreshQuery();
     private _runQuery(props);
 }

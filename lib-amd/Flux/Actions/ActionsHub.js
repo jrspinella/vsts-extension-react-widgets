@@ -39,9 +39,4 @@ define(["require", "exports", "./Action"], function (require, exports, Action_1)
         WorkItemActionsHub.DeleteWorkItems = new Action_1.Action();
         WorkItemActionsHub.ClearWorkItems = new Action_1.Action();
     })(WorkItemActionsHub = exports.WorkItemActionsHub || (exports.WorkItemActionsHub = {}));
-    var UIActionsHub;
-    (function (UIActionsHub) {
-        UIActionsHub.RefreshQueryInGrid = new Action_1.Action();
-        UIActionsHub.OnGridItemCountChanged = new Action_1.Action();
-    })(UIActionsHub = exports.UIActionsHub || (exports.UIActionsHub = {}));
 });
