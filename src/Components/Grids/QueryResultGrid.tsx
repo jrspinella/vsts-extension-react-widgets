@@ -3,12 +3,12 @@ import * as React from "react";
 import * as WitClient from "TFS/WorkItemTracking/RestClient";
 import { WorkItem } from "TFS/WorkItemTracking/Contracts";
 
-import { StringUtils } from "../Utils/String";
-import { Loading } from "./Loading";
-import { BaseComponent, IBaseComponentState } from "./BaseComponent"; 
+import { StringUtils } from "../../Utils/String";
+import { Loading } from "../Loading";
+import { BaseComponent, IBaseComponentState } from "../BaseComponent"; 
 import { IGridProps } from "./Grid";
 import { WorkItemGrid, IExtraWorkItemGridColumn } from "./WorkItemGrid";
-import { WorkItemActions } from "../Flux/Actions/WorkItemActions";
+import { WorkItemActions } from "../../Flux/Actions/WorkItemActions";
 
 export interface IQueryResultGridProps extends IGridProps<WorkItem> {
     wiql: string;

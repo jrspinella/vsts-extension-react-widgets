@@ -7,15 +7,15 @@ import { autobind } from "OfficeFabric/Utilities";
 
 import { WorkItem, WorkItemField } from "TFS/WorkItemTracking/Contracts";
 
-import { BaseComponent, IBaseComponentState } from "./BaseComponent"; 
-import { Loading } from "./Loading"; 
+import { BaseComponent, IBaseComponentState } from "../BaseComponent"; 
+import { Loading } from "../Loading"; 
 import { Grid, SortOrder, IGridColumn, IGridProps } from "./Grid";
-import * as WorkItemHelpers from "../Utils/WorkItemGridHelpers";
-import { BaseStore, StoreFactory } from "../Flux/Stores/BaseStore"; 
-import { WorkItemStore } from "../Flux/Stores/WorkItemStore"; 
-import { WorkItemFieldStore } from "../Flux/Stores/WorkItemFieldStore"; 
-import { WorkItemActions } from "../Flux/Actions/WorkItemActions"; 
-import { WorkItemFieldActions } from "../Flux/Actions/WorkItemFieldActions"; 
+import * as WorkItemHelpers from "../../Utils/WorkItemGridHelpers";
+import { BaseStore, StoreFactory } from "../../Flux/Stores/BaseStore"; 
+import { WorkItemStore } from "../../Flux/Stores/WorkItemStore"; 
+import { WorkItemFieldStore } from "../../Flux/Stores/WorkItemFieldStore"; 
+import { WorkItemActions } from "../../Flux/Actions/WorkItemActions"; 
+import { WorkItemFieldActions } from "../../Flux/Actions/WorkItemFieldActions"; 
 
 export interface IWorkItemGridProps extends IGridProps<WorkItem> {
     workItemIds?: number[];

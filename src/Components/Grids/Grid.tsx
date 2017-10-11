@@ -8,8 +8,8 @@ import { autobind } from "OfficeFabric/Utilities";
 import { ContextualMenu, IContextualMenuItem } from "OfficeFabric/ContextualMenu";
 import { MessageBar, MessageBarType } from "OfficeFabric/MessageBar";
 
-import { StringUtils } from "../Utils/String";
-import { BaseComponent, IBaseComponentState } from "./BaseComponent"; 
+import { StringUtils } from "../../Utils/String";
+import { BaseComponent, IBaseComponentState } from "../BaseComponent"; 
 
 export interface IGridProps<TItem> extends IDetailsListProps {
     items: TItem[];

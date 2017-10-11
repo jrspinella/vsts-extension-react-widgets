@@ -7,9 +7,9 @@ import { CommandBar } from "OfficeFabric/CommandBar";
 import { Pivot, PivotItem, IPivotItemProps } from "OfficeFabric/Pivot";
 import { autobind } from "OfficeFabric/Utilities";
 
-import { IBaseComponentState, IBaseComponentProps, BaseComponent } from "./BaseComponent"; 
-import { FavoriteStar, IFavoriteStarProps } from "./FavoriteStar";
-import { IFilterInputProps, FilterInput } from "./FilterInput";
+import { IBaseComponentState, IBaseComponentProps, BaseComponent } from "../BaseComponent"; 
+import { FavoriteStar, IFavoriteStarProps } from "../FavoriteStar";
+import { IFilterInputProps, FilterInput } from "../FilterInput";
 
 export interface IHubProps extends IBaseComponentProps {
     title?: string;

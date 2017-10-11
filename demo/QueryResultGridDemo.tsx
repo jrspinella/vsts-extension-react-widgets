@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {QueryResultGrid} from "../src/Components/QueryResultGrid";
+import {QueryResultGrid} from "../src/Components/Grids/QueryResultGrid";
 
 interface IQueryResultGridDemoState {
 
