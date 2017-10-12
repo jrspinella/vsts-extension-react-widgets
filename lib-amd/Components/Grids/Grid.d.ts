@@ -2,7 +2,7 @@
 import "./Grid.scss";
 import { IDetailsListProps, IColumn } from "OfficeFabric/DetailsList";
 import { IContextualMenuItem } from "OfficeFabric/ContextualMenu";
-import { BaseComponent, IBaseComponentState } from "./BaseComponent";
+import { BaseComponent, IBaseComponentState } from "../BaseComponent";
 export interface IGridProps<TItem> extends IDetailsListProps {
     items: TItem[];
     columns?: IGridColumn<TItem>[];

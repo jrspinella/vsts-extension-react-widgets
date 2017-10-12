@@ -16,8 +16,7 @@ interface IAsyncLoadedComponentState<TProps> {
     componentType: React.ComponentClass<TProps> | React.StatelessComponent<TProps>;
 }
 
-class AsyncLoadedComponent<TProps>
-    extends React.Component<IAsyncLoadedComponentProps<TProps>, IAsyncLoadedComponentState<TProps>> {
+class AsyncLoadedComponent<TProps> extends React.Component<IAsyncLoadedComponentProps<TProps>, IAsyncLoadedComponentState<TProps>> {
     private _isMounted: boolean = false;
 
     constructor(props?: IAsyncLoadedComponentProps<TProps>, context?: any) {

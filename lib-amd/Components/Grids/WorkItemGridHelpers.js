@@ -33,7 +33,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "react", "TFS/WorkItemTracking/Contracts", "TFS/WorkItemTracking/Services", "OfficeFabric/Tooltip", "OfficeFabric/Label", "./String", "./Date", "../Components/Grid", "../Components/IdentityView", "../Components/TagsView", "../Components/TitleView", "../Components/StateView"], function (require, exports, React, Contracts_1, Services_1, Tooltip_1, Label_1, String_1, Date_1, Grid_1, IdentityView_1, TagsView_1, TitleView_1, StateView_1) {
+define(["require", "exports", "react", "TFS/WorkItemTracking/Contracts", "TFS/WorkItemTracking/Services", "OfficeFabric/Tooltip", "OfficeFabric/Label", "../../Utils/String", "../../Utils/Date", "./Grid", "../IdentityView", "../TagsView", "../TitleView", "../StateView"], function (require, exports, React, Contracts_1, Services_1, Tooltip_1, Label_1, String_1, Date_1, Grid_1, IdentityView_1, TagsView_1, TitleView_1, StateView_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function workItemFieldValueComparer(w1, w2, field, sortOrder) {

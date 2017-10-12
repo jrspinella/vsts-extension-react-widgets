@@ -1,9 +1,9 @@
 /// <reference types="react" />
 import "./WorkItemsGrid.scss";
 import { WorkItem, WorkItemField } from "TFS/WorkItemTracking/Contracts";
-import { BaseComponent, IBaseComponentState } from "./BaseComponent";
+import { BaseComponent, IBaseComponentState } from "../BaseComponent";
 import { IGridColumn, IGridProps } from "./Grid";
-import { BaseStore } from "../Flux/Stores/BaseStore";
+import { BaseStore } from "../../Flux/Stores/BaseStore";
 export interface IWorkItemGridProps extends IGridProps<WorkItem> {
     workItemIds?: number[];
     fieldRefNames?: string[];

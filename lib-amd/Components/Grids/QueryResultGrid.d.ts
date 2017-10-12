@@ -1,6 +1,6 @@
 /// <reference types="react" />
 import { WorkItem } from "TFS/WorkItemTracking/Contracts";
-import { BaseComponent, IBaseComponentState } from "./BaseComponent";
+import { BaseComponent, IBaseComponentState } from "../BaseComponent";
 import { IGridProps } from "./Grid";
 import { IExtraWorkItemGridColumn } from "./WorkItemGrid";
 export interface IQueryResultGridProps extends IGridProps<WorkItem> {

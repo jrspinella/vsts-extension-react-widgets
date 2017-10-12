@@ -10,7 +10,7 @@ import { WorkItem, WorkItemField } from "TFS/WorkItemTracking/Contracts";
 import { BaseComponent, IBaseComponentState } from "../BaseComponent"; 
 import { Loading } from "../Loading"; 
 import { Grid, SortOrder, IGridColumn, IGridProps } from "./Grid";
-import * as WorkItemHelpers from "../../Utils/WorkItemGridHelpers";
+import * as WorkItemHelpers from "./WorkItemGridHelpers";
 import { BaseStore, StoreFactory } from "../../Flux/Stores/BaseStore"; 
 import { WorkItemStore } from "../../Flux/Stores/WorkItemStore"; 
 import { WorkItemFieldStore } from "../../Flux/Stores/WorkItemFieldStore"; 

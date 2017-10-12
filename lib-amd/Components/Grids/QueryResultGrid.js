@@ -51,7 +51,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "react", "TFS/WorkItemTracking/RestClient", "../Utils/String", "./Loading", "./BaseComponent", "./WorkItemGrid", "../Flux/Actions/WorkItemActions"], function (require, exports, React, WitClient, String_1, Loading_1, BaseComponent_1, WorkItemGrid_1, WorkItemActions_1) {
+define(["require", "exports", "react", "TFS/WorkItemTracking/RestClient", "../../Utils/String", "../Loading", "../BaseComponent", "./WorkItemGrid", "../../Flux/Actions/WorkItemActions"], function (require, exports, React, WitClient, String_1, Loading_1, BaseComponent_1, WorkItemGrid_1, WorkItemActions_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var QueryResultGrid = (function (_super) {

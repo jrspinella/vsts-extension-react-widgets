@@ -1,7 +1,7 @@
 /// <reference types="react" />
 import * as React from "react";
 import { WorkItem, WorkItemField } from "TFS/WorkItemTracking/Contracts";
-import { SortOrder } from "../Components/Grid";
+import { SortOrder } from "./Grid";
 export interface ICellRenderOptions {
     onClick: (ev: React.MouseEvent<HTMLElement>) => void;
 }

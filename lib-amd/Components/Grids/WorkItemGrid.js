@@ -57,7 +57,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "react", "OfficeFabric/Utilities", "./BaseComponent", "./Loading", "./Grid", "../Utils/WorkItemGridHelpers", "../Flux/Stores/BaseStore", "../Flux/Stores/WorkItemStore", "../Flux/Stores/WorkItemFieldStore", "../Flux/Actions/WorkItemActions", "../Flux/Actions/WorkItemFieldActions", "./WorkItemsGrid.scss"], function (require, exports, React, Utilities_1, BaseComponent_1, Loading_1, Grid_1, WorkItemHelpers, BaseStore_1, WorkItemStore_1, WorkItemFieldStore_1, WorkItemActions_1, WorkItemFieldActions_1) {
+define(["require", "exports", "react", "OfficeFabric/Utilities", "../BaseComponent", "../Loading", "./Grid", "./WorkItemGridHelpers", "../../Flux/Stores/BaseStore", "../../Flux/Stores/WorkItemStore", "../../Flux/Stores/WorkItemFieldStore", "../../Flux/Actions/WorkItemActions", "../../Flux/Actions/WorkItemFieldActions", "./WorkItemsGrid.scss"], function (require, exports, React, Utilities_1, BaseComponent_1, Loading_1, Grid_1, WorkItemHelpers, BaseStore_1, WorkItemStore_1, WorkItemFieldStore_1, WorkItemActions_1, WorkItemFieldActions_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ColumnPosition;

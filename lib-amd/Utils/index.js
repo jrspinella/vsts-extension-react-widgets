@@ -1,4 +1,4 @@
-define(["require", "exports", "./Array", "./Core", "./Date", "./EventManager", "./ExtensionDataManager", "./LocalSettingsService", "./String", "./WorkItemGridHelpers"], function (require, exports, Array_1, Core_1, Date_1, EventManager_1, ExtensionDataManager_1, LocalSettingsService_1, String_1, WorkItemGridHelpers_1) {
+define(["require", "exports", "./Array", "./Core", "./Date", "./EventManager", "./ExtensionDataManager", "./LocalSettingsService", "./String"], function (require, exports, Array_1, Core_1, Date_1, EventManager_1, ExtensionDataManager_1, LocalSettingsService_1, String_1) {
     "use strict";
     function __export(m) {
         for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -11,5 +11,4 @@ define(["require", "exports", "./Array", "./Core", "./Date", "./EventManager", "
     __export(ExtensionDataManager_1);
     __export(LocalSettingsService_1);
     __export(String_1);
-    __export(WorkItemGridHelpers_1);
 });

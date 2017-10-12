@@ -6,13 +6,13 @@ import { WorkItemFormNavigationService } from "TFS/WorkItemTracking/Services";
 import { TooltipHost, TooltipDelay, DirectionalHint, TooltipOverflowMode } from "OfficeFabric/Tooltip";
 import { Label } from "OfficeFabric/Label";
 
-import { StringUtils } from "./String";
-import { DateUtils } from "./Date";
-import { SortOrder } from "../Components/Grid";
-import { IdentityView } from "../Components/IdentityView";
-import { TagsView } from "../Components/TagsView";
-import { TitleView } from "../Components/TitleView";
-import { StateView } from "../Components/StateView";
+import { StringUtils } from "../../Utils/String";
+import { DateUtils } from "../../Utils/Date";
+import { SortOrder } from "./Grid";
+import { IdentityView } from "../IdentityView";
+import { TagsView } from "../TagsView";
+import { TitleView } from "../TitleView";
+import { StateView } from "../StateView";
 
 export interface ICellRenderOptions {
     onClick: (ev: React.MouseEvent<HTMLElement>) => void;
