@@ -1,5 +1,5 @@
 {
-    "compilerOptions": {
+    "compilerOptions": {        
         "module": "amd",
         "moduleResolution": "node",
         "removeComments": true,
@@ -12,8 +12,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "paths": {
-            "OfficeFabric/*": ["node_modules/office-ui-fabric-react/lib-amd/*"],
-            "VSSUI/*": ["node_modules/vss-ui/*"]
+            "OfficeFabric/*": ["node_modules/office-ui-fabric-react/lib/*"]
         },
         "types": [
             "q",

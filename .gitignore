@@ -1,4 +1,5 @@
-node_modules
-typings
+node_modules/
+typings/
+.sass-cache/
 npm-debug.log
 *.vsix

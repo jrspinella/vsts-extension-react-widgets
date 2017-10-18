@@ -22,8 +22,7 @@ module.exports = {
         extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
         moduleExtensions: ["-loader"],
         alias: { 
-            "OfficeFabric": path.resolve(__dirname, "node_modules/office-ui-fabric-react/lib-amd"),
-            "VSSUI": path.resolve(__dirname, "node_modules/vss-ui")
+            "OfficeFabric": path.resolve(__dirname, "node_modules/office-ui-fabric-react/lib")
         }
     },
     module: {

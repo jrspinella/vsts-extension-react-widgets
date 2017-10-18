@@ -1,21 +1,8 @@
-export * from "./Grids/index";
-
-export * from "./AsyncLoadedComponent";
-export * from "./AutoResizableComponent";
-export * from "./Badge";
-export * from "./BaseComponent";
-export * from "./ComboBox";
-export * from "./FavoriteStar";
-export * from "./FieldControl";
-export * from "./IdentityView";
-export * from "./InfoLabel";
-export * from "./InputError";
-export * from "./Loading";
-export * from "./RichEditor";
-export * from "./StateView";
-export * from "./TagsView";
-export * from "./ThrottledTextField";
-export * from "./TitleView";
-
-
-
+export * from "./Badge/index";
+export * from "./ComboBox/index";
+export * from "./IdentityView/index";
+export * from "./InfoLabel/index";
+export * from "./InputError/index";
+export * from "./Loading/index";
+export * from "./Utilities/index";
+export * from "./WorkItemComponents/index";

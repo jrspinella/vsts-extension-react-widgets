@@ -1,7 +1,7 @@
 import * as GitClient from "TFS/VersionControl/GitRestClient";
 import { GitRepository } from "TFS/VersionControl/Contracts";
 
-import { StringUtils } from "../../Utils/String";
+import { StringUtils } from "../../Utilities/String";
 import { StoreFactory } from "../Stores/BaseStore";
 import { GitRepoStore } from "../Stores/GitRepoStore";
 import { GitRepoActionsHub} from "./ActionsHub";

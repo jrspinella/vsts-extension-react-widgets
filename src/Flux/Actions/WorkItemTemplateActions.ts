@@ -1,7 +1,7 @@
 import * as WitClient from "TFS/WorkItemTracking/RestClient";
 import { WorkItemTemplateReference } from "TFS/WorkItemTracking/Contracts";
 
-import { StringUtils } from "../../Utils/String";
+import { StringUtils } from "../../Utilities/String";
 import { StoreFactory } from "../Stores/BaseStore";
 import { WorkItemTemplateStore } from "../Stores/WorkItemTemplateStore";
 import { WorkItemTemplateActionsHub } from "./ActionsHub";

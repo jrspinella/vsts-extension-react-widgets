@@ -1,48 +1,47 @@
 {
     "name": "vsts-extension-react-widgets",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "description": "Reusable React components based on office fabric for building VSTS extensions.",
-    "main": "lib-amd/index.js",
-    "typings": "lib-amd/index.d.ts",
+    "main": "lib/index.js",
+    "typings": "lib/index.d.ts",
     "repository": {
         "type": "git",
         "url": "https://github.com/mohitbagra/vsts-extension-react-widgets"
     },
     "license": "MIT",
-    "author": "mohitbagra",
+    "author": "Mohit Bagra",
     "scripts": {
-        "clean": "rimraf lib-amd dist",
+        "clean": "rimraf lib dist",
         "cleanall": "npm run clean && rimraf typings node_modules",
-        "build": "npm run clean && tsc -d true --outDir ./lib-amd && npm run copycss && webpack --display-error-details --progress --colors --output-path ./dist -p",
-        "copycss": "(robocopy src lib-amd *.scss /mir /s) ^& IF %ERRORLEVEL% LEQ 1 exit 0",
+        "build": "npm run clean && tsc -d true --outDir ./lib && npm run copycss && webpack --display-error-details --progress --colors --output-path ./dist -p",
+        "copycss": "(robocopy src lib *.scss /mir /s) ^& IF %ERRORLEVEL% LEQ 1 exit 0",
         "package:demo": "node ./demo/packageDev",
         "start": "webpack-dev-server --config webpack.demo.config.js -d --hot --progress --colors --https --content-base ./ --port 8888",
         "postinstall": "typings install"
     },
     "devDependencies": {
-        "@types/react": "15.0.38",
-        "@types/react-dom": "15.5.1",
+        "@types/react": "^16.0.9",
+        "@types/react-dom": "^16.0.0",
         "@types/jquery": "2.0.41",
-        "webpack": "3.7.1",
-        "webpack-dev-server": "2.9.1",
-        "rimraf": "2.6.2",
-        "sass-loader": "6.0.6",
-        "style-loader": "0.19.0",
-        "css-loader": "0.28.7",
-        "ts-loader": "2.3.7",
-        "node-sass": "4.5.3",
-        "typescript": "2.5.3",
-        "typings": "2.1.1",
-        "uglifyjs-webpack-plugin": "0.4.6",
-        "tfx-cli": "0.4.11"
+        "webpack": "~3.8.1",
+        "webpack-dev-server": "~2.9.2",
+        "rimraf": "~2.6.2",
+        "sass-loader": "~6.0.6",
+        "style-loader": "~0.19.0",
+        "css-loader": "~0.28.7",
+        "ts-loader": "~3.0.3",
+        "node-sass": "~4.5.3",
+        "typescript": "~2.5.3",
+        "typings": "~2.1.1",
+        "uglifyjs-webpack-plugin": "~0.4.6",
+        "tfx-cli": "~0.4.11"
     },
     "dependencies": {
-        "es6-promise": "4.1.1",
-        "vss-web-extension-sdk": "3.121.0",
-        "office-ui-fabric-react": "5.8.0",
+        "es6-promise": "~4.1.1",
+        "vss-web-extension-sdk": "~3.121.0",
+        "office-ui-fabric-react": "~4.51.1",
         "trumbowyg": "2.8.0",
         "dateformat": "2.0.0",
-        "@xkeshi/image-compressor": "0.5.1",
-        "vss-ui": "1.124.2"
+        "@xkeshi/image-compressor": "0.5.1"
     }
 }

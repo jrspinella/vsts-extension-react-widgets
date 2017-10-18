@@ -1,7 +1,7 @@
 {
   "name": "vsts-extension-react-widgets",
   "globalDependencies": {
-    "tfs": "npm:vss-web-extension-sdk/typings/tfs.d.ts",
-    "vss": "npm:vss-web-extension-sdk/typings/vss.d.ts"
+    "tfs": "github:mohitbagra/vss-web-extension-sdk/typings/tfs.d.ts",
+    "vss": "github:mohitbagra/vss-web-extension-sdk/typings/vss.d.ts"
   }
 }

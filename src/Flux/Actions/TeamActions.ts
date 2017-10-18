@@ -1,7 +1,7 @@
 import * as CoreClient from "TFS/Core/RestClient";
 import { WebApiTeam } from "TFS/Core/Contracts";
 
-import { StringUtils } from "../../Utils/String";
+import { StringUtils } from "../../Utilities/String";
 import { StoreFactory } from "../Stores/BaseStore";
 import { TeamStore } from "../Stores/TeamStore";
 import { TeamActionsHub } from "./ActionsHub";
