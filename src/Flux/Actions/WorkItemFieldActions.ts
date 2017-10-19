@@ -6,7 +6,6 @@ import { WorkItemFieldActionsHub } from "./ActionsHub";
 import { WorkItemField } from "TFS/WorkItemTracking/Contracts";
 import * as WitClient from "TFS/WorkItemTracking/RestClient";
 
-
 export module WorkItemFieldActions {
     var workItemFieldStore: WorkItemFieldStore = StoreFactory.getInstance<WorkItemFieldStore>(WorkItemFieldStore);
 

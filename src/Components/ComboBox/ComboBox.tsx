@@ -10,7 +10,6 @@ import {
 import * as Controls from "VSS/Controls";
 import * as Combos from "VSS/Controls/Combos";
 
-
 export interface IComboBoxProps extends IBaseComponentProps {
     value?: string;
     options?: any;

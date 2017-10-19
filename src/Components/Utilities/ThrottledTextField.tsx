@@ -5,7 +5,6 @@ import { CoreUtils } from "../../Utilities/Core";
 import { ITextFieldProps, TextField } from "OfficeFabric/TextField";
 import { autobind } from "OfficeFabric/Utilities";
 
-
 export interface IThrottledTextFieldProps extends ITextFieldProps {
     delay?: number;
 }

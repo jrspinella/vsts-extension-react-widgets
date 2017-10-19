@@ -1,9 +1,9 @@
 /// <reference types="react" />
-import "trumbowyg/dist/trumbowyg";
-import "trumbowyg/dist/ui/trumbowyg.min.css";
-import { IBaseComponentProps, IBaseComponentState, BaseComponent } from "./BaseComponent";
 import "../../Utilities/PasteImagePlugin";
 import "../../Utilities/UploadImagePlugin";
+import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "./BaseComponent";
+import "trumbowyg/dist/trumbowyg";
+import "trumbowyg/dist/ui/trumbowyg.min.css";
 export interface IRichEditorProps extends IBaseComponentProps {
     containerId: string;
     data?: string;

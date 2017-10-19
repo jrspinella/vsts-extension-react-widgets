@@ -15,7 +15,6 @@ import { Label } from "OfficeFabric/Label";
 
 import { WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
 
-
 export interface IStateViewProps extends IBaseComponentProps {
     state: string;
     workItemType: string;

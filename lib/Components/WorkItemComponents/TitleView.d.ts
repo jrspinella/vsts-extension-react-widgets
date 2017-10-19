@@ -1,9 +1,9 @@
 /// <reference types="react" />
 import "./TitleView.scss";
 import * as React from "react";
-import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
-import { BaseComponent, IBaseComponentState, IBaseComponentProps } from "../Utilities/BaseComponent";
 import { BaseStore } from "../../Flux/Stores/BaseStore";
+import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "../Utilities/BaseComponent";
+import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
 export interface ITitleViewProps extends IBaseComponentProps {
     workItemId: number;
     title: string;

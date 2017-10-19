@@ -9,7 +9,6 @@ import {
 import { Callout, DirectionalHint } from "OfficeFabric/Callout";
 import { Icon } from "OfficeFabric/Icon";
 
-
 export interface IBadgeProps extends IBaseComponentProps {
     notificationCount: number;
 }

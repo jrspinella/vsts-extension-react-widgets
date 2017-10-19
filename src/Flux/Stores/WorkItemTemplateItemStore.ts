@@ -3,7 +3,6 @@ import { BaseStore } from "./BaseStore";
 
 import { WorkItemTemplate } from "TFS/WorkItemTracking/Contracts";
 
-
 export class WorkItemTemplateItemStore extends BaseStore<IDictionaryStringTo<WorkItemTemplate>, WorkItemTemplate, string> {
     constructor() {
         super();

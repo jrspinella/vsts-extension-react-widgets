@@ -6,7 +6,6 @@ import { GitRepoActionsHub } from "./ActionsHub";
 import { GitRepository } from "TFS/VersionControl/Contracts";
 import * as GitClient from "TFS/VersionControl/GitRestClient";
 
-
 export module GitRepoActions {
     var gitRepoStore: GitRepoStore = StoreFactory.getInstance<GitRepoStore>(GitRepoStore);
 

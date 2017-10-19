@@ -7,7 +7,6 @@ import * as WitClient from "TFS/WorkItemTracking/RestClient";
 
 import { JsonPatchDocument, JsonPatchOperation, Operation } from "VSS/WebApi/Contracts";
 
-
 export module WorkItemActions {
     var workItemStore: WorkItemStore = StoreFactory.getInstance<WorkItemStore>(WorkItemStore);
 

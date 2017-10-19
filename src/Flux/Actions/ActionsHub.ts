@@ -8,7 +8,6 @@ import {
     WorkItemType
 } from "TFS/WorkItemTracking/Contracts";
 
-
 export module WorkItemTypeActionsHub {
     export var InitializeWorkItemTypes = new Action<WorkItemType[]>();
 }

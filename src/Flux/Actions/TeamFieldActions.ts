@@ -5,7 +5,6 @@ import { TeamFieldActionsHub } from "./ActionsHub";
 import { TeamContext } from "TFS/Core/Contracts";
 import * as WorkClient from "TFS/Work/RestClient";
 
-
 export module TeamFieldActions {
     var teamFieldStore: TeamFieldStore = StoreFactory.getInstance<TeamFieldStore>(TeamFieldStore);
 

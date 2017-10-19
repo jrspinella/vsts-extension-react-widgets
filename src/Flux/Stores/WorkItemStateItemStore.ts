@@ -3,7 +3,6 @@ import { BaseStore } from "./BaseStore";
 
 import { WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
 
-
 export class WorkItemStateItemStore extends BaseStore<IDictionaryStringTo<WorkItemStateColor[]>, WorkItemStateColor[], string> {
     constructor() {
         super();

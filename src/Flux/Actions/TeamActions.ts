@@ -6,7 +6,6 @@ import { TeamActionsHub } from "./ActionsHub";
 import { WebApiTeam } from "TFS/Core/Contracts";
 import * as CoreClient from "TFS/Core/RestClient";
 
-
 export module TeamActions {
     var teamStore: TeamStore = StoreFactory.getInstance<TeamStore>(TeamStore);
 

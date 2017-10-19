@@ -3,7 +3,6 @@ import { BaseStore } from "./BaseStore";
 
 import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
 
-
 export class WorkItemTypeStore extends BaseStore<WorkItemType[], WorkItemType, string> {
     private _itemsIdMap: IDictionaryStringTo<WorkItemType>;
 

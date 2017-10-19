@@ -5,7 +5,6 @@ import { IBaseComponentProps } from "../Utilities/BaseComponent";
 
 import { Persona, PersonaSize } from "OfficeFabric/Persona";
 
-
 export interface IIdentityViewProps extends IBaseComponentProps {
     identityDistinctName: string;
     size?: PersonaSize;

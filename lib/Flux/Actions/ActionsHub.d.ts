@@ -1,8 +1,8 @@
 import { Action } from "./Action";
-import { WorkItem, WorkItemType, WorkItemField, WorkItemTemplate, WorkItemTemplateReference, WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
 import { WebApiTeam } from "TFS/Core/Contracts";
 import { GitRepository } from "TFS/VersionControl/Contracts";
 import { TeamFieldValues } from "TFS/Work/Contracts";
+import { WorkItem, WorkItemField, WorkItemStateColor, WorkItemTemplate, WorkItemTemplateReference, WorkItemType } from "TFS/WorkItemTracking/Contracts";
 export declare module WorkItemTypeActionsHub {
     var InitializeWorkItemTypes: Action<WorkItemType[]>;
 }

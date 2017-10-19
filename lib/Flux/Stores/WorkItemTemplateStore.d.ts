@@ -1,5 +1,5 @@
-import { WorkItemTemplateReference } from "TFS/WorkItemTracking/Contracts";
 import { BaseStore } from "./BaseStore";
+import { WorkItemTemplateReference } from "TFS/WorkItemTracking/Contracts";
 export declare class WorkItemTemplateStore extends BaseStore<IDictionaryStringTo<WorkItemTemplateReference[]>, WorkItemTemplateReference[], string> {
     private _itemsIdMap;
     constructor();

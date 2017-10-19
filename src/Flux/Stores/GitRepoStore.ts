@@ -3,7 +3,6 @@ import { BaseStore } from "./BaseStore";
 
 import { GitRepository } from "TFS/VersionControl/Contracts";
 
-
 export class GitRepoStore extends BaseStore<GitRepository[], GitRepository, string> {
     private _itemsIdMap: IDictionaryStringTo<GitRepository>;
     private _itemsNameMap: IDictionaryStringTo<GitRepository>;

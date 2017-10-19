@@ -1,5 +1,5 @@
-import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
 import { BaseStore } from "./BaseStore";
+import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
 export declare class WorkItemTypeStore extends BaseStore<WorkItemType[], WorkItemType, string> {
     private _itemsIdMap;
     constructor();

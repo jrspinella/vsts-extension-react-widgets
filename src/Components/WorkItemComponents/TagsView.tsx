@@ -6,7 +6,6 @@ import { IBaseComponentProps } from "../Utilities/BaseComponent";
 
 import { Label } from "OfficeFabric/Label";
 
-
 export interface ITagsViewProps extends IBaseComponentProps {
     tags: string[];
 }

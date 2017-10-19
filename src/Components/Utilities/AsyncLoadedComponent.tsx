@@ -1,6 +1,5 @@
 import * as React from "react";
 
-
 export type ModuleComponentSelector<TProps> = (...modules: any[]) => React.ComponentClass<TProps> | React.StatelessComponent<TProps>;
 
 interface IAsyncLoadedComponentProps<TProps> {

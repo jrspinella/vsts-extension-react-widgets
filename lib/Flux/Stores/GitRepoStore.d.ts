@@ -1,5 +1,5 @@
-import { GitRepository } from "TFS/VersionControl/Contracts";
 import { BaseStore } from "./BaseStore";
+import { GitRepository } from "TFS/VersionControl/Contracts";
 export declare class GitRepoStore extends BaseStore<GitRepository[], GitRepository, string> {
     private _itemsIdMap;
     private _itemsNameMap;

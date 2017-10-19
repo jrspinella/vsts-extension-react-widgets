@@ -13,7 +13,6 @@ import { Label } from "OfficeFabric/Label";
 
 import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
 
-
 export interface ITitleViewProps extends IBaseComponentProps {
     workItemId: number;
     title: string;

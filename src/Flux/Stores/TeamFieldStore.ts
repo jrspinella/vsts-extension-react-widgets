@@ -3,7 +3,6 @@ import { BaseStore } from "./BaseStore";
 
 import { TeamFieldValues } from "TFS/Work/Contracts";
 
-
 export class TeamFieldStore extends BaseStore<IDictionaryStringTo<TeamFieldValues>, TeamFieldValues, string> {
     constructor() {
         super();

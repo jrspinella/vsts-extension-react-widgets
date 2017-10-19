@@ -11,7 +11,7 @@
     "importSorter.importStringConfiguration.spacingPerImportExpression.beforeEndingBracket": 1,
     "importSorter.importStringConfiguration.spacingPerImportExpression.beforeComma": 0,
     "importSorter.importStringConfiguration.spacingPerImportExpression.afterComma": 1,
-    "importSorter.importStringConfiguration.numberOfEmptyLinesAfterAllImports": 2,
+    "importSorter.importStringConfiguration.numberOfEmptyLinesAfterAllImports": 1,
     "importSorter.sortConfiguration.customOrderingRules.rules": [
         {
             "regex": ".scss$",

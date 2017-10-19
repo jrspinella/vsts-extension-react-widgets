@@ -1,5 +1,5 @@
-import { WorkItemField } from "TFS/WorkItemTracking/Contracts";
 import { BaseStore } from "./BaseStore";
+import { WorkItemField } from "TFS/WorkItemTracking/Contracts";
 export declare class WorkItemFieldStore extends BaseStore<WorkItemField[], WorkItemField, string> {
     private _itemsRefNameMap;
     private _itemsNameMap;

@@ -1,5 +1,5 @@
 import { AutoResizableComponent } from "./AutoResizableComponent";
-import { IBaseComponentState, IBaseComponentProps } from "./BaseComponent";
+import { IBaseComponentProps, IBaseComponentState } from "./BaseComponent";
 export interface IFieldControlProps extends IBaseComponentProps {
     fieldName: string;
 }

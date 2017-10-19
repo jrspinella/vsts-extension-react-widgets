@@ -1,5 +1,5 @@
-import { TeamFieldValues } from "TFS/Work/Contracts";
 import { BaseStore } from "./BaseStore";
+import { TeamFieldValues } from "TFS/Work/Contracts";
 export declare class TeamFieldStore extends BaseStore<IDictionaryStringTo<TeamFieldValues>, TeamFieldValues, string> {
     constructor();
     getItem(teamId: string): TeamFieldValues;

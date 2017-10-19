@@ -1,8 +1,8 @@
 /// <reference types="react" />
 import "./StateView.scss";
-import { WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
-import { BaseComponent, IBaseComponentState, IBaseComponentProps } from "../Utilities/BaseComponent";
 import { BaseStore } from "../../Flux/Stores/BaseStore";
+import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "../Utilities/BaseComponent";
+import { WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
 export interface IStateViewProps extends IBaseComponentProps {
     state: string;
     workItemType: string;

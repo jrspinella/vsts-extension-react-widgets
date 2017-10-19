@@ -15,7 +15,6 @@ import {
 import { FieldType, WorkItem, WorkItemField } from "TFS/WorkItemTracking/Contracts";
 import { WorkItemFormNavigationService } from "TFS/WorkItemTracking/Services";
 
-
 export interface ICellRenderOptions {
     onClick: (ev: React.MouseEvent<HTMLElement>) => void;
 }

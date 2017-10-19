@@ -4,7 +4,6 @@ import { IBaseComponentProps, IBaseComponentState } from "./BaseComponent";
 import * as WitExtensionContracts from "TFS/WorkItemTracking/ExtensionContracts";
 import { WorkItemFormService } from "TFS/WorkItemTracking/Services";
 
-
 export interface IFieldControlProps extends IBaseComponentProps {
     fieldName: string;
 }

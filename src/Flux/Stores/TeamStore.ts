@@ -3,7 +3,6 @@ import { BaseStore } from "./BaseStore";
 
 import { WebApiTeam } from "TFS/Core/Contracts";
 
-
 export class TeamStore extends BaseStore<WebApiTeam[], WebApiTeam, string> {
     private _itemsIdMap: IDictionaryStringTo<WebApiTeam>;
     private _itemsNameMap: IDictionaryStringTo<WebApiTeam>;

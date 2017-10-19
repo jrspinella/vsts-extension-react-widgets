@@ -10,7 +10,6 @@ import { autobind } from "OfficeFabric/Utilities";
 import "trumbowyg/dist/trumbowyg";
 import "trumbowyg/dist/ui/trumbowyg.min.css";
 
-
 export interface IRichEditorProps extends IBaseComponentProps {
     containerId: string;
     data?: string;

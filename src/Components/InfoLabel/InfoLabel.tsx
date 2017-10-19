@@ -8,7 +8,6 @@ import { Icon } from "OfficeFabric/Icon";
 import { Label } from "OfficeFabric/Label";
 import { DirectionalHint, TooltipDelay, TooltipHost } from "OfficeFabric/Tooltip";
 
-
 export interface IInfoLabelProps extends IBaseComponentProps {
     label: string;
     info: string;

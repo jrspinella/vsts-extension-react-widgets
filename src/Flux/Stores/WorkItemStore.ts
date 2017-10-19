@@ -3,7 +3,6 @@ import { BaseStore } from "./BaseStore";
 
 import { WorkItem } from "TFS/WorkItemTracking/Contracts";
 
-
 export class WorkItemStore extends BaseStore<IDictionaryNumberTo<WorkItem>, WorkItem, number> {
     constructor() {
         super();
