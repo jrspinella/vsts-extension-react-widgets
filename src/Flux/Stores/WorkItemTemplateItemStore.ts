@@ -1,7 +1,8 @@
+import { WorkItemTemplateItemActionsHub } from "../Actions/ActionsHub";
+import { BaseStore } from "./BaseStore";
+
 import { WorkItemTemplate } from "TFS/WorkItemTracking/Contracts";
 
-import { BaseStore } from "./BaseStore";
-import { WorkItemTemplateItemActionsHub } from "../Actions/ActionsHub";
 
 export class WorkItemTemplateItemStore extends BaseStore<IDictionaryStringTo<WorkItemTemplate>, WorkItemTemplate, string> {
     constructor() {

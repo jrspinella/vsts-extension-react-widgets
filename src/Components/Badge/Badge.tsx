@@ -1,10 +1,14 @@
 import "./Badge.scss";
 
 import * as React from "react";
-import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "../Utilities/BaseComponent";
+
+import {
+    BaseComponent, IBaseComponentProps, IBaseComponentState
+} from "../Utilities/BaseComponent";
 
 import { Callout, DirectionalHint } from "OfficeFabric/Callout";
 import { Icon } from "OfficeFabric/Icon";
+
 
 export interface IBadgeProps extends IBaseComponentProps {
     notificationCount: number;

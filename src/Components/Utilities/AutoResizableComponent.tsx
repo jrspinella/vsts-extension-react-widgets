@@ -1,5 +1,6 @@
 import { CoreUtils } from "../../Utilities/Core";
-import {BaseComponent} from "./BaseComponent"; 
+import { BaseComponent } from "./BaseComponent";
+
 
 export abstract class AutoResizableComponent<TP, TS> extends BaseComponent<TP, TS> {
     private _windowResizeThrottleDelegate: any;

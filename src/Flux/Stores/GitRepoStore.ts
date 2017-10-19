@@ -1,7 +1,8 @@
+import { GitRepoActionsHub } from "../Actions/ActionsHub";
+import { BaseStore } from "./BaseStore";
+
 import { GitRepository } from "TFS/VersionControl/Contracts";
 
-import { BaseStore } from "./BaseStore";
-import { GitRepoActionsHub } from "../Actions/ActionsHub";
 
 export class GitRepoStore extends BaseStore<GitRepository[], GitRepository, string> {
     private _itemsIdMap: IDictionaryStringTo<GitRepository>;

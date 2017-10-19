@@ -3,9 +3,11 @@ import "./InfoLabel.scss";
 import * as React from "react";
 
 import { IBaseComponentProps } from "../Utilities/BaseComponent";
-import { Label } from "OfficeFabric/Label";
+
 import { Icon } from "OfficeFabric/Icon";
-import { TooltipHost, TooltipDelay, DirectionalHint } from "OfficeFabric/Tooltip";
+import { Label } from "OfficeFabric/Label";
+import { DirectionalHint, TooltipDelay, TooltipHost } from "OfficeFabric/Tooltip";
+
 
 export interface IInfoLabelProps extends IBaseComponentProps {
     label: string;

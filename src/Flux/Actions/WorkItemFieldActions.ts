@@ -1,10 +1,11 @@
-import * as WitClient from "TFS/WorkItemTracking/RestClient";
-import { WorkItemField } from "TFS/WorkItemTracking/Contracts";
-
 import { StringUtils } from "../../Utilities/String";
 import { StoreFactory } from "../Stores/BaseStore";
 import { WorkItemFieldStore } from "../Stores/WorkItemFieldStore";
 import { WorkItemFieldActionsHub } from "./ActionsHub";
+
+import { WorkItemField } from "TFS/WorkItemTracking/Contracts";
+import * as WitClient from "TFS/WorkItemTracking/RestClient";
+
 
 export module WorkItemFieldActions {
     var workItemFieldStore: WorkItemFieldStore = StoreFactory.getInstance<WorkItemFieldStore>(WorkItemFieldStore);

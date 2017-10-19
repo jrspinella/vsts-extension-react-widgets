@@ -1,7 +1,9 @@
 import * as React from "react";
 
 import { BaseStore } from "../../Flux/Stores/BaseStore";
+
 import { autobind } from "OfficeFabric/Utilities";
+
 
 export interface IBaseComponentProps {
     className?: string;

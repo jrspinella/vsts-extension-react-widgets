@@ -1,8 +1,9 @@
-import * as WitExtensionContracts  from "TFS/WorkItemTracking/ExtensionContracts";
+import { AutoResizableComponent } from "./AutoResizableComponent";
+import { IBaseComponentProps, IBaseComponentState } from "./BaseComponent";
+
+import * as WitExtensionContracts from "TFS/WorkItemTracking/ExtensionContracts";
 import { WorkItemFormService } from "TFS/WorkItemTracking/Services";
 
-import { AutoResizableComponent } from "./AutoResizableComponent";
-import { IBaseComponentState, IBaseComponentProps } from "./BaseComponent"; 
 
 export interface IFieldControlProps extends IBaseComponentProps {
     fieldName: string;

@@ -1,17 +1,20 @@
 import * as React from "react";
 
-import { WorkItem, WorkItemField, FieldType } from "TFS/WorkItemTracking/Contracts";
-import { WorkItemFormNavigationService } from "TFS/WorkItemTracking/Services";
-
-import { TooltipHost, TooltipDelay, DirectionalHint, TooltipOverflowMode } from "OfficeFabric/Tooltip";
-import { Label } from "OfficeFabric/Label";
-
-import { StringUtils } from "./String";
-import { DateUtils } from "./Date";
 import { IdentityView } from "../Components/IdentityView";
+import { StateView } from "../Components/WorkItemComponents/StateView";
 import { TagsView } from "../Components/WorkItemComponents/TagsView";
 import { TitleView } from "../Components/WorkItemComponents/TitleView";
-import { StateView } from "../Components/WorkItemComponents/StateView";
+import { DateUtils } from "./Date";
+import { StringUtils } from "./String";
+
+import { Label } from "OfficeFabric/Label";
+import {
+    DirectionalHint, TooltipDelay, TooltipHost, TooltipOverflowMode
+} from "OfficeFabric/Tooltip";
+
+import { FieldType, WorkItem, WorkItemField } from "TFS/WorkItemTracking/Contracts";
+import { WorkItemFormNavigationService } from "TFS/WorkItemTracking/Services";
+
 
 export interface ICellRenderOptions {
     onClick: (ev: React.MouseEvent<HTMLElement>) => void;

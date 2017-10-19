@@ -1,7 +1,8 @@
+import { WorkItemTypeActionsHub } from "../Actions/ActionsHub";
+import { BaseStore } from "./BaseStore";
+
 import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
 
-import { BaseStore } from "./BaseStore";
-import { WorkItemTypeActionsHub } from "../Actions/ActionsHub";
 
 export class WorkItemTypeStore extends BaseStore<WorkItemType[], WorkItemType, string> {
     private _itemsIdMap: IDictionaryStringTo<WorkItemType>;

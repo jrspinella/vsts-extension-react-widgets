@@ -1,7 +1,8 @@
+import { TeamFieldActionsHub } from "../Actions/ActionsHub";
+import { BaseStore } from "./BaseStore";
+
 import { TeamFieldValues } from "TFS/Work/Contracts";
 
-import { BaseStore } from "./BaseStore";
-import { TeamFieldActionsHub } from "../Actions/ActionsHub";
 
 export class TeamFieldStore extends BaseStore<IDictionaryStringTo<TeamFieldValues>, TeamFieldValues, string> {
     constructor() {

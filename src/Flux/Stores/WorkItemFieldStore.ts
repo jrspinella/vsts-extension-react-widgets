@@ -1,7 +1,8 @@
+import { WorkItemFieldActionsHub } from "../Actions/ActionsHub";
+import { BaseStore } from "./BaseStore";
+
 import { WorkItemField } from "TFS/WorkItemTracking/Contracts";
 
-import { BaseStore } from "./BaseStore";
-import { WorkItemFieldActionsHub } from "../Actions/ActionsHub";
 
 export class WorkItemFieldStore extends BaseStore<WorkItemField[], WorkItemField, string> {
     private _itemsRefNameMap: IDictionaryStringTo<WorkItemField>;

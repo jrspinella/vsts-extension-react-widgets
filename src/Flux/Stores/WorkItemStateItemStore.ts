@@ -1,7 +1,8 @@
+import { WorkItemStateItemActionsHub } from "../Actions/ActionsHub";
+import { BaseStore } from "./BaseStore";
+
 import { WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
 
-import { BaseStore } from "./BaseStore";
-import { WorkItemStateItemActionsHub } from "../Actions/ActionsHub";
 
 export class WorkItemStateItemStore extends BaseStore<IDictionaryStringTo<WorkItemStateColor[]>, WorkItemStateColor[], string> {
     constructor() {

@@ -1,9 +1,10 @@
 import * as React from "react";
 
+import { StringUtils } from "../../Utilities/String";
+import { IBaseComponentProps } from "../Utilities/BaseComponent";
+
 import { Persona, PersonaSize } from "OfficeFabric/Persona";
 
-import { IBaseComponentProps } from "../Utilities/BaseComponent";
-import { StringUtils } from "../../Utilities/String";
 
 export interface IIdentityViewProps extends IBaseComponentProps {
     identityDistinctName: string;

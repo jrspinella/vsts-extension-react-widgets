@@ -1,10 +1,12 @@
-import { WorkItemActionsHub } from "./ActionsHub";
-import { WorkItemStore } from "../Stores/WorkItemStore";
 import { StoreFactory } from "../Stores/BaseStore";
+import { WorkItemStore } from "../Stores/WorkItemStore";
+import { WorkItemActionsHub } from "./ActionsHub";
+
+import { WorkItem, WorkItemErrorPolicy } from "TFS/WorkItemTracking/Contracts";
+import * as WitClient from "TFS/WorkItemTracking/RestClient";
 
 import { JsonPatchDocument, JsonPatchOperation, Operation } from "VSS/WebApi/Contracts";
-import * as WitClient from "TFS/WorkItemTracking/RestClient";
-import { WorkItem, WorkItemErrorPolicy } from "TFS/WorkItemTracking/Contracts";
+
 
 export module WorkItemActions {
     var workItemStore: WorkItemStore = StoreFactory.getInstance<WorkItemStore>(WorkItemStore);

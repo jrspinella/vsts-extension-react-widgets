@@ -2,16 +2,19 @@ import "./StateView.scss";
 
 import * as React from "react";
 
+import { WorkItemStateItemActions } from "../../Flux/Actions/WorkItemStateItemActions";
+import { BaseStore, StoreFactory } from "../../Flux/Stores/BaseStore";
+import { WorkItemStateItemStore } from "../../Flux/Stores/WorkItemStateItemStore";
+import { ArrayUtils } from "../../Utilities/Array";
+import { StringUtils } from "../../Utilities/String";
+import {
+    BaseComponent, IBaseComponentProps, IBaseComponentState
+} from "../Utilities/BaseComponent";
+
 import { Label } from "OfficeFabric/Label";
 
 import { WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
 
-import { StringUtils } from "../../Utilities/String";
-import { ArrayUtils } from "../../Utilities/Array";
-import { BaseComponent, IBaseComponentState, IBaseComponentProps } from "../Utilities/BaseComponent"; 
-import { BaseStore, StoreFactory } from "../../Flux/Stores/BaseStore";
-import { WorkItemStateItemStore } from "../../Flux/Stores/WorkItemStateItemStore";
-import { WorkItemStateItemActions } from "../../Flux/Actions/WorkItemStateItemActions";
 
 export interface IStateViewProps extends IBaseComponentProps {
     state: string;

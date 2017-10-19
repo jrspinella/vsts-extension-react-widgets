@@ -2,8 +2,10 @@ import "./TagsView.scss";
 
 import * as React from "react";
 
-import { Label } from "OfficeFabric/Label";
 import { IBaseComponentProps } from "../Utilities/BaseComponent";
+
+import { Label } from "OfficeFabric/Label";
+
 
 export interface ITagsViewProps extends IBaseComponentProps {
     tags: string[];

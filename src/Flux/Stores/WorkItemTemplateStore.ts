@@ -1,7 +1,8 @@
+import { WorkItemTemplateActionsHub } from "../Actions/ActionsHub";
+import { BaseStore } from "./BaseStore";
+
 import { WorkItemTemplateReference } from "TFS/WorkItemTracking/Contracts";
 
-import { BaseStore } from "./BaseStore";
-import { WorkItemTemplateActionsHub } from "../Actions/ActionsHub";
 
 export class WorkItemTemplateStore extends BaseStore<IDictionaryStringTo<WorkItemTemplateReference[]>, WorkItemTemplateReference[], string> {
     private _itemsIdMap: IDictionaryStringTo<WorkItemTemplateReference>;

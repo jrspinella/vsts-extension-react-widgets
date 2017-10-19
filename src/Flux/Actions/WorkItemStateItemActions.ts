@@ -1,8 +1,9 @@
-import * as WitClient from "TFS/WorkItemTracking/RestClient";
-
 import { StoreFactory } from "../Stores/BaseStore";
 import { WorkItemStateItemStore } from "../Stores/WorkItemStateItemStore";
 import { WorkItemStateItemActionsHub } from "./ActionsHub";
+
+import * as WitClient from "TFS/WorkItemTracking/RestClient";
+
 
 export module WorkItemStateItemActions {
     var workItemStateItemStore: WorkItemStateItemStore = StoreFactory.getInstance<WorkItemStateItemStore>(WorkItemStateItemStore);

@@ -1,14 +1,15 @@
 import * as React from "react";
 
-import "trumbowyg/dist/trumbowyg";
-import "trumbowyg/dist/ui/trumbowyg.min.css";
-import { IBaseComponentProps, IBaseComponentState, BaseComponent } from "./BaseComponent";
 import { CoreUtils } from "../../Utilities/Core";
+import "../../Utilities/PasteImagePlugin";
+import "../../Utilities/UploadImagePlugin";
+import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "./BaseComponent";
 
 import { autobind } from "OfficeFabric/Utilities";
 
-import "../../Utilities/PasteImagePlugin";
-import "../../Utilities/UploadImagePlugin";
+import "trumbowyg/dist/trumbowyg";
+import "trumbowyg/dist/ui/trumbowyg.min.css";
+
 
 export interface IRichEditorProps extends IBaseComponentProps {
     containerId: string;

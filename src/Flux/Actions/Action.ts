@@ -1,5 +1,6 @@
 import { EventManager } from "../../Utilities/EventManager";
 
+
 export class Action<T> {
     private static executing: boolean = false;
     private _eventManager = new EventManager<T>();

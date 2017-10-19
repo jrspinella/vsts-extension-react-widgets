@@ -1,7 +1,8 @@
+import { TeamActionsHub } from "../Actions/ActionsHub";
+import { BaseStore } from "./BaseStore";
+
 import { WebApiTeam } from "TFS/Core/Contracts";
 
-import { BaseStore } from "./BaseStore";
-import { TeamActionsHub } from "../Actions/ActionsHub";
 
 export class TeamStore extends BaseStore<WebApiTeam[], WebApiTeam, string> {
     private _itemsIdMap: IDictionaryStringTo<WebApiTeam>;

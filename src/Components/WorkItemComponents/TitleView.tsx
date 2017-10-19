@@ -2,13 +2,17 @@ import "./TitleView.scss";
 
 import * as React from "react";
 
+import { WorkItemTypeActions } from "../../Flux/Actions/WorkItemTypeActions";
+import { BaseStore, StoreFactory } from "../../Flux/Stores/BaseStore";
+import { WorkItemTypeStore } from "../../Flux/Stores/WorkItemTypeStore";
+import {
+    BaseComponent, IBaseComponentProps, IBaseComponentState
+} from "../Utilities/BaseComponent";
+
 import { Label } from "OfficeFabric/Label";
 
 import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
-import { BaseComponent, IBaseComponentState, IBaseComponentProps } from "../Utilities/BaseComponent"; 
-import { BaseStore, StoreFactory } from "../../Flux/Stores/BaseStore";
-import { WorkItemTypeStore } from "../../Flux/Stores/WorkItemTypeStore";
-import { WorkItemTypeActions } from "../../Flux/Actions/WorkItemTypeActions";
+
 
 export interface ITitleViewProps extends IBaseComponentProps {
     workItemId: number;

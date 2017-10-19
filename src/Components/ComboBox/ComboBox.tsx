@@ -1,10 +1,15 @@
 import "./ComboBox.scss";
 
 import * as React from "react";
+
+import { InputError } from "../InputError";
+import {
+    BaseComponent, IBaseComponentProps, IBaseComponentState
+} from "../Utilities/BaseComponent";
+
 import * as Controls from "VSS/Controls";
 import * as Combos from "VSS/Controls/Combos";
-import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "../Utilities/BaseComponent";
-import { InputError } from "../InputError";
+
 
 export interface IComboBoxProps extends IBaseComponentProps {
     value?: string;

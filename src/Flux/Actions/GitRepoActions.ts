@@ -1,10 +1,11 @@
-import * as GitClient from "TFS/VersionControl/GitRestClient";
-import { GitRepository } from "TFS/VersionControl/Contracts";
-
 import { StringUtils } from "../../Utilities/String";
 import { StoreFactory } from "../Stores/BaseStore";
 import { GitRepoStore } from "../Stores/GitRepoStore";
-import { GitRepoActionsHub} from "./ActionsHub";
+import { GitRepoActionsHub } from "./ActionsHub";
+
+import { GitRepository } from "TFS/VersionControl/Contracts";
+import * as GitClient from "TFS/VersionControl/GitRestClient";
+
 
 export module GitRepoActions {
     var gitRepoStore: GitRepoStore = StoreFactory.getInstance<GitRepoStore>(GitRepoStore);

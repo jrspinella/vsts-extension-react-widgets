@@ -1,5 +1,6 @@
 import * as ImageCompressor from "@xkeshi/image-compressor";
 
+
 (function ($) {
     'use strict';
 

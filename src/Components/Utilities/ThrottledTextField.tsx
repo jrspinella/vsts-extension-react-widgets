@@ -1,9 +1,10 @@
 import * as React from "react";
 
-import { TextField, ITextFieldProps } from "OfficeFabric/TextField";
+import { CoreUtils } from "../../Utilities/Core";
+
+import { ITextFieldProps, TextField } from "OfficeFabric/TextField";
 import { autobind } from "OfficeFabric/Utilities";
 
-import { CoreUtils } from "../../Utilities/Core";
 
 export interface IThrottledTextFieldProps extends ITextFieldProps {
     delay?: number;

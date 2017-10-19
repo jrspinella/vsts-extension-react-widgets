@@ -2,10 +2,11 @@ import "./CommonComponentsDemo.scss";
 
 import * as React from "react";
 
-import {Loading} from "../src/Components/Loading";
-import {InputError} from "../src/Components/InputError";
-import {InfoLabel} from "../src/Components/InfoLabel";
-import {IdentityView} from "../src/Components/IdentityView";
+import { IdentityView } from "../src/Components/IdentityView";
+import { InfoLabel } from "../src/Components/InfoLabel";
+import { InputError } from "../src/Components/InputError";
+import { Loading } from "../src/Components/Loading";
+
 
 interface ICommonComponentsDemoState {
 
