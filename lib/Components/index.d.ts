@@ -1,4 +1,5 @@
 export * from "./Badge/index";
+export * from "./ColorPicker/index";
 export * from "./ComboBox/index";
 export * from "./IdentityView/index";
 export * from "./InfoLabel/index";

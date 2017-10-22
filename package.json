@@ -1,6 +1,6 @@
 {
     "name": "vsts-extension-react-widgets",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "description": "Reusable React components based on office fabric for building VSTS extensions.",
     "main": "lib/index.js",
     "typings": "lib/index.d.ts",
