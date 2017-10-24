@@ -17,7 +17,7 @@ export interface ITitleViewProps extends IBaseComponentProps {
     workItemId: number;
     title: string;
     workItemType: string;
-    onClick: (e: React.MouseEvent<HTMLElement>) => void;
+    onClick?: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
 export interface ITitleViewState extends IBaseComponentState {
@@ -76,7 +76,7 @@ export class TitleView extends BaseComponent<ITitleViewProps, ITitleViewState> {
                 <a 
                     href={witUrl} 
                     onClick={(e: React.MouseEvent<HTMLElement>) => {
-                        if (!e.ctrlKey) {
+                        if (this.props.onClick && !e.ctrlKey) {
                             e.preventDefault();
                             this.props.onClick(e);
                         }

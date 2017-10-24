@@ -12,7 +12,8 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "paths": {
-            "OfficeFabric/*": ["node_modules/office-ui-fabric-react/lib/*"]
+            "OfficeFabric/*": ["node_modules/office-ui-fabric-react/lib/*"],
+            "VSSUI/*": ["node_modules/vss-ui/*"]
         },
         "types": [
             "q",

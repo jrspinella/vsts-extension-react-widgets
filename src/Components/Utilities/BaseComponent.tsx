@@ -21,13 +21,13 @@ export class BaseComponent<TProps extends IBaseComponentProps, TState extends IB
 
     public componentDidMount() {
         for (const store of this.getStores()) {
-            store.addChangedListener(this._onStoreChanged);
+            store.subscribe(this._onStoreChanged);
         }
     }
 
     public componentWillUnmount() {
         for (const store of this.getStores()) {
-            store.removeChangedListener(this._onStoreChanged);
+            store.unsubscribe(this._onStoreChanged);
         }
     }
 

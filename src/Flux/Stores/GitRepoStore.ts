@@ -19,7 +19,7 @@ export class GitRepoStore extends BaseStore<GitRepository[], GitRepository, stri
     }    
 
     protected initializeActionListeners() {
-        GitRepoActionsHub.InitializeGitRepos.addListener((repos: GitRepository[]) => {
+        GitRepoActionsHub.InitializeGitRepos.subscribe((repos: GitRepository[]) => {
             if (repos) {
                 this.items = repos;
                 this._itemsIdMap = {};
@@ -31,7 +31,7 @@ export class GitRepoStore extends BaseStore<GitRepository[], GitRepository, stri
                 }
             }
 
-            this.emitChanged();
+            this.notify(null, null);
         });
     }
 

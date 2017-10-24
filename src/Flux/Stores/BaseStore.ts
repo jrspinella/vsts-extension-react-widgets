@@ -1,30 +1,18 @@
-import { EventManager } from "../../Utilities/EventManager";
+import { Observable } from "VSSUI/Utilities/Observable";
 
-export abstract class BaseStore<TCollection, TItem, TKey> {
+export abstract class BaseStore<TCollection, TItem, TKey> extends Observable<void> {
     protected items: TCollection;
 
-    private _eventManager = new EventManager();
     private _isLoading: boolean;
     private _isItemLoadingMap: IDictionaryStringTo<boolean>;
 
-    constructor() {        
+    constructor() {
+        super(); 
         this.items = null;
         this._isLoading = false;
         this._isItemLoadingMap = {};
 
         this.initializeActionListeners();
-    }    
-
-    public addChangedListener(handler: () => void) {
-        this._eventManager.subscribe(handler);
-    }
-
-    public removeChangedListener(handler: () => void) {
-        this._eventManager.unsubscribe(handler);
-    }
-
-    protected emitChanged(): void {
-        this._eventManager.invokeHandlers(null);
     }
 
     public isLoaded(key?: TKey): boolean {
@@ -61,7 +49,7 @@ export abstract class BaseStore<TCollection, TItem, TKey> {
             this._isLoading = loading;
         }
 
-        this.emitChanged();
+        this.notify(null, null);
     }  
 
     public itemExists(key: TKey): boolean {        

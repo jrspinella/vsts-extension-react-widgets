@@ -19,7 +19,7 @@ export class TeamStore extends BaseStore<WebApiTeam[], WebApiTeam, string> {
     }    
 
     protected initializeActionListeners() {
-        TeamActionsHub.InitializeTeams.addListener((teams: WebApiTeam[]) => {
+        TeamActionsHub.InitializeTeams.subscribe((teams: WebApiTeam[]) => {
             if (teams) {
                 this.items = teams;
                 this._itemsIdMap = {};
@@ -31,7 +31,7 @@ export class TeamStore extends BaseStore<WebApiTeam[], WebApiTeam, string> {
                 }
             }
 
-            this.emitChanged();
+            this.notify(null, null);
         });
     }
 

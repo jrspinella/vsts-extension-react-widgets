@@ -17,7 +17,7 @@ export class WorkItemTypeStore extends BaseStore<WorkItemType[], WorkItemType, s
     }    
 
     protected initializeActionListeners() {
-        WorkItemTypeActionsHub.InitializeWorkItemTypes.addListener((workItemTypes: WorkItemType[]) => {
+        WorkItemTypeActionsHub.InitializeWorkItemTypes.subscribe((workItemTypes: WorkItemType[]) => {
             if (workItemTypes) {
                 this.items = workItemTypes;
                 this._itemsIdMap = {};
@@ -27,7 +27,7 @@ export class WorkItemTypeStore extends BaseStore<WorkItemType[], WorkItemType, s
                 }
             }
 
-            this.emitChanged();
+            this.notify(null, null);
         });
     }
 

@@ -14,12 +14,12 @@ export class WorkItemStateItemStore extends BaseStore<IDictionaryStringTo<WorkIt
     }
 
     protected initializeActionListeners() {
-        WorkItemStateItemActionsHub.InitializeWorkItemStateItems.addListener((stateItems: {witName: string, states: WorkItemStateColor[]}) => {
+        WorkItemStateItemActionsHub.InitializeWorkItemStateItems.subscribe((stateItems: {witName: string, states: WorkItemStateColor[]}) => {
             if (stateItems) {               
                 this.items[stateItems.witName.toLowerCase()] = stateItems.states;
             }
 
-            this.emitChanged();
+            this.notify(null, null);
         });
     }    
 

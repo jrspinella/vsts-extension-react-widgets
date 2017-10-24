@@ -1,12 +1,9 @@
-export declare abstract class BaseStore<TCollection, TItem, TKey> {
+import { Observable } from "VSSUI/Utilities/Observable";
+export declare abstract class BaseStore<TCollection, TItem, TKey> extends Observable<void> {
     protected items: TCollection;
-    private _eventManager;
     private _isLoading;
     private _isItemLoadingMap;
     constructor();
-    addChangedListener(handler: () => void): void;
-    removeChangedListener(handler: () => void): void;
-    protected emitChanged(): void;
     isLoaded(key?: TKey): boolean;
     isLoading(key?: TKey): boolean;
     setLoading(loading: boolean, key?: TKey): void;
