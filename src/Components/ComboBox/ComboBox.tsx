@@ -7,6 +7,8 @@ import {
     BaseComponent, IBaseComponentProps, IBaseComponentState
 } from "../Utilities/BaseComponent";
 
+import { Label } from "OfficeFabric/Label";
+
 import * as Controls from "VSS/Controls";
 import * as Combos from "VSS/Controls/Combos";
 
@@ -15,6 +17,7 @@ export interface IComboBoxProps extends IBaseComponentProps {
     options?: any;
     onChange: (newValue: string) => void;
     error?: string;
+    label?: string;
 }
 
 export class ComboBox extends BaseComponent<IComboBoxProps, IBaseComponentState> {
@@ -34,6 +37,7 @@ export class ComboBox extends BaseComponent<IComboBoxProps, IBaseComponentState>
 
     public render(): JSX.Element {
         return <div className={this.getClassName()}>
+            {this.props.label && <Label className="combo-label">{this.props.label}</Label>}
             <div ref="container"></div>
             { this.props.error && <InputError error={this.props.error} />}
         </div>

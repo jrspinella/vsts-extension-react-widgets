@@ -1,3 +1,5 @@
+
+
 export class Rgb {
     public static MinValue = 0;
     public static MaxValue = 255;

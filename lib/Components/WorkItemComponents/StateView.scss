@@ -1,4 +1,7 @@
-.work-item-state-view {                
+.work-item-state-view {   
+    display: flex;
+    align-items: center;
+
     .work-item-type-state-color {
         height: 8px;
         width: 8px;
@@ -7,5 +10,11 @@
         border-style: solid;
         margin-right: 5px;
         display: inline-block;
+    }
+
+    .state-name {
+        flex: 1;
+        padding: 0;
+        margin: 0;
     }
 }

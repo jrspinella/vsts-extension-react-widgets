@@ -63,7 +63,7 @@ export class StateView extends BaseComponent<IStateViewProps, IStateViewState> {
         }
 
         return (
-            <Label className={this.getClassName()}>
+            <div className={this.getClassName()}>
                 <span 
                     className="work-item-type-state-color"
                     style={{
@@ -71,8 +71,8 @@ export class StateView extends BaseComponent<IStateViewProps, IStateViewState> {
                         borderColor: stateColor
                     }} 
                 />
-                <span className="state-name">{this.props.state}</span>
-            </Label>
+                <Label className="state-name">{this.props.state}</Label>
+            </div>
         )
     }
 }

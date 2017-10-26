@@ -10,6 +10,7 @@ import { AccessibilityColor } from "./Color";
 
 import { DefaultButton } from "OfficeFabric/Button";
 import { Callout } from "OfficeFabric/Callout";
+import { Label } from "OfficeFabric/Label";
 import { autobind } from "OfficeFabric/Utilities";
 
 export interface IColorPickerProps extends IBaseComponentProps {
@@ -28,9 +29,15 @@ export class ColorPicker extends BaseComponent<IColorPickerProps, IColorPickerSt
 
     protected initializeState() {
         this.state = {
-            selectedColor: this.props.selectedColor,
+            selectedColor: this.props.selectedColor || "#FFFFFF",
             isCalloutOpen: false
         };
+    }
+
+    public componentWillReceiveProps(nextProps: IColorPickerProps) {
+        if (!StringUtils.equals(nextProps.selectedColor, this.state.selectedColor, true)) {
+            this.setState({selectedColor: nextProps.selectedColor || "#FFFFFF"});
+        }
     }
 
     protected getDefaultClassName(): string {
@@ -39,7 +46,7 @@ export class ColorPicker extends BaseComponent<IColorPickerProps, IColorPickerSt
 
     public render(): JSX.Element {
         return <div className={this.getClassName()}>
-            {this.props.label && <div className="color-label">{this.props.label}</div>}
+            {this.props.label && <Label className="color-label">{this.props.label}</Label>}
             <div className="selected-color-container"  ref={(target) => this._targetElement = target }>
                 <div className="selected-color" style={{backgroundColor: this.state.selectedColor}} onClick={this._toggleCallout} />
                 <DefaultButton className="open-callout-button" iconProps={{iconName: "ChevronDown"}} onClick={this._toggleCallout} />
@@ -68,8 +75,9 @@ export class ColorPicker extends BaseComponent<IColorPickerProps, IColorPickerSt
             className={isSelected ? "color-list-item selected" : "color-list-item"} 
             onClick={() => this._selectColor(color.asHex())}
             style={{backgroundColor: color.asRgb()}}>
+            
             {isSelected && <div className="inner" />}
-            </li>;
+        </li>;
     }
 
     private _selectColor(color: string) {

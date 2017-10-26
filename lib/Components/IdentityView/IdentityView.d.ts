@@ -7,8 +7,3 @@ export interface IIdentityViewProps extends IBaseComponentProps {
     size?: PersonaSize;
 }
 export declare var IdentityView: React.StatelessComponent<IIdentityViewProps>;
-export declare function parseUniquefiedIdentityName(name: string): {
-    displayName: string;
-    uniqueName: string;
-    imageUrl: string;
-};

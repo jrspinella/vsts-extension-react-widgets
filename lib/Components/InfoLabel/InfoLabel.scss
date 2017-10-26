@@ -5,16 +5,15 @@
 
     .info-icon {
         color: #0078d7;
-        font-size: 12px;
-        height: 10px;
-        padding-top: 3px;
-        font-weight: 600;
+        font-size: 12px;        
         cursor: help;
+        vertical-align: text-top;
     }
 
     .info-label-text {
         padding: 0;
         margin: 0 3px 0 0;
+        flex: 1;
         @include TextOverflowEllipsis();
     }
 

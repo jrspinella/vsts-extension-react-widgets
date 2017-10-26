@@ -6,6 +6,7 @@ export interface IComboBoxProps extends IBaseComponentProps {
     options?: any;
     onChange: (newValue: string) => void;
     error?: string;
+    label?: string;
 }
 export declare class ComboBox extends BaseComponent<IComboBoxProps, IBaseComponentState> {
     private _control;

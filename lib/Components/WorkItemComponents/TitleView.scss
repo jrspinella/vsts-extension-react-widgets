@@ -1,6 +1,8 @@
 .work-item-title-view {
     border-left: 6px solid black;    
     cursor: pointer;
+    display: flex;
+    align-items: center;
 
     &:not(.no-color) {
         padding-left: 5px !important;
@@ -19,8 +21,10 @@
     img {
         width: 14px;
         height: 14px;
-        vertical-align: top;
         margin-right: 5px;
-        padding-top: 2px;
+    }
+
+    .title-link {
+        flex: 1;
     }
 }

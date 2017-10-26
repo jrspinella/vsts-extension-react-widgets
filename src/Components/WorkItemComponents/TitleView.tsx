@@ -9,7 +9,7 @@ import {
     BaseComponent, IBaseComponentProps, IBaseComponentState
 } from "../Utilities/BaseComponent";
 
-import { Label } from "OfficeFabric/Label";
+import { Link } from "OfficeFabric/Link";
 
 import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
 
@@ -68,12 +68,13 @@ export class TitleView extends BaseComponent<ITitleViewProps, ITitleViewState> {
         const witUrl = `${webContext.collection.uri}/${webContext.project.name}/_workitems/edit/${this.props.workItemId}`;
 
         return (
-            <Label 
+            <div 
                 className={`${this.getClassName()} ${(witIconUrl || !wit) ? "no-color" : ""}`}
                 style={(witIconUrl || !wit) ? undefined : {borderColor: witColor}}>
 
                 {witIconUrl && <img src={witIconUrl} />}
-                <a 
+                <Link
+                    className="title-link"
                     href={witUrl} 
                     onClick={(e: React.MouseEvent<HTMLElement>) => {
                         if (this.props.onClick && !e.ctrlKey) {
@@ -82,8 +83,8 @@ export class TitleView extends BaseComponent<ITitleViewProps, ITitleViewState> {
                         }
                     }}>
                     {this.props.title}
-                </a>
-            </Label>
+                </Link>
+            </div>
         )
     }
 }

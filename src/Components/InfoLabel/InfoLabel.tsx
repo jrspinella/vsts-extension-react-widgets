@@ -23,9 +23,7 @@ export var InfoLabel: React.StatelessComponent<IInfoLabelProps> =
                     delay={ TooltipDelay.zero }
                     directionalHint={ DirectionalHint.bottomCenter }
                     >
-                    <span>
-                        <Icon className="info-icon" iconName="Info" />
-                    </span>
+                    <Icon className="info-icon" iconName="Info" />
                 </TooltipHost>
             </div>
         );

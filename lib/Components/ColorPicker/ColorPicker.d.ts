@@ -13,6 +13,7 @@ export interface IColorPickerState extends IBaseComponentState {
 export declare class ColorPicker extends BaseComponent<IColorPickerProps, IColorPickerState> {
     private _targetElement;
     protected initializeState(): void;
+    componentWillReceiveProps(nextProps: IColorPickerProps): void;
     protected getDefaultClassName(): string;
     render(): JSX.Element;
     private _renderColorItem(color, index);
