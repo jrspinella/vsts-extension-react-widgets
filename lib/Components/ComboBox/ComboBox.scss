@@ -1,3 +1,5 @@
+@import "../../_CommonStyles.scss";
+
 .vss-combobox {
     .combo {
         width: inherit;
@@ -6,8 +8,10 @@
         padding: 0 8px;
         height: 30px;
 
-        input {
-            padding: 0 8px;
+        div.wrap > input[type="text"] {
+            padding: 0 5px;
+            width: calc(100% - 45px);    
+            @include TextOverflowEllipsis();
         }
 
         .drop {
@@ -17,7 +21,6 @@
             padding-top: 8px;
             width: 25px;
             transform: none;
-            padding-left: 10px;
             font-size: 12px;
             
             &::before {

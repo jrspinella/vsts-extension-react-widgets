@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import { Badge, ColorPicker, IdentityView, InfoLabel, InputError } from "../src/Components";
+import { Badge, ColorPicker, IdentityView, ComboBox, InfoLabel, InputError } from "../src/Components";
 import { StateView, TagsView, TitleView } from "../src/Components/WorkItemComponents";
 
 import { DirectionalHint } from "OfficeFabric/Callout";
@@ -36,7 +36,7 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
                     initialSelectedKey={this._getNavGroups()[0].key}
                     selectedKey={this.state.selectedComponent}
                 />  
-                <div style={{borderLeft: "1px solid #ccc", padding: "20px 20px 10px 10px"}}>
+                <div style={{flex: 1, borderLeft: "1px solid #ccc", padding: "20px 20px 10px 10px"}}>
                     {this._renderComponent()}
                 </div>
             </Fabric>
@@ -72,11 +72,19 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
                 return <InfoLabel info="Information" label="Info" />;
             case "tagsview":
                 return <TagsView tags={["hello", "foo", "bar"]} />;
+            case "combo":
+                return <ComboBox value="123" onChange={() => console.log("a")} error="this is error" label="Combo" required={true} />;
         }
     }
 
     private _getNavGroups(): INavLink[] {
         return [
+            {
+                name: "Combo",
+                key: "combo",
+                url: "",
+                forceAnchor: true
+            },
             {
                 name: "Badge",
                 key: "badge",

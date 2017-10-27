@@ -26,5 +26,10 @@
 
     .title-link {
         flex: 1;
+        color: #333333;
+
+        &:hover {
+            color: #0078d7;
+        }
     }
 }

@@ -18,6 +18,7 @@ export interface IComboBoxProps extends IBaseComponentProps {
     onChange: (newValue: string) => void;
     error?: string;
     label?: string;
+    required?: boolean;
 }
 
 export class ComboBox extends BaseComponent<IComboBoxProps, IBaseComponentState> {
@@ -37,7 +38,7 @@ export class ComboBox extends BaseComponent<IComboBoxProps, IBaseComponentState>
 
     public render(): JSX.Element {
         return <div className={this.getClassName()}>
-            {this.props.label && <Label className="combo-label">{this.props.label}</Label>}
+            {this.props.label && <Label className="combo-label" required={this.props.required}>{this.props.label}</Label>}
             <div ref="container"></div>
             { this.props.error && <InputError error={this.props.error} />}
         </div>

@@ -13,7 +13,6 @@
     .info-label-text {
         padding: 0;
         margin: 0 3px 0 0;
-        flex: 1;
         @include TextOverflowEllipsis();
     }
 
