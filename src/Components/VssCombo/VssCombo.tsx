@@ -1,4 +1,4 @@
-import "./ComboBox.scss";
+import "./VssCombo.scss";
 
 import * as React from "react";
 
@@ -12,7 +12,7 @@ import { Label } from "OfficeFabric/Label";
 import * as Controls from "VSS/Controls";
 import * as Combos from "VSS/Controls/Combos";
 
-export interface IComboBoxProps extends IBaseComponentProps {
+export interface IVssComboProps extends IBaseComponentProps {
     value?: string;
     options?: any;
     onChange: (newValue: string) => void;
@@ -21,7 +21,7 @@ export interface IComboBoxProps extends IBaseComponentProps {
     required?: boolean;
 }
 
-export class ComboBox extends BaseComponent<IComboBoxProps, IBaseComponentState> {
+export class VssCombo extends BaseComponent<IVssComboProps, IBaseComponentState> {
     private _control: Combos.Combo;
 
     /**
@@ -56,7 +56,7 @@ export class ComboBox extends BaseComponent<IComboBoxProps, IBaseComponentState>
         this._dispose();
     }
 
-    public componentWillReceiveProps(nextProps: IComboBoxProps) {        
+    public componentWillReceiveProps(nextProps: IVssComboProps) {        
         this._control.setInputText(nextProps.value || "");
     }
 

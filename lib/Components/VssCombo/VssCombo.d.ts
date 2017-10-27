@@ -1,7 +1,7 @@
 /// <reference types="react" />
-import "./ComboBox.scss";
+import "./VssCombo.scss";
 import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "../Utilities/BaseComponent";
-export interface IComboBoxProps extends IBaseComponentProps {
+export interface IVssComboProps extends IBaseComponentProps {
     value?: string;
     options?: any;
     onChange: (newValue: string) => void;
@@ -9,7 +9,7 @@ export interface IComboBoxProps extends IBaseComponentProps {
     label?: string;
     required?: boolean;
 }
-export declare class ComboBox extends BaseComponent<IComboBoxProps, IBaseComponentState> {
+export declare class VssCombo extends BaseComponent<IVssComboProps, IBaseComponentState> {
     private _control;
     refs: {
         [key: string]: (Element);
@@ -19,6 +19,6 @@ export declare class ComboBox extends BaseComponent<IComboBoxProps, IBaseCompone
     render(): JSX.Element;
     componentDidMount(): void;
     componentWillUnmount(): void;
-    componentWillReceiveProps(nextProps: IComboBoxProps): void;
+    componentWillReceiveProps(nextProps: IVssComboProps): void;
     private _dispose();
 }

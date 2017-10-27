@@ -1,6 +1,7 @@
+@import "../../_CommonStyles.scss";
+
 .work-item-title-view {
     border-left: 6px solid black;    
-    cursor: pointer;
     display: flex;
     align-items: center;
 
@@ -13,11 +14,6 @@
         padding-left: 0;
     }
 
-    &:hover {
-        text-decoration: underline;
-        color: #0078d7;
-    }
-
     img {
         width: 14px;
         height: 14px;
@@ -25,11 +21,12 @@
     }
 
     .title-link {
-        flex: 1;
         color: #333333;
+        @include TextOverflowEllipsis();
 
         &:hover {
             color: #0078d7;
+            text-decoration: underline;
         }
     }
 }

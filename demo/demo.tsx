@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import { Badge, ColorPicker, IdentityView, ComboBox, InfoLabel, InputError } from "../src/Components";
+import { Badge, ColorPicker, IdentityView, VssCombo, InfoLabel, InputError } from "../src/Components";
 import { StateView, TagsView, TitleView } from "../src/Components/WorkItemComponents";
 
 import { DirectionalHint } from "OfficeFabric/Callout";
@@ -73,7 +73,7 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
             case "tagsview":
                 return <TagsView tags={["hello", "foo", "bar"]} />;
             case "combo":
-                return <ComboBox value="123" onChange={() => console.log("a")} error="this is error" label="Combo" required={true} />;
+                return <VssCombo value="123" onChange={() => console.log("a")} error="this is error" label="Combo" required={true} />;
         }
     }
 
