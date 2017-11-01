@@ -11,6 +11,8 @@
         "baseUrl": ".",
         "noUnusedLocals": true,
         "noUnusedParameters": true,
+        "importHelpers": true,
+        "noEmitHelpers": true,
         "paths": {
             "OfficeFabric/*": ["node_modules/office-ui-fabric-react/lib/*"],
             "VSSUI/*": ["node_modules/vss-ui/*"]
