@@ -13,7 +13,6 @@ export interface IBaseFluxComponentState {
 export class BaseFluxComponent<TProps extends IBaseFluxComponentProps, TState extends IBaseFluxComponentState> extends BaseComponent<TProps, TState> {
     constructor(props: TProps, context?: any) {
         super(props, context);
-
         this.initializeState();
     }
 
@@ -37,19 +36,6 @@ export class BaseFluxComponent<TProps extends IBaseFluxComponentProps, TState ex
 
     protected getStoresState(): TState {
         return {} as TState;
-    }
-
-    protected getDefaultClassName(): string {
-        return "base-component";
-    }
-
-    protected getClassName(): string {
-        if (this.props.className != null && this.props.className.trim() !== "") {
-            return `${this.getDefaultClassName()} ${this.props.className}`;
-        }
-        else {
-            return this.getDefaultClassName();
-        }
     }
 
     protected initializeState(): void {

@@ -11,7 +11,7 @@ import { AccessibilityColor } from "./Color";
 import { DefaultButton } from "OfficeFabric/Button";
 import { Callout } from "OfficeFabric/Callout";
 import { Label } from "OfficeFabric/Label";
-import { autobind } from "OfficeFabric/Utilities";
+import { autobind, css } from "OfficeFabric/Utilities";
 
 export interface IColorPickerProps extends IBaseFluxComponentProps {
     selectedColor?: string;
@@ -40,12 +40,8 @@ export class ColorPicker extends BaseFluxComponent<IColorPickerProps, IColorPick
         }
     }
 
-    protected getDefaultClassName(): string {
-        return "color-picker"
-    }
-
     public render(): JSX.Element {
-        return <div className={this.getClassName()}>
+        return <div className={css("color-picker", this.props.className)}>
             {this.props.label && <Label className="color-label">{this.props.label}</Label>}
             <div className="selected-color-container"  ref={(target) => this._targetElement = target }>
                 <div className="selected-color" style={{backgroundColor: this.state.selectedColor}} onClick={this._toggleCallout} />

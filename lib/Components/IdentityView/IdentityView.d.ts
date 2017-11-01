@@ -1,8 +1,8 @@
 /// <reference types="react" />
 import * as React from "react";
-import { IBaseComponentProps } from "../Utilities/BaseComponent";
+import { IBaseFluxComponentProps } from "../Utilities/BaseFluxComponent";
 import { PersonaSize } from "OfficeFabric/Persona";
-export interface IIdentityViewProps extends IBaseComponentProps {
+export interface IIdentityViewProps extends IBaseFluxComponentProps {
     identityDistinctName: string;
     size?: PersonaSize;
 }

@@ -1,9 +1,9 @@
 import { AutoResizableComponent } from "./AutoResizableComponent";
-import { IBaseComponentProps, IBaseComponentState } from "./BaseComponent";
-export interface IFieldControlProps extends IBaseComponentProps {
+import { IBaseFluxComponentProps, IBaseFluxComponentState } from "./BaseFluxComponent";
+export interface IFieldControlProps extends IBaseFluxComponentProps {
     fieldName: string;
 }
-export interface IFieldControlState extends IBaseComponentState {
+export interface IFieldControlState extends IBaseFluxComponentState {
     error?: string;
     value?: any;
 }

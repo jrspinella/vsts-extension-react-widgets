@@ -4,6 +4,7 @@ import { parseUniquefiedIdentityName } from "../../Utilities/Identity";
 import { IBaseFluxComponentProps } from "../Utilities/BaseFluxComponent";
 
 import { Persona, PersonaSize } from "OfficeFabric/Persona";
+import { css } from "OfficeFabric/Utilities";
 
 export interface IIdentityViewProps extends IBaseFluxComponentProps {
     identityDistinctName: string;
@@ -18,7 +19,7 @@ export var IdentityView: React.StatelessComponent<IIdentityViewProps> =
         }
 
         return <Persona 
-            className={props.className ? `identity-view ${props.className}` : "identity-view"}
+            className={css("identity-view", props.className)}
             size={props.size || PersonaSize.extraExtraSmall}
             imageUrl={identityRef.imageUrl}
             primaryText={identityRef.displayName}

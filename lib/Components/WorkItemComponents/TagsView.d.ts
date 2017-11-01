@@ -1,8 +1,8 @@
 /// <reference types="react" />
 import "./TagsView.scss";
 import * as React from "react";
-import { IBaseComponentProps } from "../Utilities/BaseComponent";
-export interface ITagsViewProps extends IBaseComponentProps {
+import { IBaseFluxComponentProps } from "../Utilities/BaseFluxComponent";
+export interface ITagsViewProps extends IBaseFluxComponentProps {
     tags: string[];
 }
 export declare var TagsView: React.StatelessComponent<ITagsViewProps>;

@@ -1,8 +1,8 @@
 /// <reference types="react" />
 import "./InputError.scss";
 import * as React from "react";
-import { IBaseComponentProps } from "../Utilities/BaseComponent";
-export interface IInputErrorProps extends IBaseComponentProps {
+import { IBaseFluxComponentProps } from "../Utilities/BaseFluxComponent";
+export interface IInputErrorProps extends IBaseFluxComponentProps {
     error: string;
 }
 export declare var InputError: React.StatelessComponent<IInputErrorProps>;

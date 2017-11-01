@@ -12,6 +12,7 @@ import {
 } from "../Utilities/BaseFluxComponent";
 
 import { Label } from "OfficeFabric/Label";
+import { css } from "OfficeFabric/Utilities";
 
 import { WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
 
@@ -39,11 +40,7 @@ export class StateView extends BaseFluxComponent<IStateViewProps, IStateViewStat
     protected initializeState(): void {
         this.state = { workItemTypeState: null };
     }
-
-    protected getDefaultClassName(): string {
-        return "work-item-state-view";
-    }
-
+    
     protected getStoresState(): IStateViewState {
         const workItemTypeStates = this._workItemStateItemStore.getItem(this.props.workItemType);
 
@@ -63,7 +60,7 @@ export class StateView extends BaseFluxComponent<IStateViewProps, IStateViewStat
         }
 
         return (
-            <div className={this.getClassName()}>
+            <div className={css("work-item-state-view", this.props.className)}>
                 <span 
                     className="work-item-type-state-color"
                     style={{

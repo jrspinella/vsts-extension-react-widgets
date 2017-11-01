@@ -1,7 +1,7 @@
 /// <reference types="react" />
 import "./VssCombo.scss";
-import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "../Utilities/BaseComponent";
-export interface IVssComboProps extends IBaseComponentProps {
+import { BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState } from "../Utilities/BaseFluxComponent";
+export interface IVssComboProps extends IBaseFluxComponentProps {
     value?: string;
     options?: any;
     onChange: (newValue: string) => void;
@@ -9,13 +9,12 @@ export interface IVssComboProps extends IBaseComponentProps {
     label?: string;
     required?: boolean;
 }
-export declare class VssCombo extends BaseComponent<IVssComboProps, IBaseComponentState> {
+export declare class VssCombo extends BaseFluxComponent<IVssComboProps, IBaseFluxComponentState> {
     private _control;
     refs: {
         [key: string]: (Element);
         container: (HTMLElement);
     };
-    protected getDefaultClassName(): string;
     render(): JSX.Element;
     componentDidMount(): void;
     componentWillUnmount(): void;

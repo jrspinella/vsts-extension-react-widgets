@@ -1,8 +1,8 @@
 /// <reference types="react" />
 import "./InfoLabel.scss";
 import * as React from "react";
-import { IBaseComponentProps } from "../Utilities/BaseComponent";
-export interface IInfoLabelProps extends IBaseComponentProps {
+import { IBaseFluxComponentProps } from "../Utilities/BaseFluxComponent";
+export interface IInfoLabelProps extends IBaseFluxComponentProps {
     label: string;
     info: string;
 }

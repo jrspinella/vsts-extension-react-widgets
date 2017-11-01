@@ -10,6 +10,7 @@ import {
 } from "../Utilities/BaseFluxComponent";
 
 import { Link } from "OfficeFabric/Link";
+import { css } from "OfficeFabric/Utilities";
 
 import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
 
@@ -40,10 +41,6 @@ export class TitleView extends BaseFluxComponent<ITitleViewProps, ITitleViewStat
         this.state = { workItemType: null };
     }
 
-    protected getDefaultClassName(): string {
-        return "work-item-title-view";
-    }
-
     protected getStoresState(): ITitleViewState {
         return {
             workItemType: this._workItemTypeStore.isLoaded() ? this._workItemTypeStore.getItem(this.props.workItemType) : null
@@ -69,7 +66,7 @@ export class TitleView extends BaseFluxComponent<ITitleViewProps, ITitleViewStat
 
         return (
             <div 
-                className={`${this.getClassName()} ${(witIconUrl || !wit) ? "no-color" : ""}`}
+                className={`${css("work-item-title-view", this.props.className)} ${(witIconUrl || !wit) ? "no-color" : ""}`}
                 style={(witIconUrl || !wit) ? undefined : {borderColor: witColor}}>
 
                 {witIconUrl && <img src={witIconUrl} />}

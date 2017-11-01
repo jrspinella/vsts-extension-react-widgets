@@ -3,9 +3,11 @@ import * as React from "react";
 import { CoreUtils } from "../../Utilities/Core";
 import "../../Utilities/PasteImagePlugin";
 import "../../Utilities/UploadImagePlugin";
-import { BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState } from "./BaseFluxComponent";
+import {
+    BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
+} from "./BaseFluxComponent";
 
-import { autobind } from "OfficeFabric/Utilities";
+import { autobind, css } from "OfficeFabric/Utilities";
 
 import "trumbowyg/dist/trumbowyg";
 import "trumbowyg/dist/ui/trumbowyg.min.css";
@@ -21,10 +23,6 @@ export interface IRichEditorProps extends IBaseFluxComponentProps {
 export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxComponentState> {
     private _richEditorContainer: JQuery;
     private _delayedFunction: CoreUtils.DelayedFunction;
-
-    protected getDefaultClassName(): string {
-        return "rich-editor";
-    }
 
     public componentDidMount() {
         this._richEditorContainer = $("#" + this.props.containerId);
@@ -50,7 +48,7 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxCom
     }
 
     public render() {
-        return <div id={this.props.containerId} className={this.getClassName()} />;
+        return <div id={this.props.containerId} className={css("rich-editor", this.props.className)} />;
     }
 
     @autobind

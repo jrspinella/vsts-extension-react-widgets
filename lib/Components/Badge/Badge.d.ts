@@ -1,19 +1,18 @@
 /// <reference types="react" />
 import "./Badge.scss";
-import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "../Utilities/BaseComponent";
+import { BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState } from "../Utilities/BaseFluxComponent";
 import { DirectionalHint } from "OfficeFabric/Callout";
-export interface IBadgeProps extends IBaseComponentProps {
+export interface IBadgeProps extends IBaseFluxComponentProps {
     notificationCount: number;
     showCalloutOnHover?: boolean;
     directionalHint?: DirectionalHint;
 }
-export interface IBadgeState extends IBaseComponentState {
+export interface IBadgeState extends IBaseFluxComponentState {
     isCalloutVisible: boolean;
 }
-export declare class Badge extends BaseComponent<IBadgeProps, IBadgeState> {
+export declare class Badge extends BaseFluxComponent<IBadgeProps, IBadgeState> {
     private _calloutTargetElement;
     protected initializeState(): void;
-    protected getDefaultClassName(): string;
     render(): JSX.Element;
     private _onMouseOver;
     private _onMouseOut;

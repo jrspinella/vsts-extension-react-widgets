@@ -1,6 +1,6 @@
 export * from "./AsyncLoadedComponent";
 export * from "./AutoResizableComponent";
-export * from "./BaseComponent";
+export * from "./BaseFluxComponent";
 export * from "./RichEditor";
 export * from "./ThrottledTextField";
 export * from "./WorkItemFieldControl";

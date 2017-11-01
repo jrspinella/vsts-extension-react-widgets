@@ -8,6 +8,7 @@ import {
 } from "../Utilities/BaseFluxComponent";
 
 import { Label } from "OfficeFabric/Label";
+import { css } from "OfficeFabric/Utilities";
 
 import * as Controls from "VSS/Controls";
 import * as Combos from "VSS/Controls/Combos";
@@ -32,12 +33,8 @@ export class VssCombo extends BaseFluxComponent<IVssComboProps, IBaseFluxCompone
         container: (HTMLElement);
     };
 
-    protected getDefaultClassName(): string {
-        return "vss-combobox";
-    }
-
     public render(): JSX.Element {
-        return <div className={this.getClassName()}>
+        return <div className={css("vss-combobox", this.props.className)}>
             {this.props.label && <Label className="combo-label" required={this.props.required}>{this.props.label}</Label>}
             <div ref="container"></div>
             { this.props.error && <InputError error={this.props.error} />}

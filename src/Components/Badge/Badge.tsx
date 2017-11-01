@@ -9,6 +9,7 @@ import {
 import { Callout, DirectionalHint } from "OfficeFabric/Callout";
 import { Icon } from "OfficeFabric/Icon";
 import { Label } from "OfficeFabric/Label";
+import { css } from "OfficeFabric/Utilities";
 
 export interface IBadgeProps extends IBaseFluxComponentProps {
     notificationCount: number;
@@ -29,12 +30,8 @@ export class Badge extends BaseFluxComponent<IBadgeProps, IBadgeState> {
         };
     }
 
-    protected getDefaultClassName(): string {
-        return "badge";
-    }
-
     public render() {
-        return <div className={this.getClassName()}>
+        return <div className={css("badge", this.props.className)}>
             <div              
                 className="badge-container" 
                 onMouseEnter={this._onMouseOver}

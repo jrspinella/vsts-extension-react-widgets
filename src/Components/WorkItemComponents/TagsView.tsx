@@ -5,6 +5,7 @@ import * as React from "react";
 import { IBaseFluxComponentProps } from "../Utilities/BaseFluxComponent";
 
 import { Label } from "OfficeFabric/Label";
+import { css } from "OfficeFabric/Utilities";
 
 export interface ITagsViewProps extends IBaseFluxComponentProps {
     tags: string[];
@@ -18,7 +19,7 @@ export var TagsView: React.StatelessComponent<ITagsViewProps> =
         }
         
         return (
-            <div className={props.className ? `tags-view ${props.className}` : "tags-view"}>
+            <div className={css("tags-view", props.className)}>
                 {tags.map((tag: string, index: number) => <Label key={index} className="tag">{tag.trim()}</Label>)}
             </div>
         );
