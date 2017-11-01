@@ -4,8 +4,8 @@ import * as React from "react";
 
 import { StringUtils } from "../../Utilities/String";
 import {
-    BaseComponent, IBaseComponentProps, IBaseComponentState
-} from "../Utilities/BaseComponent";
+    BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
+} from "../Utilities/BaseFluxComponent";
 import { AccessibilityColor } from "./Color";
 
 import { DefaultButton } from "OfficeFabric/Button";
@@ -13,18 +13,18 @@ import { Callout } from "OfficeFabric/Callout";
 import { Label } from "OfficeFabric/Label";
 import { autobind } from "OfficeFabric/Utilities";
 
-export interface IColorPickerProps extends IBaseComponentProps {
+export interface IColorPickerProps extends IBaseFluxComponentProps {
     selectedColor?: string;
     onChange?: (newColor: string) => void;
     label?: string;
 }
 
-export interface IColorPickerState extends IBaseComponentState {
+export interface IColorPickerState extends IBaseFluxComponentState {
     selectedColor?: string;
     isCalloutOpen?: boolean;
 }
 
-export class ColorPicker extends BaseComponent<IColorPickerProps, IColorPickerState> {
+export class ColorPicker extends BaseFluxComponent<IColorPickerProps, IColorPickerState> {
     private _targetElement: HTMLElement;
 
     protected initializeState() {

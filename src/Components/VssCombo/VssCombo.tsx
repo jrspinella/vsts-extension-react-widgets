@@ -4,15 +4,15 @@ import * as React from "react";
 
 import { InputError } from "../InputError";
 import {
-    BaseComponent, IBaseComponentProps, IBaseComponentState
-} from "../Utilities/BaseComponent";
+    BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
+} from "../Utilities/BaseFluxComponent";
 
 import { Label } from "OfficeFabric/Label";
 
 import * as Controls from "VSS/Controls";
 import * as Combos from "VSS/Controls/Combos";
 
-export interface IVssComboProps extends IBaseComponentProps {
+export interface IVssComboProps extends IBaseFluxComponentProps {
     value?: string;
     options?: any;
     onChange: (newValue: string) => void;
@@ -21,7 +21,7 @@ export interface IVssComboProps extends IBaseComponentProps {
     required?: boolean;
 }
 
-export class VssCombo extends BaseComponent<IVssComboProps, IBaseComponentState> {
+export class VssCombo extends BaseFluxComponent<IVssComboProps, IBaseFluxComponentState> {
     private _control: Combos.Combo;
 
     /**

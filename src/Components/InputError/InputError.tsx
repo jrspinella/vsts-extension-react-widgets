@@ -2,12 +2,12 @@ import "./InputError.scss";
 
 import * as React from "react";
 
-import { IBaseComponentProps } from "../Utilities/BaseComponent";
+import { IBaseFluxComponentProps } from "../Utilities/BaseFluxComponent";
 
 import { Icon } from "OfficeFabric/Icon";
 import { Label } from "OfficeFabric/Label";
 
-export interface IInputErrorProps extends IBaseComponentProps {
+export interface IInputErrorProps extends IBaseFluxComponentProps {
     error: string;
 }
 

@@ -8,23 +8,23 @@ import { WorkItemStateItemStore } from "../../Flux/Stores/WorkItemStateItemStore
 import { ArrayUtils } from "../../Utilities/Array";
 import { StringUtils } from "../../Utilities/String";
 import {
-    BaseComponent, IBaseComponentProps, IBaseComponentState
-} from "../Utilities/BaseComponent";
+    BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
+} from "../Utilities/BaseFluxComponent";
 
 import { Label } from "OfficeFabric/Label";
 
 import { WorkItemStateColor } from "TFS/WorkItemTracking/Contracts";
 
-export interface IStateViewProps extends IBaseComponentProps {
+export interface IStateViewProps extends IBaseFluxComponentProps {
     state: string;
     workItemType: string;
 }
 
-export interface IStateViewState extends IBaseComponentState {
+export interface IStateViewState extends IBaseFluxComponentState {
     workItemTypeState: WorkItemStateColor;
 }
 
-export class StateView extends BaseComponent<IStateViewProps, IStateViewState> {
+export class StateView extends BaseFluxComponent<IStateViewProps, IStateViewState> {
     private _workItemStateItemStore = StoreFactory.getInstance<WorkItemStateItemStore>(WorkItemStateItemStore);
 
     protected getStores(): BaseStore<any, any, any>[] {

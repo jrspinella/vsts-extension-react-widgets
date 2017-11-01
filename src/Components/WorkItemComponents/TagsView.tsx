@@ -2,11 +2,11 @@ import "./TagsView.scss";
 
 import * as React from "react";
 
-import { IBaseComponentProps } from "../Utilities/BaseComponent";
+import { IBaseFluxComponentProps } from "../Utilities/BaseFluxComponent";
 
 import { Label } from "OfficeFabric/Label";
 
-export interface ITagsViewProps extends IBaseComponentProps {
+export interface ITagsViewProps extends IBaseFluxComponentProps {
     tags: string[];
 }
 

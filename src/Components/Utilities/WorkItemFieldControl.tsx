@@ -1,14 +1,14 @@
 import { AutoResizableComponent } from "./AutoResizableComponent";
-import { IBaseComponentProps, IBaseComponentState } from "./BaseComponent";
+import { IBaseFluxComponentProps, IBaseFluxComponentState } from "./BaseFluxComponent";
 
 import * as WitExtensionContracts from "TFS/WorkItemTracking/ExtensionContracts";
 import { WorkItemFormService } from "TFS/WorkItemTracking/Services";
 
-export interface IFieldControlProps extends IBaseComponentProps {
+export interface IFieldControlProps extends IBaseFluxComponentProps {
     fieldName: string;
 }
 
-export interface IFieldControlState extends IBaseComponentState {
+export interface IFieldControlState extends IBaseFluxComponentState {
     error?: string;
     value?: any;
 }

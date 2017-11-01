@@ -6,25 +6,25 @@ import { WorkItemTypeActions } from "../../Flux/Actions/WorkItemTypeActions";
 import { BaseStore, StoreFactory } from "../../Flux/Stores/BaseStore";
 import { WorkItemTypeStore } from "../../Flux/Stores/WorkItemTypeStore";
 import {
-    BaseComponent, IBaseComponentProps, IBaseComponentState
-} from "../Utilities/BaseComponent";
+    BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
+} from "../Utilities/BaseFluxComponent";
 
 import { Link } from "OfficeFabric/Link";
 
 import { WorkItemType } from "TFS/WorkItemTracking/Contracts";
 
-export interface ITitleViewProps extends IBaseComponentProps {
+export interface ITitleViewProps extends IBaseFluxComponentProps {
     workItemId: number;
     title: string;
     workItemType: string;
     onClick?: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
-export interface ITitleViewState extends IBaseComponentState {
+export interface ITitleViewState extends IBaseFluxComponentState {
     workItemType: WorkItemType;
 }
 
-export class TitleView extends BaseComponent<ITitleViewProps, ITitleViewState> {
+export class TitleView extends BaseFluxComponent<ITitleViewProps, ITitleViewState> {
     private _workItemTypeStore = StoreFactory.getInstance<WorkItemTypeStore>(WorkItemTypeStore);
 
     protected getStores(): BaseStore<any, any, any>[] {

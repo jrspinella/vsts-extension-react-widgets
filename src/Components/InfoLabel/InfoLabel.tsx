@@ -2,13 +2,13 @@ import "./InfoLabel.scss";
 
 import * as React from "react";
 
-import { IBaseComponentProps } from "../Utilities/BaseComponent";
+import { IBaseFluxComponentProps } from "../Utilities/BaseFluxComponent";
 
 import { Icon } from "OfficeFabric/Icon";
 import { Label } from "OfficeFabric/Label";
 import { DirectionalHint, TooltipDelay, TooltipHost } from "OfficeFabric/Tooltip";
 
-export interface IInfoLabelProps extends IBaseComponentProps {
+export interface IInfoLabelProps extends IBaseFluxComponentProps {
     label: string;
     info: string;
 }

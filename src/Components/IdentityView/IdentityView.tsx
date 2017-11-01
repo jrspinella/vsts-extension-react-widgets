@@ -1,11 +1,11 @@
 import * as React from "react";
 
 import { parseUniquefiedIdentityName } from "../../Utilities/Identity";
-import { IBaseComponentProps } from "../Utilities/BaseComponent";
+import { IBaseFluxComponentProps } from "../Utilities/BaseFluxComponent";
 
 import { Persona, PersonaSize } from "OfficeFabric/Persona";
 
-export interface IIdentityViewProps extends IBaseComponentProps {
+export interface IIdentityViewProps extends IBaseFluxComponentProps {
     identityDistinctName: string;
     size?: PersonaSize;
 }

@@ -1,18 +1,16 @@
-import * as React from "react";
-
 import { BaseStore } from "../../Flux/Stores/BaseStore";
 
-import { autobind } from "OfficeFabric/Utilities";
+import { autobind, BaseComponent, IBaseProps } from "OfficeFabric/Utilities";
 
-export interface IBaseComponentProps {
+export interface IBaseFluxComponentProps extends IBaseProps{
     className?: string;
 }
 
-export interface IBaseComponentState {
+export interface IBaseFluxComponentState {
     loading?: boolean;
 }
 
-export class BaseComponent<TProps extends IBaseComponentProps, TState extends IBaseComponentState> extends React.Component<TProps, TState> {
+export class BaseFluxComponent<TProps extends IBaseFluxComponentProps, TState extends IBaseFluxComponentState> extends BaseComponent<TProps, TState> {
     constructor(props: TProps, context?: any) {
         super(props, context);
 
@@ -20,12 +18,14 @@ export class BaseComponent<TProps extends IBaseComponentProps, TState extends IB
     }
 
     public componentDidMount() {
+        super.componentDidMount();
         for (const store of this.getStores()) {
             store.subscribe(this._onStoreChanged);
         }
     }
 
     public componentWillUnmount() {
+        super.componentWillUnmount();
         for (const store of this.getStores()) {
             store.unsubscribe(this._onStoreChanged);
         }

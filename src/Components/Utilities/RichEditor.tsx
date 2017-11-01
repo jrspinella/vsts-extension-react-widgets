@@ -3,14 +3,14 @@ import * as React from "react";
 import { CoreUtils } from "../../Utilities/Core";
 import "../../Utilities/PasteImagePlugin";
 import "../../Utilities/UploadImagePlugin";
-import { BaseComponent, IBaseComponentProps, IBaseComponentState } from "./BaseComponent";
+import { BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState } from "./BaseFluxComponent";
 
 import { autobind } from "OfficeFabric/Utilities";
 
 import "trumbowyg/dist/trumbowyg";
 import "trumbowyg/dist/ui/trumbowyg.min.css";
 
-export interface IRichEditorProps extends IBaseComponentProps {
+export interface IRichEditorProps extends IBaseFluxComponentProps {
     containerId: string;
     data?: string;
     delay?: number;
@@ -18,7 +18,7 @@ export interface IRichEditorProps extends IBaseComponentProps {
     editorOptions?: any;
 }
 
-export class RichEditor extends BaseComponent<IRichEditorProps, IBaseComponentState> {
+export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxComponentState> {
     private _richEditorContainer: JQuery;
     private _delayedFunction: CoreUtils.DelayedFunction;
 
