@@ -15,9 +15,10 @@ export interface ITitleViewState extends IBaseFluxComponentState {
 }
 export declare class TitleView extends BaseFluxComponent<ITitleViewProps, ITitleViewState> {
     private _workItemTypeStore;
+    protected initializeState(): void;
     protected getStores(): BaseStore<any, any, any>[];
     componentDidMount(): void;
-    protected initializeState(): void;
+    componentWillReceiveProps(nextProps: ITitleViewProps): void;
     protected getStoresState(): ITitleViewState;
     render(): JSX.Element;
 }

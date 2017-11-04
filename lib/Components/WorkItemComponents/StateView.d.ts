@@ -12,9 +12,10 @@ export interface IStateViewState extends IBaseFluxComponentState {
 }
 export declare class StateView extends BaseFluxComponent<IStateViewProps, IStateViewState> {
     private _workItemStateItemStore;
+    protected initializeState(): void;
     protected getStores(): BaseStore<any, any, any>[];
     componentDidMount(): void;
-    protected initializeState(): void;
+    componentWillReceiveProps(nextProps: IStateViewProps): void;
     protected getStoresState(): IStateViewState;
     render(): JSX.Element;
 }

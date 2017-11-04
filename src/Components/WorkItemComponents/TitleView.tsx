@@ -5,6 +5,7 @@ import * as React from "react";
 import { WorkItemTypeActions } from "../../Flux/Actions/WorkItemTypeActions";
 import { BaseStore, StoreFactory } from "../../Flux/Stores/BaseStore";
 import { WorkItemTypeStore } from "../../Flux/Stores/WorkItemTypeStore";
+import { StringUtils } from "../../Utilities/String";
 import {
     BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
 } from "../Utilities/BaseFluxComponent";
@@ -28,6 +29,10 @@ export interface ITitleViewState extends IBaseFluxComponentState {
 export class TitleView extends BaseFluxComponent<ITitleViewProps, ITitleViewState> {
     private _workItemTypeStore = StoreFactory.getInstance<WorkItemTypeStore>(WorkItemTypeStore);
 
+    protected initializeState(): void {
+        this.state = { workItemType: null };
+    }
+
     protected getStores(): BaseStore<any, any, any>[] {
         return [this._workItemTypeStore];
     }
@@ -37,15 +42,23 @@ export class TitleView extends BaseFluxComponent<ITitleViewProps, ITitleViewStat
         if (this._workItemTypeStore.isLoaded()) {
             this.setState({
                 workItemType: this._workItemTypeStore.getItem(this.props.workItemType)
-            })
+            });
         }
         else {
             WorkItemTypeActions.initializeWorkItemTypes();
         }
     }
 
-    protected initializeState(): void {
-        this.state = { workItemType: null };
+    public componentWillReceiveProps(nextProps: ITitleViewProps) {
+        super.componentWillReceiveProps(nextProps);
+
+        if (!StringUtils.equals(nextProps.workItemType, this.props.workItemType, true)) {
+            if (this._workItemTypeStore.isLoaded()) {
+                this.setState({
+                    workItemType: this._workItemTypeStore.getItem(nextProps.workItemType)
+                });
+            }
+        }
     }
 
     protected getStoresState(): ITitleViewState {

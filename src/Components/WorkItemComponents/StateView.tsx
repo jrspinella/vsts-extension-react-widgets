@@ -28,6 +28,10 @@ export interface IStateViewState extends IBaseFluxComponentState {
 export class StateView extends BaseFluxComponent<IStateViewProps, IStateViewState> {
     private _workItemStateItemStore = StoreFactory.getInstance<WorkItemStateItemStore>(WorkItemStateItemStore);
 
+    protected initializeState(): void {
+        this.state = { workItemTypeState: null };
+    }
+
     protected getStores(): BaseStore<any, any, any>[] {
         return [this._workItemStateItemStore];
     }
@@ -38,15 +42,27 @@ export class StateView extends BaseFluxComponent<IStateViewProps, IStateViewStat
             const workItemTypeStates = this._workItemStateItemStore.getItem(this.props.workItemType);
             this.setState({
                 workItemTypeState: ArrayUtils.first(workItemTypeStates, s => StringUtils.equals(s.name, this.props.state, true))
-            })
+            });
         }
         else {
             WorkItemStateItemActions.initializeWorkItemStates(this.props.workItemType);
         }        
     }
 
-    protected initializeState(): void {
-        this.state = { workItemTypeState: null };
+    public componentWillReceiveProps(nextProps: IStateViewProps) {
+        super.componentWillReceiveProps(nextProps);
+
+        if (!StringUtils.equals(nextProps.state, this.props.state, true) || !StringUtils.equals(nextProps.workItemType, this.props.workItemType, true)) {
+            if (this._workItemStateItemStore.isLoaded(nextProps.workItemType)) {
+                const workItemTypeStates = this._workItemStateItemStore.getItem(nextProps.workItemType);
+                this.setState({
+                    workItemTypeState: ArrayUtils.first(workItemTypeStates, s => StringUtils.equals(s.name, nextProps.state, true))
+                })
+            }
+            else {
+                WorkItemStateItemActions.initializeWorkItemStates(nextProps.workItemType);
+            }
+        }
     }
     
     protected getStoresState(): IStateViewState {
