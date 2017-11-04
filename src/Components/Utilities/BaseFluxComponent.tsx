@@ -2,7 +2,7 @@ import { BaseStore } from "../../Flux/Stores/BaseStore";
 
 import { autobind, BaseComponent, IBaseProps } from "OfficeFabric/Utilities";
 
-export interface IBaseFluxComponentProps extends IBaseProps{
+export interface IBaseFluxComponentProps extends IBaseProps {
     className?: string;
 }
 

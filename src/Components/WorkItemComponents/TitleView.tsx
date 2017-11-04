@@ -34,7 +34,14 @@ export class TitleView extends BaseFluxComponent<ITitleViewProps, ITitleViewStat
 
     public componentDidMount() {
         super.componentDidMount();
-        WorkItemTypeActions.initializeWorkItemTypes();
+        if (this._workItemTypeStore.isLoaded()) {
+            this.setState({
+                workItemType: this._workItemTypeStore.getItem(this.props.workItemType)
+            })
+        }
+        else {
+            WorkItemTypeActions.initializeWorkItemTypes();
+        }
     }
 
     protected initializeState(): void {

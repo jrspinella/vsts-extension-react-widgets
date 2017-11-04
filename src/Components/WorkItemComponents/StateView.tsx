@@ -34,7 +34,15 @@ export class StateView extends BaseFluxComponent<IStateViewProps, IStateViewStat
 
     public componentDidMount() {
         super.componentDidMount();
-        WorkItemStateItemActions.initializeWorkItemStates(this.props.workItemType);
+        if (this._workItemStateItemStore.isLoaded(this.props.workItemType)) {
+            const workItemTypeStates = this._workItemStateItemStore.getItem(this.props.workItemType);
+            this.setState({
+                workItemTypeState: ArrayUtils.first(workItemTypeStates, s => StringUtils.equals(s.name, this.props.state, true))
+            })
+        }
+        else {
+            WorkItemStateItemActions.initializeWorkItemStates(this.props.workItemType);
+        }        
     }
 
     protected initializeState(): void {
