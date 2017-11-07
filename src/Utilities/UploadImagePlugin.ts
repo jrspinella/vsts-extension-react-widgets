@@ -21,7 +21,7 @@ import { StaticObservable } from "./StaticObservable";
 
                             let file;
 
-                            const $modal = trumbowyg.openModalInsert(
+                            trumbowyg.openModalInsert(
                                 // Title
                                 trumbowyg.lang.upload,
 
@@ -39,15 +39,6 @@ import { StaticObservable } from "./StaticObservable";
                                 // Callback
                                 function () {
                                     const reader = new FileReader();
-
-                                    if ($(".progress-bar", $modal).length === 0) {
-                                        $(".trumbowyg-modal-title", $modal)
-                                            .after(
-                                                $('<div/>', {
-                                                    'class': "progress-bar"
-                                                })
-                                            );
-                                    }
 
                                     reader.onloadend = (event) => {
                                         const data = (event.target as any).result;

@@ -15,6 +15,9 @@ interface ICommonComponentsDemoState {
     selectedComponent: string;
 }
 
+const delay = (duration) =>
+new Promise(resolve => setTimeout(resolve, duration));
+
 export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
     constructor(props: {}, context?: any) {
         super(props, context);
@@ -80,7 +83,6 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
             case "richeditor":
                 return <RichEditor 
                     containerId="rich-editor-demo" 
-                    data="hello 123" 
                     getPastedImageUrl={this._getImageUrl}
                     editorOptions={{
                         svgPath: `../node_modules/trumbowyg/dist/ui/icons.svg`,
@@ -89,7 +91,6 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
                             ['bold', 'italic'], 
                             ['link'],
                             ['upload'],
-                            'btnGrp-lists',
                             ['removeformat'],
                             ['fullscreen']
                         ]
@@ -99,6 +100,7 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
 
     @autobind
     private async _getImageUrl() {
+        await delay(3000);
         return "https://static.pexels.com/photos/278312/pexels-photo-278312.jpeg";
     }
 

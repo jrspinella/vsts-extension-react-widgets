@@ -1,5 +1,8 @@
 import "./RichEditor.scss";
 
+import "trumbowyg/dist/trumbowyg";
+import "trumbowyg/dist/ui/trumbowyg.min.css";
+
 import * as React from "react";
 
 import { CoreUtils } from "../../Utilities/Core";
@@ -11,9 +14,6 @@ import {
 } from "../Utilities/BaseFluxComponent";
 
 import { autobind, css } from "OfficeFabric/Utilities";
-
-import "trumbowyg/dist/trumbowyg";
-import "trumbowyg/dist/ui/trumbowyg.min.css";
 
 export interface IRichEditorProps extends IBaseFluxComponentProps {
     containerId: string;
@@ -46,7 +46,7 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxCom
     public componentWillUnmount() {
         super.componentWillUnmount();
 
-        StaticObservable.getInstance().subscribe(this._onImagePaste, "imagepasted");
+        StaticObservable.getInstance().unsubscribe(this._onImagePaste, "imagepasted");
 
         this._richEditorContainer.trumbowyg("destroy");
         if (this._delayedFunction) {

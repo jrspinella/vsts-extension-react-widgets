@@ -1,10 +1,10 @@
 /// <reference types="react" />
 import "./RichEditor.scss";
+import "trumbowyg/dist/trumbowyg";
+import "trumbowyg/dist/ui/trumbowyg.min.css";
 import "../../Utilities/PasteImagePlugin";
 import "../../Utilities/UploadImagePlugin";
 import { BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState } from "../Utilities/BaseFluxComponent";
-import "trumbowyg/dist/trumbowyg";
-import "trumbowyg/dist/ui/trumbowyg.min.css";
 export interface IRichEditorProps extends IBaseFluxComponentProps {
     containerId: string;
     data?: string;
