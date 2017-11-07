@@ -15,7 +15,7 @@
         "noEmitHelpers": true,
         "paths": {
             "OfficeFabric/*": ["node_modules/office-ui-fabric-react/lib/*"],
-            "VSSUI/*": ["node_modules/vss-ui-forked/*"]
+            "VSSUI/*": ["node_modules/vss-ui/*"]
         },
         "types": [
             "q",

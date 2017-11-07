@@ -38,7 +38,7 @@
     },
     "dependencies": {
         "es6-promise": "4.1.1",
-        "vss-ui-forked": "3.125.1",
+        "vss-ui": "3.125.2",
         "vss-web-extension-sdk": "4.125.2",
         "office-ui-fabric-react": "~5.9.0",
         "trumbowyg": "2.8.1",
