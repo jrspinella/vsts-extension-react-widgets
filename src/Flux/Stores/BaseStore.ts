@@ -49,7 +49,7 @@ export abstract class BaseStore<TCollection, TItem, TKey> extends Observable<voi
             this._isLoading = loading;
         }
 
-        this.notify(null, null);
+        this.emitChanged();
     }  
 
     public itemExists(key: TKey): boolean {        
@@ -58,6 +58,18 @@ export abstract class BaseStore<TCollection, TItem, TKey> extends Observable<voi
 
     public getAll(): TCollection {
         return this.items;
+    }
+
+    public addChangedListener(listener: () => void) {
+        this.subscribe(listener);
+    }
+
+    public removeChangedListener(listener: () => void) {
+        this.unsubscribe(listener);
+    }
+
+    protected emitChanged() {
+        this.notify(null, null);
     }
 
     protected abstract initializeActionListeners();

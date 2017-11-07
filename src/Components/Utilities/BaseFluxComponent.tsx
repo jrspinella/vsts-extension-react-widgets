@@ -19,14 +19,14 @@ export class BaseFluxComponent<TProps extends IBaseFluxComponentProps, TState ex
     public componentDidMount() {
         super.componentDidMount();
         for (const store of this.getStores()) {
-            store.subscribe(this._onStoreChanged);
+            store.addChangedListener(this._onStoreChanged);
         }
     }
 
     public componentWillUnmount() {
         super.componentWillUnmount();
         for (const store of this.getStores()) {
-            store.unsubscribe(this._onStoreChanged);
+            store.removeChangedListener(this._onStoreChanged);
         }
     }
 

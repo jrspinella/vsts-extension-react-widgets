@@ -4,5 +4,6 @@ export * from "./Date";
 export * from "./ExtensionDataManager";
 export * from "./Identity";
 export * from "./LocalSettingsService";
+export * from "./StaticObservable";
 export * from "./String";
 export * from "./WorkItemGridHelpers";

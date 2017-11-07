@@ -14,12 +14,12 @@ export class TeamFieldStore extends BaseStore<IDictionaryStringTo<TeamFieldValue
     }
 
     protected initializeActionListeners() {
-        TeamFieldActionsHub.InitializeTeamFieldItem.subscribe((values: {teamId: string, teamFieldValues: TeamFieldValues}) => {
+        TeamFieldActionsHub.InitializeTeamFieldItem.addListener((values: {teamId: string, teamFieldValues: TeamFieldValues}) => {
             if (values) {               
                 this.items[values.teamId.toLowerCase()] = values.teamFieldValues;
             }
 
-            this.notify(null, null);
+            this.emitChanged();
         });
     }
 

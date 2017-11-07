@@ -1,11 +1,14 @@
+import "./RichEditor.scss";
+
 import * as React from "react";
 
 import { CoreUtils } from "../../Utilities/Core";
 import "../../Utilities/PasteImagePlugin";
+import { StaticObservable } from "../../Utilities/StaticObservable";
 import "../../Utilities/UploadImagePlugin";
 import {
     BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
-} from "./BaseFluxComponent";
+} from "../Utilities/BaseFluxComponent";
 
 import { autobind, css } from "OfficeFabric/Utilities";
 
@@ -18,6 +21,7 @@ export interface IRichEditorProps extends IBaseFluxComponentProps {
     delay?: number;
     onChange?: (newValue: string) => void;
     editorOptions?: any;
+    getPastedImageUrl?: (data: string) => Promise<string>;    
 }
 
 export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxComponentState> {
@@ -25,6 +29,11 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxCom
     private _delayedFunction: CoreUtils.DelayedFunction;
 
     public componentDidMount() {
+        super.componentDidMount();
+
+        StaticObservable.getInstance().unsubscribe(this._onImagePaste, "imagepasted");
+        StaticObservable.getInstance().subscribe(this._onImagePaste, "imagepasted");
+
         this._richEditorContainer = $("#" + this.props.containerId);
         this._richEditorContainer
             .trumbowyg(this.props.editorOptions || {})
@@ -35,6 +44,10 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxCom
     }
 
     public componentWillUnmount() {
+        super.componentWillUnmount();
+
+        StaticObservable.getInstance().subscribe(this._onImagePaste, "imagepasted");
+
         this._richEditorContainer.trumbowyg("destroy");
         if (this._delayedFunction) {
             this._delayedFunction.cancel();
@@ -42,13 +55,18 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxCom
     }
 
     public componentWillReceiveProps(nextProps: IRichEditorProps) {
+        super.componentWillReceiveProps(nextProps);
+
         if (nextProps.data !== this._richEditorContainer.trumbowyg("html")) {
             this._richEditorContainer.trumbowyg("html", nextProps.data || "");
         }
     }
 
     public render() {
-        return <div id={this.props.containerId} className={css("rich-editor", this.props.className)} />;
+        return <div className="rich-editor-container">
+            <div className="progress-bar" style={{visibility: this.state.loading ? "visible" : "hidden"}} />
+            <div id={this.props.containerId} className={css("rich-editor", this.props.className)} />
+        </div>;
     }
 
     @autobind
@@ -77,4 +95,23 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxCom
             this.props.onChange(this._richEditorContainer.trumbowyg("html"));
         }
     }
+
+    @autobind
+    private async _onImagePaste(args: {data: string, callback: (url: string) => void}) {
+        if (!this.props.getPastedImageUrl) {
+            return;
+        }
+        
+        this.setState({loading: true});
+
+        try {
+            const imageUrl = await this.props.getPastedImageUrl(args.data);   
+            args.callback(imageUrl);
+            this.setState({loading: false});
+        }
+        catch (e) {
+            args.callback(null);
+            this.setState({loading: false});
+        }
+    }  
 }

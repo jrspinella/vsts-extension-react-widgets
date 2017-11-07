@@ -17,4 +17,12 @@ export class Action<T> extends Observable<T> {
             Action.executing = false;
         }
     }
+
+    public addListener(listener: (payload: T) => void) {
+        this.subscribe(listener);
+    }
+
+    public removeListener(listener: (payload: T) => void) {
+        this.unsubscribe(listener);
+    }
 }

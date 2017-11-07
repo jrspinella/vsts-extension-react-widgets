@@ -15,12 +15,12 @@ export class WorkItemTemplateItemStore extends BaseStore<IDictionaryStringTo<Wor
     }
 
     protected initializeActionListeners() {
-        WorkItemTemplateItemActionsHub.InitializeWorkItemTemplateItem.subscribe((template: WorkItemTemplate) => {
+        WorkItemTemplateItemActionsHub.InitializeWorkItemTemplateItem.addListener((template: WorkItemTemplate) => {
             if (template) {
                 this.items[template.id.toLowerCase()] = template;
             }
 
-            this.notify(null, null);
+            this.emitChanged();
         });
     }
 

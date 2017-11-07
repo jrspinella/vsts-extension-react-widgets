@@ -7,9 +7,10 @@ import {
 } from "../Utilities/BaseFluxComponent";
 
 import { Callout, DirectionalHint } from "OfficeFabric/Callout";
-import { Icon } from "OfficeFabric/Icon";
 import { Label } from "OfficeFabric/Label";
 import { css } from "OfficeFabric/Utilities";
+
+import { VssIcon, VssIconType } from "VSSUI/VssIcon";
 
 export interface IBadgeProps extends IBaseFluxComponentProps {
     notificationCount: number;
@@ -39,7 +40,7 @@ export class Badge extends BaseFluxComponent<IBadgeProps, IBadgeState> {
                 onClick={this._onClickCallout}>
 
                 <div ref={(element) => this._calloutTargetElement = element}>
-                    <Icon iconName="Ringer" className="badge-icon" />
+                    <VssIcon iconType={VssIconType.fabric} iconName="Ringer" className="badge-icon" />
                 </div>
                 <Label className="badge-notification-count">{this.props.notificationCount}</Label>
             </div>

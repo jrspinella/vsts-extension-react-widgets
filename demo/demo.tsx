@@ -1,12 +1,15 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import { Badge, ColorPicker, IdentityView, VssCombo, InfoLabel, InputError } from "../src/Components";
+import { Badge, ColorPicker, IdentityView, VssCombo, InfoLabel, InputError, RichEditor } from "../src/Components";
 import { StateView, TagsView, TitleView } from "../src/Components/WorkItemComponents";
 
 import { DirectionalHint } from "OfficeFabric/Callout";
 import { Fabric } from "OfficeFabric/Fabric";
 import { INavLink, Nav } from "OfficeFabric/Nav";
+import { autobind } from "OfficeFabric/Utilities";
+
+import { initializeIcons } from "@uifabric/icons";
 
 interface ICommonComponentsDemoState {
     selectedComponent: string;
@@ -17,7 +20,7 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
         super(props, context);
 
         this.state = {
-            selectedComponent: "badge"
+            selectedComponent: "combo"
         } as ICommonComponentsDemoState;
     }
 
@@ -74,7 +77,29 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
                 return <TagsView tags={["hello", "foo", "bar"]} />;
             case "combo":
                 return <VssCombo value="123" onChange={() => console.log("a")} error="this is error" label="Combo" required={true} />;
+            case "richeditor":
+                return <RichEditor 
+                    containerId="rich-editor-demo" 
+                    data="hello 123" 
+                    getPastedImageUrl={this._getImageUrl}
+                    editorOptions={{
+                        svgPath: `../node_modules/trumbowyg/dist/ui/icons.svg`,
+                        btns: [
+                            ['formatting'],
+                            ['bold', 'italic'], 
+                            ['link'],
+                            ['upload'],
+                            'btnGrp-lists',
+                            ['removeformat'],
+                            ['fullscreen']
+                        ]
+                    }} />;
         }
+    }
+
+    @autobind
+    private async _getImageUrl() {
+        return "https://static.pexels.com/photos/278312/pexels-photo-278312.jpeg";
     }
 
     private _getNavGroups(): INavLink[] {
@@ -82,6 +107,12 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
             {
                 name: "Combo",
                 key: "combo",
+                url: "",
+                forceAnchor: true
+            },
+            {
+                name: "RichEditor",
+                key: "richeditor",
                 url: "",
                 forceAnchor: true
             },
@@ -138,5 +169,6 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
 }
 
 export function init() {
+    initializeIcons();
     ReactDOM.render(<Demo />, $("#ext-container")[0]);
 }

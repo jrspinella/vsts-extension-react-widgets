@@ -23,7 +23,7 @@ module.exports = {
         moduleExtensions: ["-loader"],
         alias: { 
             "OfficeFabric": path.resolve(__dirname, "node_modules/office-ui-fabric-react/lib"),
-            "VSSUI": path.resolve(__dirname, "node_modules/vss-ui")
+            "VSSUI": path.resolve(__dirname, "node_modules/vss-ui-forked")
         }
     },
     module: {

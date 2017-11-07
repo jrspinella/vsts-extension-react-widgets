@@ -9,6 +9,9 @@ export declare abstract class BaseStore<TCollection, TItem, TKey> extends Observ
     setLoading(loading: boolean, key?: TKey): void;
     itemExists(key: TKey): boolean;
     getAll(): TCollection;
+    addChangedListener(listener: () => void): void;
+    removeChangedListener(listener: () => void): void;
+    protected emitChanged(): void;
     protected abstract initializeActionListeners(): any;
     protected abstract convertItemKeyToString(key: TKey): string;
     abstract getItem(key: TKey): TItem;

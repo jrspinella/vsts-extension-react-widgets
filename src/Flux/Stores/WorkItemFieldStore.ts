@@ -19,7 +19,7 @@ export class WorkItemFieldStore extends BaseStore<WorkItemField[], WorkItemField
     }    
 
     protected initializeActionListeners() {
-        WorkItemFieldActionsHub.InitializeWorkItemFields.subscribe((fields: WorkItemField[]) => {
+        WorkItemFieldActionsHub.InitializeWorkItemFields.addListener((fields: WorkItemField[]) => {
             if (fields) {
                 this.items = fields;
                 this._itemsRefNameMap = {};
@@ -31,7 +31,7 @@ export class WorkItemFieldStore extends BaseStore<WorkItemField[], WorkItemField
                 }
             }
 
-            this.notify(null, null);
+            this.emitChanged();
         });
     }
 
