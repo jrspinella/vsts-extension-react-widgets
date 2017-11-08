@@ -23,7 +23,6 @@
 
     .title-link {
         color: #333333;
-        @include TextOverflowEllipsis();
 
         &:hover {
             color: #0078d7;
