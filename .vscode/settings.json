@@ -14,7 +14,7 @@
     "importSorter.importStringConfiguration.numberOfEmptyLinesAfterAllImports": 1,
     "importSorter.sortConfiguration.customOrderingRules.rules": [
         {
-            "regex": ".scss$",
+            "regex": ".css$",
             "orderLevel": 0,
             "numberOfEmptyLinesAfterGroup": 1
         },
@@ -46,11 +46,6 @@
         {
             "regex": "^VSSUI",
             "orderLevel": 6,
-            "numberOfEmptyLinesAfterGroup": 1
-        },
-        {
-            "regex": "^VSTS_Extension_Widgets",
-            "orderLevel": 7,
             "numberOfEmptyLinesAfterGroup": 1
         }
     ]

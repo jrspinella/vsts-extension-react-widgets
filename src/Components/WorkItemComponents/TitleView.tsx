@@ -1,4 +1,4 @@
-import "./TitleView.scss";
+import "./TitleView.css";
 
 import * as React from "react";
 

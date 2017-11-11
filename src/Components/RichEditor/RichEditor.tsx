@@ -1,13 +1,12 @@
-import "./RichEditor.scss";
+import "./RichEditor.css";
 
 import "trumbowyg/dist/trumbowyg";
 import "trumbowyg/dist/ui/trumbowyg.min.css";
 
 import * as React from "react";
 
-import { CoreUtils } from "../../Utilities/Core";
+import { CoreUtils, StaticObservable } from "../../Utilities";
 import "../../Utilities/PasteImagePlugin";
-import { StaticObservable } from "../../Utilities/StaticObservable";
 import "../../Utilities/UploadImagePlugin";
 import {
     BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState

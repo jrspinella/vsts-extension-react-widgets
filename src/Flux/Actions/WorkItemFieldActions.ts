@@ -1,6 +1,5 @@
 import { StringUtils } from "../../Utilities/String";
-import { StoreFactory } from "../Stores/BaseStore";
-import { WorkItemFieldStore } from "../Stores/WorkItemFieldStore";
+import { StoreFactory, WorkItemFieldStore } from "../Stores";
 import { WorkItemFieldActionsHub } from "./ActionsHub";
 
 import { WorkItemField } from "TFS/WorkItemTracking/Contracts";

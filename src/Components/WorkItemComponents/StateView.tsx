@@ -1,4 +1,4 @@
-import "./StateView.scss";
+import "./StateView.css";
 
 import * as React from "react";
 

@@ -1,4 +1,4 @@
-import "./Badge.scss";
+import "./Badge.css";
 
 import * as React from "react";
 

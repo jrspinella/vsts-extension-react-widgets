@@ -5,7 +5,7 @@ var UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 module.exports = {
     target: "web",
     entry: {
-        "vsts-extension-react-widgets.min": "./src/index.ts"
+        "vsts-extension-react-widgets.min": "./lib/index.js"
     },
     output: {
         filename: "[name].js",

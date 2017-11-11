@@ -1,6 +1,5 @@
 import { StringUtils } from "../../Utilities/String";
-import { StoreFactory } from "../Stores/BaseStore";
-import { GitRepoStore } from "../Stores/GitRepoStore";
+import { GitRepoStore, StoreFactory } from "../Stores";
 import { GitRepoActionsHub } from "./ActionsHub";
 
 import { GitRepository } from "TFS/VersionControl/Contracts";

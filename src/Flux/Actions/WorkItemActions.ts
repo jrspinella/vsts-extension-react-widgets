@@ -1,5 +1,4 @@
-import { StoreFactory } from "../Stores/BaseStore";
-import { WorkItemStore } from "../Stores/WorkItemStore";
+import { StoreFactory, WorkItemStore } from "../Stores";
 import { WorkItemActionsHub } from "./ActionsHub";
 
 import { WorkItem, WorkItemErrorPolicy } from "TFS/WorkItemTracking/Contracts";

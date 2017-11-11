@@ -2,8 +2,6 @@
     "name": "vsts-extension-react-widgets",
     "version": "1.9.2",
     "description": "Reusable React components based on office fabric for building VSTS extensions.",
-    "main": "lib/index.js",
-    "typings": "lib/index.d.ts",
     "repository": {
         "type": "git",
         "url": "https://github.com/mohitbagra/vsts-extension-react-widgets"
@@ -11,10 +9,9 @@
     "license": "MIT",
     "author": "Mohit Bagra",
     "scripts": {
-        "clean": "rimraf lib dist",
+        "clean": "rimraf lib",
         "cleanall": "npm run clean && rimraf typings node_modules",
-        "build": "npm run clean && tsc -d true --outDir ./lib && npm run copycss && webpack --display-error-details --progress --colors --output-path ./dist -p",
-        "copycss": "(robocopy src lib *.scss /mir /s) ^& IF %ERRORLEVEL% LEQ 1 exit 0",
+        "build": "npm run clean && node buildpackage.js && webpack --display-error-details --progress --colors --output-path ./lib -p",
         "package:demo": "node ./demo/packageDev",
         "start": "webpack-dev-server --config webpack.demo.config.js -d --hot --progress --colors --https --content-base ./ --port 8888",
         "postinstall": "typings install"
@@ -22,6 +19,8 @@
     "devDependencies": {
         "@types/react": "^16.0.9",
         "@types/react-dom": "^16.0.0",
+        "react": "^15.3.2",
+        "react-dom": "^15.3.2",
         "@types/jquery": "2.0.41",
         "webpack": "3.8.1",
         "webpack-dev-server": "2.9.4",
@@ -34,7 +33,9 @@
         "typescript": "2.6.1",
         "typings": "2.1.1",
         "uglifyjs-webpack-plugin": "1.0.1",
-        "tfx-cli": "0.4.11"
+        "tfx-cli": "0.4.11",
+        "uglify-es": "3.1.8",
+        "glob": "7.1.2"
     },
     "dependencies": {
         "es6-promise": "4.1.1",
@@ -45,5 +46,9 @@
         "dateformat": "3.0.2",
         "@xkeshi/image-compressor": "0.5.2",
         "tslib": "~1.7.1"
+    },
+    "peerDependencies": {
+        "react": "^0.14.9 || ^15.0.1-0 || ^16.0.0-0",
+        "react-dom": "^0.14.9 || ^15.0.1-0 || ^16.0.0-0"
     }
 }

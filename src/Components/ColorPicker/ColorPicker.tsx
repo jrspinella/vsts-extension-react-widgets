@@ -1,4 +1,4 @@
-import "./ColorPicker.scss";
+import "./ColorPicker.css";
 
 import * as React from "react";
 

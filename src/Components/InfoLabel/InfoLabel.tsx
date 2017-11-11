@@ -1,4 +1,4 @@
-import "./InfoLabel.scss";
+import "./InfoLabel.css";
 
 import * as React from "react";
 

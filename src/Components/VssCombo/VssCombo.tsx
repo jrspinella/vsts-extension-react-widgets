@@ -1,4 +1,4 @@
-import "./VssCombo.scss";
+import "./VssCombo.css";
 
 import * as React from "react";
 

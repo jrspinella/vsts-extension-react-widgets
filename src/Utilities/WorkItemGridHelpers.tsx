@@ -1,9 +1,6 @@
 import * as React from "react";
 
-import { IdentityView } from "../Components/IdentityView";
-import { StateView } from "../Components/WorkItemComponents/StateView";
-import { TagsView } from "../Components/WorkItemComponents/TagsView";
-import { TitleView } from "../Components/WorkItemComponents/TitleView";
+import { IdentityView, StateView, TagsView, TitleView } from "../Components";
 import { DateUtils } from "./Date";
 import { StringUtils } from "./String";
 
