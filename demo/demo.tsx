@@ -1,17 +1,18 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import { Badge, ColorPicker, IdentityView, VssCombo, InfoLabel, InputError, RichEditor } from "../src/Components";
-import { StateView, TagsView, TitleView } from "../src/Components/WorkItemComponents";
-
-import { DirectionalHint } from "OfficeFabric/Callout";
-import { Fabric } from "OfficeFabric/Fabric";
-import { INavLink, Nav } from "OfficeFabric/Nav";
-import { autobind } from "OfficeFabric/Utilities";
+import { DirectionalHint } from "office-ui-fabric-react/lib/Callout";
+import { Fabric } from "office-ui-fabric-react/lib/Fabric";
+import { INavLink, Nav } from "office-ui-fabric-react/lib/Nav";
+import { autobind } from "office-ui-fabric-react/lib/Utilities";
 
 import { initializeIcons } from "@uifabric/icons";
+import {
+    Badge, ColorPicker, IdentityView, InfoLabel, InputError, RichEditor, StateView, TagsView,
+    TitleView, VssCombo
+} from "../lib";
 
-interface ICommonComponentsDemoState {
+export interface ICommonComponentsDemoState {
     selectedComponent: string;
 }
 
