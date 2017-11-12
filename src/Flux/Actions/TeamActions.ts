@@ -1,5 +1,6 @@
 import { StringUtils } from "../../Utilities/String";
-import { StoreFactory, TeamStore } from "../Stores";
+import { StoreFactory } from "../Stores/BaseStore";
+import { TeamStore } from "../Stores/TeamStore";
 import { TeamActionsHub } from "./ActionsHub";
 
 import { WebApiTeam } from "TFS/Core/Contracts";

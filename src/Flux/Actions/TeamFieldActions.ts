@@ -1,4 +1,5 @@
-import { StoreFactory, TeamFieldStore } from "../Stores";
+import { StoreFactory } from "../Stores/BaseStore";
+import { TeamFieldStore } from "../Stores/TeamFieldStore";
 import { TeamFieldActionsHub } from "./ActionsHub";
 
 import { TeamContext } from "TFS/Core/Contracts";

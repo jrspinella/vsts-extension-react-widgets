@@ -1,4 +1,5 @@
-import { StoreFactory, WorkItemTemplateItemStore } from "../Stores";
+import { StoreFactory } from "../Stores/BaseStore";
+import { WorkItemTemplateItemStore } from "../Stores/WorkItemTemplateItemStore";
 import { WorkItemTemplateItemActionsHub } from "./ActionsHub";
 
 import * as WitClient from "TFS/WorkItemTracking/RestClient";

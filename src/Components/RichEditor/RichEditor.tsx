@@ -5,7 +5,8 @@ import "trumbowyg/dist/ui/trumbowyg.min.css";
 
 import * as React from "react";
 
-import { CoreUtils, StaticObservable } from "../../Utilities";
+import { CoreUtils } from "../../Utilities/Core";
+import { StaticObservable } from "../../Utilities/StaticObservable";
 import "../../Utilities/PasteImagePlugin";
 import "../../Utilities/UploadImagePlugin";
 import {
