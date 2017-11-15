@@ -104,10 +104,5 @@ export module StringUtils {
 
     export function caseInsensitiveContains(str: string, subStr: string): boolean {
         return (str.toLowerCase().indexOf(subStr.toLowerCase()) !== -1);
-    }
-
-    export function isGuid(str: string): boolean {
-        var guidRegex = /^\{?([\dA-F]{8})-?([\dA-F]{4})-?([\dA-F]{4})-?([\dA-F]{4})-?([\dA-F]{12})\}?$/i;
-        return guidRegex.test(str);
-    }
+    }    
 }

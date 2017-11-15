@@ -1,5 +1,9 @@
 import { StringUtils } from "./String";
 
+export function getCurrentUser(): string {
+    return `${VSS.getWebContext().user.name} <${VSS.getWebContext().user.uniqueName}>`;
+}
+
 export function parseUniquefiedIdentityName(name: string): {displayName: string, uniqueName: string, imageUrl: string} {
     if (!name) { 
         return {
