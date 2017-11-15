@@ -45,3 +45,10 @@ export module WorkItemActionsHub {
     export var DeleteWorkItems = new Action<number[]>();
     export var ClearWorkItems = new Action();
 }
+
+
+export namespace ErrorMessageActionsHub {
+    export const PushErrorMessage = new Action<{errorMessage: string, errorKey: string}>();
+    export const DismissErrorMessage = new Action<string>();
+    export const DismissAllErrorMessages = new Action<void>();
+}

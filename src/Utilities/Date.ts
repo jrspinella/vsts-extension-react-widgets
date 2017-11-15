@@ -34,7 +34,7 @@ export module DateUtils {
         return new Date(date.getTime() - (date.getTimezoneOffset() * 1000 * 60));
     }
 
-    export function format(date: Date, format: string): string {
+    export function format(date: Date, format?: string): string {
         return dateFormat(date, format);
     }
 

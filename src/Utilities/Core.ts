@@ -1,3 +1,5 @@
+import { DateUtils } from "./Date";
+
 export module CoreUtils {
     export function delegate(instance: any, method: Function, data?: any): (...args: any[]) => any {
         return function () {
@@ -86,5 +88,50 @@ export module CoreUtils {
         return delegate(delayedFunc, () => {
             delayedFunc.reset();
         });
+    }
+
+    export async function confirmAction(condition: boolean, msg: string): Promise<boolean> {
+        if (condition) {
+            let dialogService: IHostDialogService = await VSS.getService(VSS.ServiceIds.Dialog) as IHostDialogService;
+            try {
+                await dialogService.openMessageDialog(msg, { useBowtieStyle: true });
+                return true;
+            }
+            catch (e) {
+                // user selected "No"" in dialog
+                return false;
+            }
+        }
+    
+        return true;
+    }
+
+    export async function showErrorDialog(message: string, reason?: any): Promise<void> {
+        let reasonStr = typeof reason === "string" ? reason : reason && reason.message;
+        let errorMsg = reasonStr ? `${message} Reason: ${reasonStr}` : message;
+    
+        let dialogService: IHostDialogService = <IHostDialogService>await VSS.getService(VSS.ServiceIds.Dialog);
+        try {
+            await dialogService.openMessageDialog(errorMsg, { useBowtieStyle: true });
+        }
+        catch (e) {
+            // do nothing as pressing cancel on the dialog will throw an error here
+        }
+        return;
+    }
+
+    export function toString(val: any): string {
+        if (typeof(val) === "boolean") {
+            return val ? "True" : "False";
+        }
+        else if (typeof(val) === "number") {
+            return "" + val;
+        }
+        else if (val instanceof Date) {
+            DateUtils.format(val);
+        }
+        else {
+            return val;
+        }
     }
 }

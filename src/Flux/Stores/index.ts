@@ -1,4 +1,5 @@
 export * from "./BaseStore";
+export * from "./ErrorMessageStore";
 export * from "./GitRepoStore";
 export * from "./TeamFieldStore";
 export * from "./TeamStore";

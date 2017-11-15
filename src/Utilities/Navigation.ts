@@ -1,3 +1,5 @@
+import { WorkItem } from "TFS/WorkItemTracking/Contracts";
+
 import { HostNavigationService } from "VSS/SDK/Services/Navigation";
 
 export module NavigationUtils {
@@ -14,5 +16,23 @@ export module NavigationUtils {
     export async function navigate(data?: IDictionaryStringTo<any>, replaceHistoryEntry?: boolean, mergeWithCurrentState?: boolean, windowTitle?: string, suppressNavigate?: boolean) {
         const navigationService = await getNavigationService();
         navigationService.updateHistoryEntry(null, data, replaceHistoryEntry, mergeWithCurrentState, windowTitle, suppressNavigate);
+    }
+
+    export function getQueryUrl(workItems: WorkItem[], fields: string[]) {
+        const {collection, project} = VSS.getWebContext();
+
+        const fieldStr = fields.join(",");
+        const ids = (workItems).map(w => w.id).join(",");
+    
+        const wiql = `SELECT ${fieldStr}
+                 FROM WorkItems 
+                 WHERE [System.ID] IN (${ids})`;
+    
+        return `${collection.uri}/${project.name}/_queries/query/?wiql=${encodeURIComponent(wiql)}`;
+    }
+
+    export function getWorkItemUrl(workItemId: number) {   
+        const {collection, project} = VSS.getWebContext();     
+        return `${collection.uri}/${project.name}/_workitems/edit/${workItemId}`;
     }
 }
