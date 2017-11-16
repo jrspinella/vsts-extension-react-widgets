@@ -1,8 +1,10 @@
 import { ArrayUtils } from "./Array";
 import { StringUtils } from "./String";
 
-import * as WitContracts from "TFS/WorkItemTracking/Contracts";
-import { WorkItemFormService, IWorkItemFormService } from "TFS/WorkItemTracking/Services";
+import { WorkItem, WorkItemField } from "TFS/WorkItemTracking/Contracts";
+import {
+    IWorkItemFormService, WorkItemFormNavigationService, WorkItemFormService
+} from "TFS/WorkItemTracking/Services";
 
 export module WorkItemFormHelpers {
     var workItemFormService: IWorkItemFormService;
@@ -15,6 +17,11 @@ export module WorkItemFormHelpers {
         return workItemFormService;
     }
 
+    export async function openWorkItemDialog(e: React.MouseEvent<HTMLElement>, item: WorkItem): Promise<WorkItem> {
+        const newTab = e ? e.ctrlKey : false;
+        const workItemNavSvc = await WorkItemFormNavigationService.getService();
+        return await workItemNavSvc.openWorkItem(item.id, newTab);
+    }
     
     export async function getWorkItemAllowedFieldValues(fieldRefName: string): Promise<string[]> {
         const workItemFormService = await getFormService();
@@ -31,14 +38,14 @@ export module WorkItemFormHelpers {
         return await workItemFormService.getFieldValues(fieldNames);
     }
 
-    export async function getWorkItemFields(): Promise<WitContracts.WorkItemField[]> {
+    export async function getWorkItemFields(): Promise<WorkItemField[]> {
         const workItemFormService = await getFormService();
         return await workItemFormService.getFields();
     }
 
-    export async function getWorkItemField(fieldName: string): Promise<WitContracts.WorkItemField> {
+    export async function getWorkItemField(fieldName: string): Promise<WorkItemField> {
         const fields = await this.getWorkItemFields();
-        const field = ArrayUtils.first(fields, (f: WitContracts.WorkItemField) => {
+        const field = ArrayUtils.first(fields, (f: WorkItemField) => {
             return StringUtils.equals(f.name, fieldName, true) || StringUtils.equals(f.referenceName, fieldName, true);
         });
 

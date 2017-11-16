@@ -10,4 +10,3 @@ export * from "./Navigation";
 export * from "./StaticObservable";
 export * from "./String";
 export * from "./WorkItemFormHelpers";
-export * from "./WorkItemGridHelpers";

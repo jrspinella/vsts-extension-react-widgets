@@ -1,3 +1,4 @@
+import { GUIDUtils } from "./Guid";
 import { StringUtils } from "./String";
 
 export function getCurrentUser(): string {
@@ -24,7 +25,7 @@ export function parseUniquefiedIdentityName(name: string): {displayName: string,
         rightPart = name.substr(i + 1, j - i - 1).trim();
         let vsIdFromAlias: string = getVsIdFromGroupUniqueName(rightPart); // if it has vsid in unique name (for TFS groups)
 
-        if (rightPart.indexOf("@") !== -1 || rightPart.indexOf("\\") !== -1 || vsIdFromAlias || StringUtils.isGuid(rightPart)) {
+        if (rightPart.indexOf("@") !== -1 || rightPart.indexOf("\\") !== -1 || vsIdFromAlias || GUIDUtils.isGuid(rightPart)) {
             // if its a valid alias
             alias = rightPart;
 
@@ -71,7 +72,7 @@ function getVsIdFromGroupUniqueName(str: string): string {
 
     if (StringUtils.startsWith(leftPart, "id:")) {
         let rightPart = leftPart.substr(3).trim();
-        vsid = StringUtils.isGuid(rightPart) ? rightPart : "";
+        vsid = GUIDUtils.isGuid(rightPart) ? rightPart : "";
     }
 
     return vsid;

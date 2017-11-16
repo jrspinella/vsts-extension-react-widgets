@@ -1,5 +1,3 @@
-import { DateUtils } from "./Date";
-
 export module CoreUtils {
     export function delegate(instance: any, method: Function, data?: any): (...args: any[]) => any {
         return function () {
@@ -118,20 +116,5 @@ export module CoreUtils {
             // do nothing as pressing cancel on the dialog will throw an error here
         }
         return;
-    }
-
-    export function toString(val: any): string {
-        if (typeof(val) === "boolean") {
-            return val ? "True" : "False";
-        }
-        else if (typeof(val) === "number") {
-            return "" + val;
-        }
-        else if (val instanceof Date) {
-            DateUtils.format(val);
-        }
-        else {
-            return val;
-        }
     }
 }

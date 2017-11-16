@@ -1,3 +1,5 @@
+import { DateUtils } from "./Date";
+
 export module StringUtils {
     function convertToString(value: any, upperCase: boolean, useLocale: boolean): string {
         let result: string;
@@ -104,5 +106,20 @@ export module StringUtils {
 
     export function caseInsensitiveContains(str: string, subStr: string): boolean {
         return (str.toLowerCase().indexOf(subStr.toLowerCase()) !== -1);
-    }    
+    }
+    
+    export function toString(val: any): string {
+        if (typeof(val) === "boolean") {
+            return val ? "True" : "False";
+        }
+        else if (typeof(val) === "number") {
+            return "" + val;
+        }
+        else if (val instanceof Date) {
+            DateUtils.format(val);
+        }
+        else {
+            return val;
+        }
+    }
 }

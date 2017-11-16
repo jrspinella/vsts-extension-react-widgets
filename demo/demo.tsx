@@ -9,11 +9,12 @@ import { autobind } from "office-ui-fabric-react/lib/Utilities";
 import { initializeIcons } from "@uifabric/icons";
 import {
     Badge, ColorPicker, IdentityView, InfoLabel, InputError, RichEditor, StateView, TagsView,
-    TitleView, VssCombo
+    TitleView, VssCombo, FieldPicker
 } from "../lib";
 
 export interface ICommonComponentsDemoState {
     selectedComponent: string;
+    fieldValue?: string;
 }
 
 const delay = (duration) =>
@@ -52,6 +53,11 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
 
     private _renderComponent(): JSX.Element {
         switch (this.state.selectedComponent) {
+            case "fieldpicker": 
+                return <FieldPicker
+                    value={this.state.fieldValue}
+                    onValueChanged={(v) => this.setState({fieldValue: v})}
+                />
             case "badge":
                 return <div>
                     <Badge notificationCount={4}>
@@ -110,6 +116,12 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
             {
                 name: "Combo",
                 key: "combo",
+                url: "",
+                forceAnchor: true
+            },
+            {
+                name: "FieldPicker",
+                key: "fieldpicker",
                 url: "",
                 forceAnchor: true
             },
