@@ -2,28 +2,29 @@ import "./VssCombo.css";
 
 import * as React from "react";
 
+import { InfoLabel } from "../InfoLabel";
 import { InputError } from "../InputError";
 import {
     BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
 } from "../Utilities/BaseFluxComponent";
 
-import { Label } from "OfficeFabric/Label";
 import { css } from "OfficeFabric/Utilities";
 
-import * as Controls from "VSS/Controls";
-import * as Combos from "VSS/Controls/Combos";
+import { Control } from "VSS/Controls";
+import { Combo } from "VSS/Controls/Combos";
 
 export interface IVssComboProps extends IBaseFluxComponentProps {
     value?: string;
-    options?: any;
+    options?: string[];
     onChange: (newValue: string) => void;
     error?: string;
     label?: string;
-    required?: boolean;
+    info?: string;
+    disabled?: boolean;
 }
 
 export class VssCombo extends BaseFluxComponent<IVssComboProps, IBaseFluxComponentState> {
-    private _control: Combos.Combo;
+    private _control: Combo;
 
     /**
      * Reference to the combo control DOM
@@ -35,26 +36,35 @@ export class VssCombo extends BaseFluxComponent<IVssComboProps, IBaseFluxCompone
 
     public render(): JSX.Element {
         return <div className={css("vss-combobox", this.props.className)}>
-            {this.props.label && <Label className="combo-label" required={this.props.required}>{this.props.label}</Label>}
+            { this.props.label && <InfoLabel className="vss-combo-label" label={this.props.label} info={this.props.info} /> }
             <div ref="container"></div>
-            { this.props.error && <InputError error={this.props.error} />}
+            { this.props.error && <InputError className="vss-combo-error" error={this.props.error} />}
         </div>
     }
 
     public componentDidMount(): void {
-        this._control = Controls.Control.create(Combos.Combo, $(this.refs.container), {...this.props.options || {}, change: () => {
-            this.props.onChange(this._control.getText());
-        }});
+        this._control = Control.create(Combo, $(this.refs.container), {
+            type: "list",
+            mode: "drop",
+            allowEdit: true,
+            source: this.props.options,
+            change: () => {
+                this.props.onChange(this._control.getText());
+            }
+        });
 
         this._control.setInputText(this.props.value || "");
+        this._control.setEnabled(!this.props.disabled);
     }
 
     public componentWillUnmount(): void {
         this._dispose();
     }
 
-    public componentWillReceiveProps(nextProps: IVssComboProps) {        
+    public componentWillReceiveProps(nextProps: IVssComboProps) {
         this._control.setInputText(nextProps.value || "");
+        this._control.setEnabled(!nextProps.disabled);
+        this._control.setSource(nextProps.options);
     }
 
     private _dispose(): void {

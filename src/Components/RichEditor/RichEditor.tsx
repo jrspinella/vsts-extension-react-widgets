@@ -1,14 +1,15 @@
-import "./RichEditor.css";
-
-import "trumbowyg/dist/trumbowyg";
 import "trumbowyg/dist/ui/trumbowyg.min.css";
+import "trumbowyg/dist/trumbowyg";
+import "./RichEditor.css";
 
 import * as React from "react";
 
 import { CoreUtils } from "../../Utilities/Core";
-import { StaticObservable } from "../../Utilities/StaticObservable";
 import "../../Utilities/PasteImagePlugin";
+import { StaticObservable } from "../../Utilities/StaticObservable";
 import "../../Utilities/UploadImagePlugin";
+import { InfoLabel } from "../InfoLabel";
+import { InputError } from "../InputError";
 import {
     BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
 } from "../Utilities/BaseFluxComponent";
@@ -21,7 +22,10 @@ export interface IRichEditorProps extends IBaseFluxComponentProps {
     delay?: number;
     onChange?: (newValue: string) => void;
     editorOptions?: any;
-    getPastedImageUrl?: (data: string) => Promise<string>;    
+    getPastedImageUrl?: (data: string) => Promise<string>;
+    label?: string;
+    info?: string;
+    error?: string;
 }
 
 export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxComponentState> {
@@ -64,8 +68,10 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxCom
 
     public render() {
         return <div className="rich-editor-container">
+            { this.props.label && <InfoLabel className="rich-editor-label" label={this.props.label} info={this.props.info} /> }
             <div className="progress-bar" style={{visibility: this.state.loading ? "visible" : "hidden"}} />
             <div id={this.props.containerId} className={css("rich-editor", this.props.className)} />
+            { this.props.error && <InputError className="rich-editor-error" error={this.props.error} /> }
         </div>;
     }
 

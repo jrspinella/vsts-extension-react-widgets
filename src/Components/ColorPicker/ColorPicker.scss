@@ -1,4 +1,8 @@
-.color-picker {    
+.color-picker { 
+    .info-label.color-picker-label {
+        margin-bottom: 5px;
+    }
+
     .selected-color-container {
         display: flex;
         width: 125px;

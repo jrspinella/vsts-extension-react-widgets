@@ -83,17 +83,15 @@ export class StateView extends BaseFluxComponent<IStateViewProps, IStateViewStat
             stateColor = "#000000";
         }
 
-        return (
-            <div className={css("work-item-state-view", this.props.className)}>
-                <span 
-                    className="work-item-type-state-color"
-                    style={{
-                        backgroundColor: stateColor,
-                        borderColor: stateColor
-                    }} 
-                />
-                <Label className="state-name">{this.props.state}</Label>
-            </div>
-        )
+        return <div className={css("work-item-state-view", this.props.className)}>
+            <span 
+                className="work-item-type-state-color"
+                style={{
+                    backgroundColor: stateColor,
+                    borderColor: stateColor
+                }} 
+            />
+            <Label className="state-name">{this.props.state}</Label>
+        </div>;
     }
 }

@@ -84,24 +84,22 @@ export class TitleView extends BaseFluxComponent<ITitleViewProps, ITitleViewStat
         const webContext = VSS.getWebContext();
         const witUrl = `${webContext.collection.uri}/${webContext.project.name}/_workitems/edit/${this.props.workItemId}`;
 
-        return (
-            <div 
-                className={`${css("work-item-title-view", this.props.className)} ${(witIconUrl || !wit) ? "no-color" : ""}`}
-                style={(witIconUrl || !wit) ? undefined : {borderColor: witColor}}>
+        return <div 
+            className={`${css("work-item-title-view", this.props.className)} ${(witIconUrl || !wit) ? "no-color" : ""}`}
+            style={(witIconUrl || !wit) ? undefined : {borderColor: witColor}}>
 
-                {witIconUrl && <img src={witIconUrl} />}
-                <Link
-                    className="title-link"
-                    href={witUrl} 
-                    onClick={(e: React.MouseEvent<HTMLElement>) => {
-                        if (this.props.onClick && !e.ctrlKey) {
-                            e.preventDefault();
-                            this.props.onClick(e);
-                        }
-                    }}>
-                    {this.props.title}
-                </Link>
-            </div>
-        )
+            {witIconUrl && <img src={witIconUrl} />}
+            <Link
+                className="title-link"
+                href={witUrl} 
+                onClick={(e: React.MouseEvent<HTMLElement>) => {
+                    if (this.props.onClick && !e.ctrlKey) {
+                        e.preventDefault();
+                        this.props.onClick(e);
+                    }
+                }}>
+                {this.props.title}
+            </Link>
+        </div>;
     }
 }

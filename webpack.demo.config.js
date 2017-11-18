@@ -27,14 +27,18 @@ module.exports = {
         }
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.tsx?$/,
-                loader: "ts-loader"
-            },
+                use: "ts-loader"
+            },            
             {
                 test: /\.s?css$/,
-                loaders: ["style-loader", "css-loader", "sass-loader"]
+                use: [
+                    { loader: "style-loader" },
+                    { loader: "css-loader" },
+                    { loader: "sass-loader" }
+                ]
             }
         ]
     }

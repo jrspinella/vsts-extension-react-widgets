@@ -12,14 +12,14 @@ import { VssIcon, VssIconType } from "VSSUI/VssIcon";
 
 export interface IInfoLabelProps extends IBaseFluxComponentProps {
     label: string;
-    info: string;
+    info?: string;
 }
 
 export var InfoLabel: React.StatelessComponent<IInfoLabelProps> =
     (props: IInfoLabelProps): JSX.Element => {        
-        return (
-            <div className={css("info-label", props.className)}>
-                <Label className="info-label-text">{props.label}</Label>
+        return <div className={css("info-label", props.className)}>
+            <Label className="info-label-text">{props.label}</Label>
+            { props.info && 
                 <TooltipHost 
                     content={ props.info }
                     delay={ TooltipDelay.zero }
@@ -27,6 +27,6 @@ export var InfoLabel: React.StatelessComponent<IInfoLabelProps> =
                     >
                     <VssIcon iconType={VssIconType.fabric} className="info-icon" iconName="Info" />
                 </TooltipHost>
-            </div>
-        );
+            }
+        </div>;
 }

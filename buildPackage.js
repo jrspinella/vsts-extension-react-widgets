@@ -26,36 +26,37 @@ function copyFile(source, target) {
     });
 }
 
-// Compile typescript
-console.log("# Compiling TypeScript. Executing `node_modules\\.bin\\tsc -p ./tsconfig.json`.");
+/**
+ * -------------------------------------Min build -----------------------------------------------
+ */
 
+// Compile typescript min
+console.log("# Compiling TypeScript min. Executing `node_modules\\.bin\\tsc -p ./tsconfig.json --outDir ./lib/min --sourceMap false`.");
 try {
-    execSync("node_modules\\.bin\\tsc -p ./tsconfig.json", {
+    execSync("node_modules\\.bin\\tsc -p ./tsconfig.json --outDir ./lib/min --sourceMap false", {
         stdio: ["ignore", "pipe", "ignore"],
         shell: true,
         cwd: __dirname
     });
 } catch (error) {
-    console.log("ERROR: Failed to build TypeScript.");
+    console.log("ERROR: Failed to build TypeScript Min.");
     process.exit(1);
 }
-
-// Compile SASS
+// Compile SASS min
 try {
-    console.log("# Compiling SASS/SCSS. Executing `node_modules\\.bin\\node-sass --quiet --output lib --include-path src src`.");
-    execSync("node_modules\\.bin\\node-sass --quiet --output lib --include-path src src", {
+    console.log("# Compiling SASS/SCSS. Executing `node_modules\\.bin\\node-sass --quiet --output ./lib/min --include-path src src`.");
+    execSync("node_modules\\.bin\\node-sass --quiet --output ./lib/min --include-path src src", {
         shell: true,
         cwd: __dirname
     });
 } catch (error) {
-    console.log("ERROR: Failed to build SASS.");
+    console.log("ERROR: Failed to build SASS min.");
     process.exit(1);
 }
-
 // Uglify JavaScript
 console.log("# Minifying JS using the UglifyES API, replacing un-minified files.");
 let count = 0;
-glob("./lib/**/*.js", (err, files) => {
+glob("./lib/min/**/*.js", (err, files) => {
     for (const file of files) {
         if (file.includes("node_modules/")) {
             continue;
@@ -68,16 +69,45 @@ glob("./lib/**/*.js", (err, files) => {
         count++;
     }
     console.log(`-- Minified ${count} files.`);
+});
 
-    // Copy package.json, LICENSE, README.md to lib
-    console.log("# Copying package.json, LICENSE, and README.md to lib.");
-    copyFile("package.json", "lib/package.json").then(() => {
-        copyFile("LICENSE", "lib/LICENSE");
-    }).then(() => {
-        copyFile("README.md", "lib/README.md");
-    }).then(() => {
-        console.log("# Done.");
-    }).catch((reason) => {
-        console.log("ERROR: Failed to copy package.json, LICENSE, or README.md - " + reason);
+/**
+ * -------------------------------------Debug build -----------------------------------------------
+ */
+
+// Compile typescript debug
+console.log("# Compiling TypeScript debug. Executing `node_modules\\.bin\\tsc -p ./tsconfig.json --outDir ./lib/debug --sourceMap true`.");
+try {
+    execSync("node_modules\\.bin\\tsc -p ./tsconfig.json --outDir ./lib/debug --sourceMap true", {
+        stdio: ["ignore", "pipe", "ignore"],
+        shell: true,
+        cwd: __dirname
     });
+} catch (error) {
+    console.log("ERROR: Failed to build TypeScript Debug.");
+    process.exit(1);
+}
+// Compile SASS debug
+try {
+    console.log("# Compiling SASS/SCSS. Executing `node_modules\\.bin\\node-sass --quiet --output ./lib/debug --include-path src src`.");
+    execSync("node_modules\\.bin\\node-sass --quiet --output ./lib/debug --include-path src src", {
+        shell: true,
+        cwd: __dirname
+    });
+} catch (error) {
+    console.log("ERROR: Failed to build SASS debug.");
+    process.exit(1);
+}
+
+
+// Copy package.json, LICENSE, README.md to lib
+console.log("# Copying package.json, LICENSE, and README.md to lib.");
+copyFile("package.json", "lib/package.json").then(() => {
+    copyFile("LICENSE", "lib/LICENSE");
+}).then(() => {
+    copyFile("README.md", "lib/README.md");
+}).then(() => {
+    console.log("# Done.");
+}).catch((reason) => {
+    console.log("ERROR: Failed to copy package.json, LICENSE, or README.md - " + reason);
 });

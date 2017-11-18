@@ -3,6 +3,7 @@ import "./ColorPicker.css";
 import * as React from "react";
 
 import { StringUtils } from "../../Utilities/String";
+import { InfoLabel } from "../InfoLabel";
 import {
     BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
 } from "../Utilities/BaseFluxComponent";
@@ -10,13 +11,13 @@ import { AccessibilityColor } from "./Color";
 
 import { DefaultButton } from "OfficeFabric/Button";
 import { Callout } from "OfficeFabric/Callout";
-import { Label } from "OfficeFabric/Label";
 import { autobind, css } from "OfficeFabric/Utilities";
 
 export interface IColorPickerProps extends IBaseFluxComponentProps {
     selectedColor?: string;
     onChange?: (newColor: string) => void;
     label?: string;
+    info?: string;
 }
 
 export interface IColorPickerState extends IBaseFluxComponentState {
@@ -42,12 +43,14 @@ export class ColorPicker extends BaseFluxComponent<IColorPickerProps, IColorPick
 
     public render(): JSX.Element {
         return <div className={css("color-picker", this.props.className)}>
-            {this.props.label && <Label className="color-label">{this.props.label}</Label>}
+            { this.props.label && <InfoLabel className="color-picker-label" label={this.props.label} info={this.props.info} /> }
+
             <div className="selected-color-container"  ref={(target) => this._targetElement = target }>
                 <div className="selected-color" style={{backgroundColor: this.state.selectedColor}} onClick={this._toggleCallout} />
                 <DefaultButton className="open-callout-button" iconProps={{iconName: "ChevronDown"}} onClick={this._toggleCallout} />
             </div>
-            {this.state.isCalloutOpen && 
+
+            { this.state.isCalloutOpen && 
                 <Callout 
                     className="colors-callout"
                     isBeakVisible={false}

@@ -12,14 +12,12 @@
         "skipDefaultLibCheck": true,
         "skipLibCheck": true,
         "target": "es5",
-        "outDir": "./lib",
         "baseUrl": "./",
         "paths": {
             "OfficeFabric/*": ["node_modules/office-ui-fabric-react/lib/*"],
             "VSSUI/*": ["node_modules/vss-ui/*"]
         },
         "removeComments": true,
-        "sourceMap": false,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "types": [

@@ -10,7 +10,7 @@ import { initializeIcons } from "@uifabric/icons";
 import {
     Badge, ColorPicker, IdentityView, InfoLabel, InputError, RichEditor, StateView, TagsView,
     TitleView, VssCombo, FieldPicker
-} from "../lib";
+} from "../lib/debug/Components";
 
 export interface ICommonComponentsDemoState {
     selectedComponent: string;
@@ -56,6 +56,8 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
             case "fieldpicker": 
                 return <FieldPicker
                     value={this.state.fieldValue}
+                    label="FIeld"
+                    info="Select a field"
                     onValueChanged={(v) => this.setState({fieldValue: v})}
                 />
             case "badge":
@@ -74,7 +76,7 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
             case "titleview":
                 return <TitleView onClick={() => alert("click")} workItemId={1} title="Active" workItemType="Bug" />;  
             case "colorpicker":
-                return <ColorPicker label="color" />;
+                return <ColorPicker label="color" info="Select a color" />;
             case "stateview":
                 return <StateView state="Active" workItemType="Bug" />;                
             case "inputerror":
@@ -86,9 +88,10 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
             case "tagsview":
                 return <TagsView tags={["hello", "foo", "bar"]} />;
             case "combo":
-                return <VssCombo value="123" onChange={() => console.log("a")} error="this is error" label="Combo" required={true} />;
+                return <VssCombo value="123" onChange={() => console.log("a")} error="this is error" label="Combo" info="abcd" />;
             case "richeditor":
                 return <RichEditor 
+                    error="this is error" label="Combo" info="abcd"
                     containerId="rich-editor-demo" 
                     getPastedImageUrl={this._getImageUrl}
                     editorOptions={{

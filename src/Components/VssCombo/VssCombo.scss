@@ -1,6 +1,14 @@
 @import "../../_CommonStyles.scss";
 
 .vss-combobox {
+    .info-label.vss-combo-label {
+        margin-bottom: 5px;
+    }
+
+    .input-error.vss-combo-error {
+        margin-top: 5px;
+    }
+
     .combo {
         width: inherit;
         background-color: #fff;
@@ -27,9 +35,5 @@
                 content: "\E70D";
             }
         }
-    }
-
-    .input-error {
-        margin-top: 5px;
     }
 }
