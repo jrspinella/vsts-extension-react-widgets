@@ -77,19 +77,20 @@ export class WorkItemTypePicker extends BaseFluxComponent<IWorkItemTypePickerPro
             value = this.state.value
         }
 
+        const allWitsLoaded = this.state.witComboOptions != null;
         const error = this.props.error || this._getDefaultError(value);
 
         return <VssCombo 
             className={css("work-item-type-picker", this.props.className)}
-            value={value} 
-            disabled={this.props.disabled}
+            value={!allWitsLoaded ? "" : value} 
+            disabled={!allWitsLoaded ? true : this.props.disabled}
             delay={this.props.delay}
-            required={this.props.required}
+            required={!allWitsLoaded ? false : this.props.required}
             label={this.props.label} 
             info={this.props.info}
-            error={error}
+            error={!allWitsLoaded ? "" : error}
             options={this.state.witComboOptions || []} 
-            onChange={this._onChange} />
+            onChange={this._onChange} />;
     }
 
     @autobind
@@ -103,8 +104,8 @@ export class WorkItemTypePicker extends BaseFluxComponent<IWorkItemTypePickerPro
     }
 
     private _getDefaultError(witName: string): string {
-        if (this.props.required && StringUtils.isNullOrEmpty(witName)) {
-            return "Work item type is required";
+        if (StringUtils.isNullOrEmpty(witName)) {
+            return this.props.required ? "Work item type is required." : null;
         }
 
         return !this._workItemTypeStore.itemExists(witName) ? "This work item type doesn't exist" : null;

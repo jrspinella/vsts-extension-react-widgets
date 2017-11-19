@@ -1,20 +1,24 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
+import {
+    Badge, ColorPicker, IdentityView, InfoLabel, InputError, RichEditor, TeamPicker, VssCombo,
+    WorkItemFieldPicker, WorkItemStateView, WorkItemTagsView, WorkItemTitleView, WorkItemTypePicker
+} from "../lib/debug/Components";
+
+import { FieldType } from "TFS/WorkItemTracking/Contracts";
+
+import { initializeIcons } from "@uifabric/icons";
 import { DirectionalHint } from "office-ui-fabric-react/lib/Callout";
 import { Fabric } from "office-ui-fabric-react/lib/Fabric";
 import { INavLink, Nav } from "office-ui-fabric-react/lib/Nav";
 import { autobind } from "office-ui-fabric-react/lib/Utilities";
 
-import { initializeIcons } from "@uifabric/icons";
-import {
-    Badge, ColorPicker, IdentityView, InfoLabel, InputError, RichEditor, StateView, TagsView,
-    TitleView, VssCombo, FieldPicker
-} from "../lib/debug/Components";
-
 export interface ICommonComponentsDemoState {
     selectedComponent: string;
     fieldValue?: string;
+    teamValue?: string;
+    witValue?: string;
 }
 
 const delay = (duration) =>
@@ -51,14 +55,32 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
         );
     }
 
-    private _renderComponent(): JSX.Element {
+    private _renderComponent(): React.ReactNode {
         switch (this.state.selectedComponent) {
+            case "teampicker": 
+                return <TeamPicker
+                    value={this.state.teamValue}
+                    label="Team"
+                    required={true}
+                    info="Select a team"
+                    onChange={(v) => this.setState({teamValue: v})}
+                />
+            case "witpicker": 
+                return <WorkItemTypePicker
+                    value={this.state.witValue}
+                    label="Work item type"
+                    required={true}
+                    info="Select a wit"
+                    onChange={(v) => this.setState({witValue: v})}
+                />
             case "fieldpicker": 
-                return <FieldPicker
+                return <WorkItemFieldPicker
                     value={this.state.fieldValue}
-                    label="FIeld"
+                    required={true}
+                    allowedFieldTypes={[FieldType.Html, FieldType.DateTime]}
+                    label="Field"
                     info="Select a field"
-                    onValueChanged={(v) => this.setState({fieldValue: v})}
+                    onChange={(v) => this.setState({fieldValue: v})}
                 />
             case "badge":
                 return <div>
@@ -74,11 +96,11 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
                     </Badge>
                 </div>;
             case "titleview":
-                return <TitleView onClick={() => alert("click")} workItemId={1} title="Active" workItemType="Bug" />;  
+                return <WorkItemTitleView onClick={() => alert("click")} workItemId={1} title="Active" workItemType="Bug" />;  
             case "colorpicker":
                 return <ColorPicker label="color" info="Select a color" />;
             case "stateview":
-                return <StateView state="Active" workItemType="Bug" />;                
+                return <WorkItemStateView state="Active" workItemType="Bug" />;                
             case "inputerror":
                 return <InputError error="This is an input error" />;
             case "identityview":
@@ -86,7 +108,7 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
             case "infolabel":
                 return <InfoLabel info="Information" label="Info" />;
             case "tagsview":
-                return <TagsView tags={["hello", "foo", "bar"]} />;
+                return <WorkItemTagsView tags={["hello", "foo", "bar"]} />;
             case "combo":
                 return <VssCombo value="123" onChange={() => console.log("a")} error="this is error" label="Combo" info="abcd" />;
             case "richeditor":
@@ -125,6 +147,18 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
             {
                 name: "FieldPicker",
                 key: "fieldpicker",
+                url: "",
+                forceAnchor: true
+            },
+            {
+                name: "WitPicker",
+                key: "witpicker",
+                url: "",
+                forceAnchor: true
+            },
+            {
+                name: "TeamPicker",
+                key: "teampicker",
                 url: "",
                 forceAnchor: true
             },

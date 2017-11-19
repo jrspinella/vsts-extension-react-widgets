@@ -104,12 +104,19 @@ export module ArrayUtils {
     }
 
     export function arrayEquals<T>(source: T[], target: T[], comparer?: (s: T, t: T) => boolean, sorted: boolean = false): boolean {
-        if (!source || !target) {
+        if (!source && !target) {
             return true;
+        }
+        if ((!source && target) || (source && !target)) {
+            return false;
         }
 
         if (source.length !== target.length) {
             return false;
+        }
+
+        if (!comparer) {
+            comparer = defaultComparison;
         }
 
         if (!sorted) {
@@ -121,7 +128,7 @@ export module ArrayUtils {
         }
         else {
             for (let i = 0; i < source.length; i++) {
-                if (!comparer || !comparer(source[i], target[i])) {
+                if (!comparer(source[i], target[i])) {
                     return false;
                 }
             }
@@ -140,5 +147,9 @@ export module ArrayUtils {
         else {
             return -1;
         }
+    }
+
+    function defaultComparison<T>(a: T, b: T): boolean {
+        return a === b;
     }
 }

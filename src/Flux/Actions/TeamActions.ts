@@ -16,7 +16,7 @@ export module TeamActions {
         else if (!teamStore.isLoading()) {
             teamStore.setLoading(true);
             try {
-                const teams =  await CoreClient.getClient().getTeams(VSS.getWebContext().project.id, 300);
+                const teams = await getTeams();
                 teams.sort((a: WebApiTeam, b: WebApiTeam) => StringUtils.localeIgnoreCaseComparer(a.name, b.name));
                 TeamActionsHub.InitializeTeams.invoke(teams);
                 teamStore.setLoading(false);
@@ -26,5 +26,26 @@ export module TeamActions {
                 throw e.message;
             }
         }
+    }
+
+    async function getTeams(): Promise<WebApiTeam[]> {
+        const teams: WebApiTeam[] = [];
+        const top: number = 300;
+        const client = CoreClient.getClient();
+        const project = VSS.getWebContext().project.id;
+
+        const getTeamDelegate = async (skip: number) => {
+            let result: WebApiTeam[] = await client.getTeams(project, top, skip);
+            if (result.length > 0) {
+                teams.push(...result);
+            }            
+            if (result.length === top) {
+                await getTeamDelegate(skip + top);
+            }
+            return;
+        };
+
+        await getTeamDelegate(0);
+        return teams;
     }
 }
