@@ -7,4 +7,4 @@ export * from "./Loading/index";
 export * from "./RichEditor/index";
 export * from "./Utilities/index";
 export * from "./VssCombo/index";
-export * from "./WorkItemComponents/index";
+export * from "./VSTS/index";

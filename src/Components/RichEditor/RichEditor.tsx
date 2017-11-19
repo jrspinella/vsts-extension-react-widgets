@@ -1,12 +1,13 @@
 import "trumbowyg/dist/ui/trumbowyg.min.css";
-import "trumbowyg/dist/trumbowyg";
 import "./RichEditor.css";
 
 import * as React from "react";
+import "trumbowyg/dist/trumbowyg";
 
 import { CoreUtils } from "../../Utilities/Core";
 import "../../Utilities/PasteImagePlugin";
 import { StaticObservable } from "../../Utilities/StaticObservable";
+import { StringUtils } from "../../Utilities/String";
 import "../../Utilities/UploadImagePlugin";
 import { InfoLabel } from "../InfoLabel";
 import { InputError } from "../InputError";
@@ -18,19 +19,30 @@ import { autobind, css } from "OfficeFabric/Utilities";
 
 export interface IRichEditorProps extends IBaseFluxComponentProps {
     containerId: string;
-    data?: string;
+    value?: string;
     delay?: number;
     onChange?: (newValue: string) => void;
     editorOptions?: any;
-    getPastedImageUrl?: (data: string) => Promise<string>;
+    getPastedImageUrl?: (value: string) => Promise<string>;
     label?: string;
     info?: string;
     error?: string;
+    required?: boolean;
 }
 
-export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxComponentState> {
+export interface IRichEditorState extends IBaseFluxComponentState {
+    value?: string;
+}
+
+export class RichEditor extends BaseFluxComponent<IRichEditorProps, IRichEditorState> {
     private _richEditorContainer: JQuery;
     private _delayedFunction: CoreUtils.DelayedFunction;
+
+    protected initializeState(): void {
+        this.state = {
+            value: this.props.value || ""
+        };
+    }
 
     public componentDidMount() {
         super.componentDidMount();
@@ -44,7 +56,7 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxCom
             .on("tbwchange", this._onChange)
             .on("tbwblur", this._fireChange);
         
-        this._richEditorContainer.trumbowyg("html", this.props.data || "");
+        this._richEditorContainer.trumbowyg("html", this.props.value || "");
     }
 
     public componentWillUnmount() {
@@ -53,33 +65,40 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxCom
         StaticObservable.getInstance().unsubscribe(this._onImagePaste, "imagepasted");
 
         this._richEditorContainer.trumbowyg("destroy");
-        if (this._delayedFunction) {
-            this._delayedFunction.cancel();
-        }
+        this._disposeDelayedFunction();
     }
 
     public componentWillReceiveProps(nextProps: IRichEditorProps) {
         super.componentWillReceiveProps(nextProps);
 
-        if (nextProps.data !== this._richEditorContainer.trumbowyg("html")) {
-            this._richEditorContainer.trumbowyg("html", nextProps.data || "");
+        if (nextProps.value !== this.props.value) {
+            this._richEditorContainer.trumbowyg("html", nextProps.value || "");
+            this.setState({
+                value: nextProps.value
+            });
         }
     }
 
     public render() {
+        const error = this.props.error || this._getDefaultError();
+
         return <div className="rich-editor-container">
             { this.props.label && <InfoLabel className="rich-editor-label" label={this.props.label} info={this.props.info} /> }
             <div className="progress-bar" style={{visibility: this.state.loading ? "visible" : "hidden"}} />
             <div id={this.props.containerId} className={css("rich-editor", this.props.className)} />
-            { this.props.error && <InputError className="rich-editor-error" error={this.props.error} /> }
+            { error && <InputError className="rich-editor-error" error={error} /> }
         </div>;
+    }
+
+    private _getDefaultError(): string {
+        if (this.props.required && StringUtils.isNullOrEmpty(this.state.value)) {
+            return "A value is required";
+        }
     }
 
     @autobind
     private _onChange() {
-        if (this._delayedFunction) {
-            this._delayedFunction.cancel();
-        }
+        this._disposeDelayedFunction();
        
         if (this.props.delay == null) {
             this._fireChange();
@@ -93,17 +112,18 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxCom
 
     @autobind
     private _fireChange() {
-        if (this._delayedFunction) {
-            this._delayedFunction.cancel();
-        }
+        this._disposeDelayedFunction();
         
-        if (this.props.onChange) {
-            this.props.onChange(this._richEditorContainer.trumbowyg("html"));
-        }
+        const value = this._richEditorContainer.trumbowyg("html");
+        this.setState({value: value}, () => {
+            if (this.props.onChange) {
+                this.props.onChange(value);
+            }
+        });
     }
 
     @autobind
-    private async _onImagePaste(args: {data: string, callback: (url: string) => void}) {
+    private async _onImagePaste(args: {imageData: string, callback: (url: string) => void}) {
         if (!this.props.getPastedImageUrl) {
             return;
         }
@@ -111,7 +131,7 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxCom
         this.setState({loading: true});
 
         try {
-            const imageUrl = await this.props.getPastedImageUrl(args.data);   
+            const imageUrl = await this.props.getPastedImageUrl(args.imageData);   
             args.callback(imageUrl);
             this.setState({loading: false});
         }
@@ -119,5 +139,12 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IBaseFluxCom
             args.callback(null);
             this.setState({loading: false});
         }
-    }  
+    }
+
+    private _disposeDelayedFunction() {
+        if (this._delayedFunction) {
+            this._delayedFunction.cancel();
+            this._delayedFunction = null;
+        }
+    }
 }

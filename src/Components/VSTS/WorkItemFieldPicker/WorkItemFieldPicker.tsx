@@ -1,30 +1,33 @@
 import * as React from "react";
 
-import { WorkItemFieldActions } from "../../Flux/Actions/WorkItemFieldActions";
-import { BaseStore, StoreFactory } from "../../Flux/Stores/BaseStore";
-import { WorkItemFieldStore } from "../../Flux/Stores/WorkItemFieldStore";
+import { WorkItemFieldActions } from "../../../Flux/Actions/WorkItemFieldActions";
+import { BaseStore, StoreFactory } from "../../../Flux/Stores/BaseStore";
+import { WorkItemFieldStore } from "../../../Flux/Stores/WorkItemFieldStore";
+import { StringUtils } from "../../../Utilities/String";
 import {
     BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
-} from "../Utilities/BaseFluxComponent";
-import { VssCombo } from "../VssCombo";
+} from "../../Utilities/BaseFluxComponent";
+import { VssCombo } from "../../VssCombo";
 
 import { autobind, css } from "OfficeFabric/Utilities";
 
-export interface IFieldPickerProps extends IBaseFluxComponentProps {
+export interface IWorkItemFieldPickerProps extends IBaseFluxComponentProps {
     value?: string;
-    onValueChanged?: (field: string) => void;
-    disabled?: boolean;
+    onChange?: (field: string) => void;
     error?: string;
     label?: string;
     info?: string;
+    disabled?: boolean;
+    delay?: number;
+    required?: boolean;
 }
 
-export interface IFieldPickerState extends IBaseFluxComponentState {
+export interface IWorkItemFieldPickerState extends IBaseFluxComponentState {
     fieldsComboOptions?: string[];
     value?: string;
 }
 
-export class FieldPicker extends BaseFluxComponent<IFieldPickerProps, IFieldPickerState> {
+export class WorkItemFieldPicker extends BaseFluxComponent<IWorkItemFieldPickerProps, IWorkItemFieldPickerState> {
     private _fieldStore = StoreFactory.getInstance<WorkItemFieldStore>(WorkItemFieldStore);
 
     protected initializeState(): void {
@@ -49,7 +52,7 @@ export class FieldPicker extends BaseFluxComponent<IFieldPickerProps, IFieldPick
         }        
     }
 
-    public componentWillReceiveProps(nextProps: IFieldPickerProps) {
+    public componentWillReceiveProps(nextProps: IWorkItemFieldPickerProps) {
         super.componentWillReceiveProps(nextProps);
         if (nextProps.value !== this.props.value) {
             this.setState({
@@ -58,7 +61,7 @@ export class FieldPicker extends BaseFluxComponent<IFieldPickerProps, IFieldPick
         }        
     }
 
-    protected getStoresState(): IFieldPickerState {
+    protected getStoresState(): IWorkItemFieldPickerState {
         const allFields = this._fieldStore.getAll();
         return {
             fieldsComboOptions: allFields ? allFields.map(f => f.name) : null
@@ -80,20 +83,30 @@ export class FieldPicker extends BaseFluxComponent<IFieldPickerProps, IFieldPick
             className={css("work-item-field-picker", this.props.className)}
             value={value} 
             disabled={this.props.disabled}
+            delay={this.props.delay}
+            required={this.props.required}
             label={this.props.label} 
             info={this.props.info}
             error={error}
             options={this.state.fieldsComboOptions || []} 
-            onChange={this._onChanged} />
+            onChange={this._onChange} />
     }
 
     @autobind
-    private _onChanged(fieldName: string) {
-        const field = this._fieldStore.getItem(fieldName);        
-        this.props.onValueChanged(field ? field.referenceName : fieldName);
+    private _onChange(fieldName: string) {
+        const field = this._fieldStore.getItem(fieldName);
+        const value = field ? field.referenceName : fieldName;
+
+        this.setState({value: value}, () => {
+            this.props.onChange(value);
+        });
     }
 
     private _getDefaultError(fieldName: string): string {
-        return !this._fieldStore.itemExists(fieldName) ? "This field doesn't exist" : ""
+        if (this.props.required && StringUtils.isNullOrEmpty(fieldName)) {
+            return "Field name is required";
+        }
+
+        return !this._fieldStore.itemExists(fieldName) ? "This field doesn't exist" : null;
     }
 }

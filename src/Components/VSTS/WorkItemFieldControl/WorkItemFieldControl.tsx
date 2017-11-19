@@ -1,5 +1,7 @@
-import { AutoResizableComponent } from "./AutoResizableComponent";
-import { IBaseFluxComponentProps, IBaseFluxComponentState } from "./BaseFluxComponent";
+import { AutoResizableComponent } from "../../Utilities/AutoResizableComponent";
+import {
+    IBaseFluxComponentProps, IBaseFluxComponentState
+} from "../../Utilities/BaseFluxComponent";
 
 import * as WitExtensionContracts from "TFS/WorkItemTracking/ExtensionContracts";
 import { WorkItemFormService } from "TFS/WorkItemTracking/Services";
@@ -20,8 +22,11 @@ export abstract class FieldControl<TP extends IFieldControlProps, TS extends IFi
 
     private _flushing: boolean;
 
-    protected initialize() {
-         VSS.register(VSS.getContribution().id, {
+    public componentDidMount() {
+        super.componentDidMount();
+        const { fieldName } = this.props;
+
+        VSS.register(VSS.getContribution().id, {
             onLoaded: (_args: WitExtensionContracts.IWorkItemLoadedArgs) => {
                 this._invalidate();
             },
@@ -29,11 +34,16 @@ export abstract class FieldControl<TP extends IFieldControlProps, TS extends IFi
                 this._setValue(null);
             },
             onFieldChanged: (args: WitExtensionContracts.IWorkItemFieldChangedArgs) => {
-                if (args.changedFields[this.props.fieldName] != null) {
+                if (args.changedFields[fieldName] != null) {
                     this._invalidate();
-                }   
+                }
             },
         } as WitExtensionContracts.IWorkItemNotificationListener);
+    }
+
+    public componentWillUnmount() {
+        super.componentWillUnmount();
+        VSS.unregister(VSS.getContribution().id);
     }
 
     /**
