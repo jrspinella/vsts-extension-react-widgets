@@ -16,7 +16,7 @@ import { FieldType } from "TFS/WorkItemTracking/Contracts";
 
 export interface IWorkItemFieldPickerProps extends IBaseFluxComponentProps {
     value?: string;
-    onChange?: (fieldRefName: string) => void;
+    onChange: (fieldRefName: string) => void;
     error?: string;
     label?: string;
     info?: string;

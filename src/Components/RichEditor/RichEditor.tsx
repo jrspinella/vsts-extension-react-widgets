@@ -21,7 +21,7 @@ export interface IRichEditorProps extends IBaseFluxComponentProps {
     containerId: string;
     value?: string;
     delay?: number;
-    onChange?: (newValue: string) => void;
+    onChange: (newValue: string) => void;
     editorOptions?: any;
     getPastedImageUrl?: (value: string) => Promise<string>;
     label?: string;
@@ -116,9 +116,7 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IRichEditorS
         
         const value = this._richEditorContainer.trumbowyg("html");
         this.setState({value: value}, () => {
-            if (this.props.onChange) {
-                this.props.onChange(value);
-            }
+            this.props.onChange(value);
         });
     }
 

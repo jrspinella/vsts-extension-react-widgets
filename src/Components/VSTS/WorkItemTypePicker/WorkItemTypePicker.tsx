@@ -13,7 +13,7 @@ import { autobind, css } from "OfficeFabric/Utilities";
 
 export interface IWorkItemTypePickerProps extends IBaseFluxComponentProps {
     value?: string;
-    onChange?: (witName: string) => void;
+    onChange: (witName: string) => void;
     error?: string;
     label?: string;
     info?: string;

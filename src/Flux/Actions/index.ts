@@ -1,5 +1,6 @@
 export * from "./Action";
 export * from "./ActionsHub";
+export * from "./ClassificationNodeActions";
 export * from "./ErrorMessageActions";
 export * from "./GitRepoActions";
 export * from "./TeamActions";

@@ -15,7 +15,7 @@ import { autobind, css } from "OfficeFabric/Utilities";
 
 export interface IColorPickerProps extends IBaseFluxComponentProps {
     selectedColor?: string;
-    onChange?: (newColor: string) => void;
+    onChange: (newColor: string) => void;
     label?: string;
     info?: string;
 }

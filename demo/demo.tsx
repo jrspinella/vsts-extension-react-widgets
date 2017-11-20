@@ -3,8 +3,9 @@ import * as ReactDOM from "react-dom";
 
 import {
     Badge, ColorPicker, IdentityView, InfoLabel, InputError, RichEditor, TeamPicker, VssCombo,
-    WorkItemFieldPicker, WorkItemStateView, WorkItemTagsView, WorkItemTitleView, WorkItemTypePicker
-} from "../lib/debug/Components";
+    WorkItemFieldPicker, WorkItemStateView, WorkItemTagsView, WorkItemTitleView, WorkItemTypePicker,
+    ClassificationPicker, ClassificationNodeKey
+} from "../lib/debug";
 
 import { FieldType } from "TFS/WorkItemTracking/Contracts";
 
@@ -57,6 +58,13 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
 
     private _renderComponent(): React.ReactNode {
         switch (this.state.selectedComponent) {
+            case "classificationpicker":
+                return <ClassificationPicker
+                    label="Area path"
+                    type={ClassificationNodeKey.Area}
+                    required={true}
+                    onChange={(v) => console.log(v)}
+                    info="Select a area path" />;
             case "teampicker": 
                 return <TeamPicker
                     value={this.state.teamValue}
@@ -98,7 +106,7 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
             case "titleview":
                 return <WorkItemTitleView onClick={() => alert("click")} workItemId={1} title="Active" workItemType="Bug" />;  
             case "colorpicker":
-                return <ColorPicker label="color" info="Select a color" />;
+                return <ColorPicker label="color" info="Select a color" onChange={(v) => console.log(v)} />;
             case "stateview":
                 return <WorkItemStateView state="Active" workItemType="Bug" />;                
             case "inputerror":
@@ -113,6 +121,7 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
                 return <VssCombo value="123" onChange={() => console.log("a")} error="this is error" label="Combo" info="abcd" />;
             case "richeditor":
                 return <RichEditor 
+                    onChange={(v) => console.log(v)} 
                     error="this is error" label="Combo" info="abcd"
                     containerId="rich-editor-demo" 
                     getPastedImageUrl={this._getImageUrl}
@@ -147,6 +156,12 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
             {
                 name: "FieldPicker",
                 key: "fieldpicker",
+                url: "",
+                forceAnchor: true
+            },
+            {
+                name: "ClassificationPicker",
+                key: "classificationpicker",
                 url: "",
                 forceAnchor: true
             },

@@ -13,11 +13,17 @@ import {
 import { autobind, css } from "OfficeFabric/Utilities";
 
 import { Control } from "VSS/Controls";
-import { Combo } from "VSS/Controls/Combos";
+import { Combo, IComboOptions } from "VSS/Controls/Combos";
+import { TreeNode } from "VSS/Controls/TreeView";
+
+export enum ComboType {
+    Flat = 0,
+    Tree
+}
 
 export interface IVssComboProps extends IBaseFluxComponentProps {
     value?: string;
-    options?: string[];
+    options?: string[] | TreeNode[];
     onChange: (newValue: string) => void;
     error?: string;
     label?: string;
@@ -25,6 +31,7 @@ export interface IVssComboProps extends IBaseFluxComponentProps {
     disabled?: boolean;
     required?: boolean;
     delay?: number;
+    type?: ComboType;
 }
 
 export interface IVssComboState extends IBaseFluxComponentState {
@@ -62,16 +69,21 @@ export class VssCombo extends BaseFluxComponent<IVssComboProps, IVssComboState> 
     public componentDidMount(): void {
         super.componentDidMount();
 
-        this._control = Control.create(Combo, $(this.refs.container), {
-            type: "list",
+        let comboOptions = {
+            type: this.props.type === ComboType.Tree ? "treeSearch" : "list",
             mode: "drop",
             allowEdit: true,
             source: this.props.options,
+            enabled: !this.props.disabled,
             change: this._onChange
-        });
+        } as IComboOptions;
 
+        if (this.props.type === ComboType.Tree) {
+            comboOptions = {...comboOptions, initialLevel: 2, sepChar: "\\"} as IComboOptions;
+        }
+
+        this._control = Control.create(Combo, $(this.refs.container), comboOptions);
         this._control.setInputText(this.props.value || "");
-        this._control.setEnabled(!this.props.disabled);
     }
 
     public componentWillUnmount(): void {
@@ -88,7 +100,14 @@ export class VssCombo extends BaseFluxComponent<IVssComboProps, IVssComboState> 
                 value: nextProps.value
             });
         }
-        this._control.setEnabled(!nextProps.disabled);
+
+        if (nextProps.disabled !== this.props.disabled) {
+            this._control.setEnabled(!nextProps.disabled);
+        }
+        if (nextProps.type !== this.props.type) {
+            this._control.setType(nextProps.type === ComboType.Tree ? "treeSearch" : "list");            
+        }
+
         this._control.setSource(nextProps.options);
     }
 

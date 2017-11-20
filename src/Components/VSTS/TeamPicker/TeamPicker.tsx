@@ -13,7 +13,7 @@ import { autobind, css } from "OfficeFabric/Utilities";
 
 export interface ITeamPickerProps extends IBaseFluxComponentProps {
     value?: string;
-    onChange?: (teamId: string) => void;
+    onChange: (teamId: string) => void;
     error?: string;
     label?: string;
     info?: string;

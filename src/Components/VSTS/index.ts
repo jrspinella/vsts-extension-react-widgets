@@ -1,3 +1,4 @@
+export * from "./ClassificationPicker/index";
 export * from "./TeamPicker/index";
 export * from "./WorkItemFieldControl/index";
 export * from "./WorkItemFieldPicker/index";
