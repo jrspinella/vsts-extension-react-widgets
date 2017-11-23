@@ -9,7 +9,7 @@ import { StringUtils } from "../../../Utilities/String";
 import {
     BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
 } from "../../Utilities/BaseFluxComponent";
-import { VssCombo, ComboType } from "../../VssCombo";
+import { TreeCombo } from "../../VssCombo/TreeCombo";
 
 import { autobind, css } from "OfficeFabric/Utilities";
 
@@ -76,10 +76,9 @@ export class ClassificationPicker extends BaseFluxComponent<IClassificationPicke
         const treeNodeLoaded = this.state.treeNode != null;
         const error = this.props.error || this._getDefaultError(value);
 
-        return <VssCombo 
+        return <TreeCombo 
             className={css("classification-picker", this.props.className)}
             value={!treeNodeLoaded ? "" : value} 
-            type={ComboType.Tree}
             disabled={!treeNodeLoaded ? true : this.props.disabled}
             delay={this.props.delay}
             required={!treeNodeLoaded ? false : this.props.required}

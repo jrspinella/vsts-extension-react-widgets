@@ -7,7 +7,7 @@ import { StringUtils } from "../../../Utilities/String";
 import {
     BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
 } from "../../Utilities/BaseFluxComponent";
-import { VssCombo } from "../../VssCombo";
+import { SimpleCombo } from "../../VssCombo/SimpleCombo";
 
 import { autobind, css } from "OfficeFabric/Utilities";
 
@@ -80,7 +80,7 @@ export class WorkItemTypePicker extends BaseFluxComponent<IWorkItemTypePickerPro
         const allWitsLoaded = this.state.witComboOptions != null;
         const error = this.props.error || this._getDefaultError(value);
 
-        return <VssCombo 
+        return <SimpleCombo 
             className={css("work-item-type-picker", this.props.className)}
             value={!allWitsLoaded ? "" : value} 
             disabled={!allWitsLoaded ? true : this.props.disabled}

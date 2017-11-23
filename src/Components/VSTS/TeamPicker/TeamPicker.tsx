@@ -7,7 +7,7 @@ import { StringUtils } from "../../../Utilities/String";
 import {
     BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
 } from "../../Utilities/BaseFluxComponent";
-import { VssCombo } from "../../VssCombo";
+import { SimpleCombo } from "../../VssCombo/SimpleCombo";
 
 import { autobind, css } from "OfficeFabric/Utilities";
 
@@ -80,7 +80,7 @@ export class TeamPicker extends BaseFluxComponent<ITeamPickerProps, ITeamPickerS
         const allTeamsLoaded = this.state.comboOptions != null;
         const error = this.props.error || this._getDefaultError(value);
 
-        return <VssCombo 
+        return <SimpleCombo 
             className={css("team-picker", this.props.className)}
             value={!allTeamsLoaded ? "" : value} 
             disabled={!allTeamsLoaded ? true : this.props.disabled}

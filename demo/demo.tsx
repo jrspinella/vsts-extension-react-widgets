@@ -2,7 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 import {
-    Badge, ColorPicker, IdentityView, InfoLabel, InputError, RichEditor, TeamPicker, VssCombo,
+    Badge, ColorPicker, IdentityView, InfoLabel, InputError, RichEditor, TeamPicker, SimpleCombo,
     WorkItemFieldPicker, WorkItemStateView, WorkItemTagsView, WorkItemTitleView, WorkItemTypePicker,
     ClassificationPicker, ClassificationNodeKey
 } from "../lib/debug";
@@ -118,7 +118,7 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
             case "tagsview":
                 return <WorkItemTagsView tags={["hello", "foo", "bar"]} />;
             case "combo":
-                return <VssCombo value="123" onChange={() => console.log("a")} error="this is error" label="Combo" info="abcd" />;
+                return <SimpleCombo value="123" onChange={() => console.log("a")} error="this is error" label="Combo" info="abcd" />;
             case "richeditor":
                 return <RichEditor 
                     onChange={(v) => console.log(v)} 
