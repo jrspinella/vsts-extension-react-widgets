@@ -7,9 +7,9 @@ import {
 } from "../../../Flux/Stores/ClassificationNodeStore";
 import { StringUtils } from "../../../Utilities/String";
 import {
-    BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
+    BaseFluxComponent, IBaseFluxComponentState
 } from "../../Utilities/BaseFluxComponent";
-import { TreeCombo } from "../../VssCombo/TreeCombo";
+import { TreeCombo, ITreeComboProps } from "../../VssCombo/TreeCombo";
 
 import { autobind, css } from "OfficeFabric/Utilities";
 
@@ -17,16 +17,8 @@ import { WorkItemClassificationNode } from "TFS/WorkItemTracking/Contracts";
 
 import { TreeNode } from "VSS/Controls/TreeView";
 
-export interface IClassificationPickerProps extends IBaseFluxComponentProps {
-    value?: string;
-    type: ClassificationNodeKey;
-    onChange: (path: string) => void;
-    error?: string;
-    label?: string;
-    info?: string;
-    disabled?: boolean;
-    delay?: number;
-    required?: boolean;
+export interface IClassificationPickerProps extends ITreeComboProps {
+    type: ClassificationNodeKey;    
 }
 
 export interface IClassificationPickerState extends IBaseFluxComponentState {
@@ -71,22 +63,23 @@ export class ClassificationPicker extends BaseFluxComponent<IClassificationPicke
         }
     }
 
-    public render(): JSX.Element {       
-        const { value } = this.state;
-        const treeNodeLoaded = this.state.treeNode != null;
-        const error = this.props.error || this._getDefaultError(value);
+    public render(): JSX.Element {
+        if (!this.state.treeNode) {
+            return null;
+        }
 
-        return <TreeCombo 
-            className={css("classification-picker", this.props.className)}
-            value={!treeNodeLoaded ? "" : value} 
-            disabled={!treeNodeLoaded ? true : this.props.disabled}
-            delay={this.props.delay}
-            required={!treeNodeLoaded ? false : this.props.required}
-            label={this.props.label} 
-            info={this.props.info}
-            error={!treeNodeLoaded ? "" : error}
-            options={this.state.treeNode ? [this.state.treeNode] : []} 
-            onChange={this._onChange} />;
+        const { value } = this.state;        
+        const error = this.props.error || this._getDefaultError(value);
+        const props = {
+            ...this.props,
+            className: css("classification-picker", this.props.className),
+            value: value,
+            options: [this.state.treeNode],
+            error: error,
+            onChange: this._onChange
+        } as ITreeComboProps;
+
+        return <TreeCombo {...props} />;
     }
 
     private _initializeNodes(type: ClassificationNodeKey) {

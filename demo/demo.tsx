@@ -67,28 +67,31 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
                     info="Select a area path" />;
             case "teampicker": 
                 return <TeamPicker
-                    value={this.state.teamValue}
+                    selectedValue={this.state.teamValue}
                     label="Team"
                     required={true}
+                    delay={200}
                     info="Select a team"
-                    onChange={(v) => this.setState({teamValue: v})}
+                    onChange={(o, v) => this.setState({teamValue: o ? o.name : v})}
                 />
             case "witpicker": 
                 return <WorkItemTypePicker
-                    value={this.state.witValue}
+                    selectedValue={this.state.witValue}
                     label="Work item type"
                     required={true}
+                    delay={200}
                     info="Select a wit"
-                    onChange={(v) => this.setState({witValue: v})}
+                    onChange={(o, v) => this.setState({witValue: o ? o.name : v})}
                 />
             case "fieldpicker": 
                 return <WorkItemFieldPicker
-                    value={this.state.fieldValue}
+                    selectedValue={this.state.fieldValue}
                     required={true}
                     allowedFieldTypes={[FieldType.Html, FieldType.DateTime]}
                     label="Field"
+                    delay={200}
                     info="Select a field"
-                    onChange={(v) => this.setState({fieldValue: v})}
+                    onChange={(o,v) => this.setState({fieldValue: o ? o.name : v})}
                 />
             case "badge":
                 return <div>
@@ -118,7 +121,7 @@ export class Demo extends React.Component<{}, ICommonComponentsDemoState> {
             case "tagsview":
                 return <WorkItemTagsView tags={["hello", "foo", "bar"]} />;
             case "combo":
-                return <SimpleCombo value="123" onChange={() => console.log("a")} error="this is error" label="Combo" info="abcd" />;
+                return <SimpleCombo options={[]} selectedValue="123" onChange={() => console.log("a")} error="this is error" label="Combo" info="abcd" />;
             case "richeditor":
                 return <RichEditor 
                     onChange={(v) => console.log(v)} 

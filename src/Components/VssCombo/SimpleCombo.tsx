@@ -15,46 +15,49 @@ import { autobind, css } from "OfficeFabric/Utilities";
 import { Control } from "VSS/Controls";
 import { Combo, IComboOptions } from "VSS/Controls/Combos";
 
-export interface ISimpleComboProps extends IBaseFluxComponentProps {
-    value?: string;
-    options?: string[];
-    onChange: (newValue: string) => void;
+export interface ISimpleComboProps<T> extends IBaseFluxComponentProps {
+    selectedOption?: T;
+    selectedValue?: string;
+    options?: T[];
+    getItemText?: (option: T) => string;
+    onChange: (option: T, value?: string) => void;
     error?: string;
     label?: string;
     info?: string;
     disabled?: boolean;
     required?: boolean;
     delay?: number;
+    limitedToAllowedOptions?: boolean;
 }
 
-export interface ISimpleComboState extends IBaseFluxComponentState {
-    value?: string;
+export interface ISimpleComboState<T> extends IBaseFluxComponentState {
+    selectedOption?: T;
+    selectedValue?: string;
+    error?: string;
 }
 
-export class SimpleCombo extends BaseFluxComponent<ISimpleComboProps, ISimpleComboState> {
+export class SimpleCombo<T> extends BaseFluxComponent<ISimpleComboProps<T>, ISimpleComboState<T>> {
     private _control: Combo;
     private _delayedFunction: CoreUtils.DelayedFunction;
+    private _nameToOptionMap: IDictionaryStringTo<T>;
+    private _container: HTMLDivElement;
 
-    /**
-     * Reference to the combo control DOM
-     */
-    public refs: {
-        [key: string]: (Element);
-        container: (HTMLElement);
-    };
+    private _containerRefCallback = (container: HTMLDivElement) => { this._container = container; };
 
     protected initializeState(): void {
         this.state = {
-            value: this.props.value || ""
+            selectedOption: this.props.selectedOption,
+            selectedValue: this.props.selectedValue || "",
+            error: this._getDefaultError(this.props.selectedOption, this.props.selectedValue, this.props.required, this.props.limitedToAllowedOptions)
         };
     }
 
     public render(): JSX.Element {
-        const error = this.props.error || this._getDefaultError();
+        const error = this.props.error || this.state.error;
 
         return <div className={css("vss-combobox", "simple-combo", this.props.className)}>
             { this.props.label && <InfoLabel className="vss-combo-label" label={this.props.label} info={this.props.info} /> }
-            <div ref="container"></div>
+            <div ref={this._containerRefCallback}></div>
             { error && <InputError className="vss-combo-error" error={error} />}
         </div>
     }
@@ -62,17 +65,18 @@ export class SimpleCombo extends BaseFluxComponent<ISimpleComboProps, ISimpleCom
     public componentDidMount(): void {
         super.componentDidMount();
 
-        let comboOptions = {
+        this._buildOptionsMap(this.props.options, this.props.getItemText);
+        const comboOptions = {
             type: "list",
             mode: "drop",
+            value: this._getTextValue(this.props.selectedOption, this.props.selectedValue, this.props.getItemText),
             allowEdit: true,
-            source: this.props.options,
+            source: this.props.options.map(o => this._getTextValue(o, null, this.props.getItemText)),
             enabled: !this.props.disabled,
             change: this._onChange
         } as IComboOptions;
 
-        this._control = Control.create(Combo, $(this.refs.container), comboOptions);
-        this._control.setInputText(this.props.value || "");
+        this._control = Control.create(Combo, $(this._container), comboOptions);
     }
 
     public componentWillUnmount(): void {
@@ -80,21 +84,32 @@ export class SimpleCombo extends BaseFluxComponent<ISimpleComboProps, ISimpleCom
         this._dispose();
     }
 
-    public componentWillReceiveProps(nextProps: ISimpleComboProps) {
+    public componentWillReceiveProps(nextProps: ISimpleComboProps<T>) {
         super.componentWillReceiveProps(nextProps);
 
-        if (nextProps.value !== this.props.value) {
-            this._control.setInputText(nextProps.value || "");
+        const nextValue = this._getTextValue(nextProps.selectedOption, nextProps.selectedValue, nextProps.getItemText);
+        const currentValue = this._getTextValue(this.state.selectedOption, this.state.selectedValue, this.props.getItemText);
+
+        if (nextValue !== currentValue) {
+            this._control.setInputText(nextValue);
             this.setState({
-                value: nextProps.value
+                selectedOption: nextProps.selectedOption,
+                selectedValue: nextProps.selectedValue,
+                error: this._getDefaultError(nextProps.selectedOption, nextProps.selectedValue, nextProps.required, nextProps.limitedToAllowedOptions)
             });
         }
 
         if (nextProps.disabled !== this.props.disabled) {
             this._control.setEnabled(!nextProps.disabled);
+        }        
+    }
+
+    private _buildOptionsMap(options: T[], getItemText?: (option: T) => string) {
+        this._nameToOptionMap = {};
+        for (const option of options) {
+            const value = this._getTextValue(option, null, getItemText);
+            this._nameToOptionMap[value.toLowerCase()] = option;
         }
-        
-        this._control.setSource(nextProps.options);
     }
 
     private _dispose(): void {
@@ -106,34 +121,60 @@ export class SimpleCombo extends BaseFluxComponent<ISimpleComboProps, ISimpleCom
         this._disposeDelayedFunction();
     }
 
-    private _getDefaultError(): string {
-        if (this.props.required && StringUtils.isNullOrEmpty(this.state.value)) {
-            return "A value is required";
+    private _getTextValue<T>(option: T, value?: string, getItemText?: (option: T) => string): string {
+        let v = value;
+
+        if (option) {
+            v = getItemText ? getItemText(option) : `${option}`;
         }
+
+        return v || "";
+    }
+
+    private _getDefaultError(selectedOption: T, selectedValue?: string, isRequired?: boolean, isLimitedToAllowedOptions?: boolean): string {        
+        if (isRequired && !selectedOption && StringUtils.isNullOrEmpty(selectedValue)) {
+            return "A value is required.";
+        }
+        if (isLimitedToAllowedOptions && !selectedOption && !this._isSelectedValueValid(selectedValue)) {
+            return "This value is not in the list of allowed values.";
+        }
+
+        return null;
+    }
+
+    private _isSelectedValueValid(value: string): boolean {
+        return (this._nameToOptionMap && this._nameToOptionMap[(value || "").toLowerCase()]) ? true : false;
     }
 
     @autobind
     private _onChange() {
         this._disposeDelayedFunction();
        
+        const fireChange = () => {
+            let value = this._control.getText();
+            const option = (this._nameToOptionMap && this._nameToOptionMap[value.toLowerCase()]) || null;
+
+            if (option) {
+                value = null;
+            }
+
+            this.setState({
+                selectedOption: option, 
+                selectedValue: value, 
+                error: this._getDefaultError(option, value, this.props.required, this.props.limitedToAllowedOptions)
+            }, () => {
+                this.props.onChange(option, value);
+            });
+        }
+
         if (this.props.delay == null) {
-            this._fireChange();
+            fireChange();
         }
         else {
             this._delayedFunction = CoreUtils.delay(this, this.props.delay, () => {
-                this._fireChange();
+                fireChange();
             });
         }      
-    }
-
-    @autobind
-    private _fireChange() {
-        this._disposeDelayedFunction();
-        
-        const value = this._control.getText();
-        this.setState({value: value}, () => {
-            this.props.onChange(value);
-        });
     }
 
     private _disposeDelayedFunction() {

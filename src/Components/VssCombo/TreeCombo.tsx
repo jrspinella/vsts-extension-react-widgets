@@ -35,14 +35,9 @@ export interface ITreeComboState extends IBaseFluxComponentState {
 export class TreeCombo extends BaseFluxComponent<ITreeComboProps, ITreeComboState> {
     private _control: Combo;
     private _delayedFunction: CoreUtils.DelayedFunction;
+    private _container: HTMLDivElement;
 
-    /**
-     * Reference to the combo control DOM
-     */
-    public refs: {
-        [key: string]: (Element);
-        container: (HTMLElement);
-    };
+    private _containerRefCallback = (container: HTMLDivElement) => { this._container = container; };
 
     protected initializeState(): void {
         this.state = {
@@ -55,7 +50,7 @@ export class TreeCombo extends BaseFluxComponent<ITreeComboProps, ITreeComboStat
 
         return <div className={css("vss-combobox", "tree-combo", this.props.className)}>
             { this.props.label && <InfoLabel className="vss-combo-label" label={this.props.label} info={this.props.info} /> }
-            <div ref="container"></div>
+            <div ref={this._containerRefCallback}></div>
             { error && <InputError className="vss-combo-error" error={error} />}
         </div>
     }
@@ -67,6 +62,7 @@ export class TreeCombo extends BaseFluxComponent<ITreeComboProps, ITreeComboStat
             type: "treeSearch",
             mode: "drop",
             allowEdit: true,
+            value: this.props.value || "",
             source: this.props.options,
             enabled: !this.props.disabled,
             change: this._onChange,
@@ -74,8 +70,7 @@ export class TreeCombo extends BaseFluxComponent<ITreeComboProps, ITreeComboStat
             sepChar: "\\"
         } as IComboOptions;
 
-        this._control = Control.create(Combo, $(this.refs.container), comboOptions);
-        this._control.setInputText(this.props.value || "");
+        this._control = Control.create(Combo, $(this._container), comboOptions);
     }
 
     public componentWillUnmount(): void {
@@ -96,8 +91,6 @@ export class TreeCombo extends BaseFluxComponent<ITreeComboProps, ITreeComboStat
         if (nextProps.disabled !== this.props.disabled) {
             this._control.setEnabled(!nextProps.disabled);
         }
-
-        this._control.setSource(nextProps.options);
     }
 
     private _dispose(): void {
@@ -118,25 +111,22 @@ export class TreeCombo extends BaseFluxComponent<ITreeComboProps, ITreeComboStat
     @autobind
     private _onChange() {
         this._disposeDelayedFunction();
-       
+
+        const fireChange = () => {
+            const value = this._control.getText();
+            this.setState({value: value}, () => {
+                this.props.onChange(value);
+            });
+        }
+
         if (this.props.delay == null) {
-            this._fireChange();
+            fireChange();
         }
         else {
             this._delayedFunction = CoreUtils.delay(this, this.props.delay, () => {
-                this._fireChange();
+                fireChange();
             });
         }      
-    }
-
-    @autobind
-    private _fireChange() {
-        this._disposeDelayedFunction();
-        
-        const value = this._control.getText();
-        this.setState({value: value}, () => {
-            this.props.onChange(value);
-        });
     }
 
     private _disposeDelayedFunction() {

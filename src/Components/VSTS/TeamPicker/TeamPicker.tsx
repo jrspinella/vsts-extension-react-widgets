@@ -3,38 +3,19 @@ import * as React from "react";
 import { TeamActions } from "../../../Flux/Actions/TeamActions";
 import { BaseStore, StoreFactory } from "../../../Flux/Stores/BaseStore";
 import { TeamStore } from "../../../Flux/Stores/TeamStore";
-import { StringUtils } from "../../../Utilities/String";
-import {
-    BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
-} from "../../Utilities/BaseFluxComponent";
-import { SimpleCombo } from "../../VssCombo/SimpleCombo";
+import { BaseFluxComponent, IBaseFluxComponentState } from "../../Utilities/BaseFluxComponent";
+import { ISimpleComboProps, SimpleCombo } from "../../VssCombo/SimpleCombo";
 
-import { autobind, css } from "OfficeFabric/Utilities";
+import { css } from "OfficeFabric/Utilities";
 
-export interface ITeamPickerProps extends IBaseFluxComponentProps {
-    value?: string;
-    onChange: (teamId: string) => void;
-    error?: string;
-    label?: string;
-    info?: string;
-    disabled?: boolean;
-    delay?: number;
-    required?: boolean;
-}
+import { WebApiTeam } from "TFS/Core/Contracts";
 
 export interface ITeamPickerState extends IBaseFluxComponentState {
-    comboOptions?: string[];
-    value?: string;
+    allTeams?: WebApiTeam[];
 }
 
-export class TeamPicker extends BaseFluxComponent<ITeamPickerProps, ITeamPickerState> {
+export class TeamPicker extends BaseFluxComponent<ISimpleComboProps<WebApiTeam>, ITeamPickerState> {
     private _teamStore = StoreFactory.getInstance<TeamStore>(TeamStore);
-
-    protected initializeState(): void {
-        this.state = {
-            value: this.props.value || ""
-        };
-    }
 
     protected getStores(): BaseStore<any, any, any>[] {
         return [this._teamStore];
@@ -44,7 +25,7 @@ export class TeamPicker extends BaseFluxComponent<ITeamPickerProps, ITeamPickerS
         super.componentDidMount();
         if (this._teamStore.isLoaded()) {
             this.setState({
-                comboOptions: this._teamStore.getAll().map(team => team.name)
+                allTeams: this._teamStore.getAll()
             });
         }
         else {
@@ -52,62 +33,25 @@ export class TeamPicker extends BaseFluxComponent<ITeamPickerProps, ITeamPickerS
         }        
     }
 
-    public componentWillReceiveProps(nextProps: ITeamPickerProps) {
-        super.componentWillReceiveProps(nextProps);
-        if (nextProps.value !== this.props.value) {
-            this.setState({
-                value: nextProps.value
-            });
-        }        
-    }
-
     protected getStoresState(): ITeamPickerState {
-        const allTeams = this._teamStore.getAll();
         return {
-            comboOptions: allTeams ? allTeams.map(team => team.name) : null
+            allTeams: this._teamStore.getAll()
         }
     }
 
-    public render(): JSX.Element {       
-        let value: string;
-        if (this.state.value && this._teamStore.getItem(this.state.value)) {
-            value = this._teamStore.getItem(this.state.value).name;
-        }
-        else {
-            value = this.state.value
+    public render(): JSX.Element {
+        if (!this.state.allTeams) {
+            return null;
         }
 
-        const allTeamsLoaded = this.state.comboOptions != null;
-        const error = this.props.error || this._getDefaultError(value);
+        const props = {
+            ...this.props,
+            className: css("team-picker", this.props.className),
+            getItemText: (team: WebApiTeam) => team.name,
+            options: this.state.allTeams,
+            limitedToAllowedOptions: true
+        } as ISimpleComboProps<WebApiTeam>;
 
-        return <SimpleCombo 
-            className={css("team-picker", this.props.className)}
-            value={!allTeamsLoaded ? "" : value} 
-            disabled={!allTeamsLoaded ? true : this.props.disabled}
-            delay={this.props.delay}
-            required={!allTeamsLoaded ? false : this.props.required}
-            label={this.props.label} 
-            info={this.props.info}
-            error={!allTeamsLoaded ? "" : error}
-            options={this.state.comboOptions || []} 
-            onChange={this._onChange} />;
-    }
-
-    @autobind
-    private _onChange(teamName: string) {
-        const team = this._teamStore.getItem(teamName);
-        const value = team ? team.id : teamName;
-
-        this.setState({value: value}, () => {
-            this.props.onChange(value);
-        });
-    }
-
-    private _getDefaultError(teamId: string): string {
-        if (StringUtils.isNullOrEmpty(teamId)) {
-            return this.props.required ? "A team is required." : null;
-        }
-        
-        return !this._teamStore.itemExists(teamId) ? "This team doesn't exist in the current project" : null;
+        return <SimpleCombo {...props} />;
     }
 }

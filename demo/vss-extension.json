@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "react-widgets-demo",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "name": "React widgets demo",
     "publisher": "mohitbagra-dev",
     "public": false,
@@ -36,11 +36,11 @@
     ],
     "contributions": [
         {
-            "id": "react-widgets-workitems-form-page",
-            "type": "ms.vss-work-web.work-item-form-page",
+            "id": "react-widgets",
+            "type": "ms.vss-web.hub",
             "description": "React Widgets Demo",
             "targets": [
-                "ms.vss-work-web.work-item-form"
+                "ms.vss-work-web.work-hub-group"
             ],
             "properties": {
                 "name": "React Widgets Demo",
