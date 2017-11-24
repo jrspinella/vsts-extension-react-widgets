@@ -81,7 +81,7 @@ export class TreeCombo extends BaseFluxComponent<ITreeComboProps, ITreeComboStat
     public componentWillReceiveProps(nextProps: ITreeComboProps) {
         super.componentWillReceiveProps(nextProps);
 
-        if (nextProps.value !== this.props.value) {
+        if (nextProps.value !== this.state.value) {
             this._control.setInputText(nextProps.value || "");
             this.setState({
                 value: nextProps.value
