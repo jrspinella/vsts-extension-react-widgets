@@ -29,8 +29,11 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
-                use: "ts-loader"
+                test: /\.tsx?$/,                
+                use: [
+                    { loader: "string-replace-loader?search=.css&replace=.scss"},
+                    { loader: "ts-loader" }
+                ]
             },            
             {
                 test: /\.s?css$/,

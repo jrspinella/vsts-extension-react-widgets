@@ -5,7 +5,7 @@ import {
     Badge, ColorPicker, IdentityView, InfoLabel, InputError, RichEditor, TeamPicker, SimpleCombo,
     WorkItemFieldPicker, WorkItemStateView, WorkItemTagsView, WorkItemTitleView, WorkItemTypePicker,
     ClassificationPicker, ClassificationNodeKey
-} from "../lib/debug";
+} from "../src";
 
 import { FieldType } from "TFS/WorkItemTracking/Contracts";
 

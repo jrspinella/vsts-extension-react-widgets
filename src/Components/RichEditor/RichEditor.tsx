@@ -1,5 +1,5 @@
-import "trumbowyg/dist/ui/trumbowyg.min.css";
 import "./RichEditor.css";
+import "trumbowyg/dist/ui/trumbowyg.min.css";
 
 import * as React from "react";
 import "trumbowyg/dist/trumbowyg";
