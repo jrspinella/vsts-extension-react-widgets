@@ -1,7 +1,7 @@
 import { ErrorMessageActionsHub } from "../Actions/ActionsHub";
 import { BaseStore } from "./BaseStore";
 
-export class BugBashErrorMessageStore extends BaseStore<IDictionaryStringTo<string>, string, string> {
+export class ErrorMessageStore extends BaseStore<IDictionaryStringTo<string>, string, string> {
     constructor() {
         super();
         this.items = {};    
@@ -25,7 +25,7 @@ export class BugBashErrorMessageStore extends BaseStore<IDictionaryStringTo<stri
     }   
     
     public getKey(): string {
-        return "BugBashErrorMessageStore";
+        return "ErrorMessageStore";
     }
 
     protected convertItemKeyToString(key: string): string {
