@@ -70,8 +70,9 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IRichEditorS
 
     public componentWillReceiveProps(nextProps: IRichEditorProps) {
         super.componentWillReceiveProps(nextProps);
-
-        if (nextProps.value !== this.props.value) {
+        this._disposeDelayedFunction();
+        
+        if (nextProps.value !== this.state.value) {
             this._richEditorContainer.trumbowyg("html", nextProps.value || "");
             this.setState({
                 value: nextProps.value

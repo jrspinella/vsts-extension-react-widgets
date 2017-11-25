@@ -69,7 +69,7 @@ export class ClassificationPicker extends BaseFluxComponent<IClassificationPicke
         }
 
         const { value } = this.state;        
-        const error = this.props.error || this._getDefaultError(value);
+        const error = this.props.error || this._getDefaultError();
         const props = {
             ...this.props,
             className: css("classification-picker", this.props.className),
@@ -130,7 +130,8 @@ export class ClassificationPicker extends BaseFluxComponent<IClassificationPicke
         });
     }
 
-    private _getDefaultError(nodePath: string): string {
+    private _getDefaultError(): string {
+        const nodePath = this.state.value;
         if (StringUtils.isNullOrEmpty(nodePath)) {
             return this.props.required ? "A value is required." : null;
         }

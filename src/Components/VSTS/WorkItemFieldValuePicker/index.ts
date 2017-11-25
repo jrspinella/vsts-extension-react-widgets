@@ -1,1 +1,1 @@
-//export * from "./WorkItemFieldValuePicker";
+export * from "./WorkItemFieldValuePicker";

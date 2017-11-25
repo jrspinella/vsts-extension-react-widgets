@@ -33,7 +33,6 @@ export interface ISimpleComboProps<T> extends IBaseFluxComponentProps {
 export interface ISimpleComboState<T> extends IBaseFluxComponentState {
     selectedOption?: T;
     selectedValue?: string;
-    error?: string;
 }
 
 export class SimpleCombo<T> extends BaseFluxComponent<ISimpleComboProps<T>, ISimpleComboState<T>> {
@@ -47,13 +46,12 @@ export class SimpleCombo<T> extends BaseFluxComponent<ISimpleComboProps<T>, ISim
     protected initializeState(): void {
         this.state = {
             selectedOption: this.props.selectedOption,
-            selectedValue: this.props.selectedValue || "",
-            error: this._getDefaultError(this.props.selectedOption, this.props.selectedValue, this.props.required, this.props.limitedToAllowedOptions)
+            selectedValue: this.props.selectedValue || ""
         };
     }
 
     public render(): JSX.Element {
-        const error = this.props.error || this.state.error;
+        const error = this.props.error || this._getDefaultError();
 
         return <div className={css("vss-combobox", "simple-combo", this.props.className)}>
             { this.props.label && <InfoLabel className="vss-combo-label" label={this.props.label} info={this.props.info} /> }
@@ -87,6 +85,7 @@ export class SimpleCombo<T> extends BaseFluxComponent<ISimpleComboProps<T>, ISim
     public componentWillReceiveProps(nextProps: ISimpleComboProps<T>) {
         super.componentWillReceiveProps(nextProps);
 
+        this._disposeDelayedFunction();
         const nextValue = this._getTextValue(nextProps.selectedOption, nextProps.selectedValue, nextProps.getItemText);
         const currentValue = this._getTextValue(this.state.selectedOption, this.state.selectedValue, this.props.getItemText);
 
@@ -94,8 +93,7 @@ export class SimpleCombo<T> extends BaseFluxComponent<ISimpleComboProps<T>, ISim
             this._control.setInputText(nextValue);
             this.setState({
                 selectedOption: nextProps.selectedOption,
-                selectedValue: nextProps.selectedValue,
-                error: this._getDefaultError(nextProps.selectedOption, nextProps.selectedValue, nextProps.required, nextProps.limitedToAllowedOptions)
+                selectedValue: nextProps.selectedValue
             });
         }
 
@@ -131,11 +129,21 @@ export class SimpleCombo<T> extends BaseFluxComponent<ISimpleComboProps<T>, ISim
         return v || "";
     }
 
-    private _getDefaultError(selectedOption: T, selectedValue?: string, isRequired?: boolean, isLimitedToAllowedOptions?: boolean): string {        
-        if (isRequired && !selectedOption && StringUtils.isNullOrEmpty(selectedValue)) {
+    private _getDefaultError(): string {
+        const {
+            required,
+            limitedToAllowedOptions
+        } = this.props;
+
+        const {
+            selectedOption,
+            selectedValue
+        } = this.state;
+
+        if (required && !selectedOption && StringUtils.isNullOrEmpty(selectedValue)) {
             return "A value is required.";
         }
-        if (isLimitedToAllowedOptions && !selectedOption && !this._isSelectedValueValid(selectedValue)) {
+        if (limitedToAllowedOptions && !selectedOption && !this._isSelectedValueValid(selectedValue)) {
             return "This value is not in the list of allowed values.";
         }
 
@@ -160,8 +168,7 @@ export class SimpleCombo<T> extends BaseFluxComponent<ISimpleComboProps<T>, ISim
 
             this.setState({
                 selectedOption: option, 
-                selectedValue: value, 
-                error: this._getDefaultError(option, value, this.props.required, this.props.limitedToAllowedOptions)
+                selectedValue: value
             }, () => {
                 this.props.onChange(option, value);
             });
