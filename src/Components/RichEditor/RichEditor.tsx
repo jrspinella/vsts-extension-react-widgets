@@ -14,11 +14,12 @@ import { InputError } from "../InputError";
 import {
     BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
 } from "../Utilities/BaseFluxComponent";
+import { GUIDUtils } from "../../Utilities/Guid";
 
 import { autobind, css } from "OfficeFabric/Utilities";
 
 export interface IRichEditorProps extends IBaseFluxComponentProps {
-    containerId: string;
+    containerId?: string;
     value?: string;
     delay?: number;
     onChange: (newValue: string) => void;
@@ -36,12 +37,15 @@ export interface IRichEditorState extends IBaseFluxComponentState {
 
 export class RichEditor extends BaseFluxComponent<IRichEditorProps, IRichEditorState> {
     private _richEditorContainer: JQuery;
+    private _containerId: string;
     private _delayedFunction: CoreUtils.DelayedFunction;
 
     protected initializeState(): void {
         this.state = {
             value: this.props.value || ""
         };
+
+        this._containerId = this.props.containerId || GUIDUtils.newGuid();
     }
 
     public componentDidMount() {
@@ -50,7 +54,7 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IRichEditorS
         StaticObservable.getInstance().unsubscribe(this._onImagePaste, "imagepasted");
         StaticObservable.getInstance().subscribe(this._onImagePaste, "imagepasted");
 
-        this._richEditorContainer = $("#" + this.props.containerId);
+        this._richEditorContainer = $("#" + this._containerId);
         this._richEditorContainer
             .trumbowyg(this.props.editorOptions || {})
             .on("tbwchange", this._onChange)
@@ -83,10 +87,10 @@ export class RichEditor extends BaseFluxComponent<IRichEditorProps, IRichEditorS
     public render() {
         const error = this.props.error || this._getDefaultError();
 
-        return <div className="rich-editor-container">
+        return <div className={css("rich-editor-container", this.props.className)}>
             { this.props.label && <InfoLabel className="rich-editor-label" label={this.props.label} info={this.props.info} /> }
             <div className="progress-bar" style={{visibility: this.state.loading ? "visible" : "hidden"}} />
-            <div id={this.props.containerId} className={css("rich-editor", this.props.className)} />
+            <div id={this._containerId} className="rich-editor" />
             { error && <InputError className="rich-editor-error" error={error} /> }
         </div>;
     }
