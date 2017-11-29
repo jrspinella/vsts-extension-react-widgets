@@ -74,6 +74,22 @@ export module ArrayUtils {
         return removeAllIndexes(array, [index]);
     }
 
+    export function subtract<T>(arrayA: T[], arrayB: T[], comparer: (s: T, t: T) => boolean): T[] {
+        const result: any[] = [];
+    
+        if (!arrayA || arrayA.length === 0 || !arrayB || arrayB.length === 0) {
+            return arrayA;
+        }
+        
+        for (const val of arrayA) {
+            if (!contains(arrayB, val, comparer)) {
+                result.push(val);
+            }
+        }
+    
+        return result;
+    }
+        
     export function removeAllIndexes<T>(array: T[], indexes: number[]): boolean {
         let result = true;
         let sortedIndexes = indexes.slice();
