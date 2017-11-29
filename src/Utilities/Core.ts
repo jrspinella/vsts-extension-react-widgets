@@ -87,4 +87,34 @@ export module CoreUtils {
             delayedFunc.reset();
         });
     }
+
+    export async function confirmAction(condition: boolean, msg: string): Promise<boolean> {
+        if (condition) {
+            let dialogService: IHostDialogService = await VSS.getService(VSS.ServiceIds.Dialog) as IHostDialogService;
+            try {
+                await dialogService.openMessageDialog(msg, { useBowtieStyle: true });
+                return true;
+            }
+            catch (e) {
+                // user selected "No"" in dialog
+                return false;
+            }
+        }
+    
+        return true;
+    }
+
+    export async function showErrorDialog(message: string, reason?: any): Promise<void> {
+        let reasonStr = typeof reason === "string" ? reason : reason && reason.message;
+        let errorMsg = reasonStr ? `${message} Reason: ${reasonStr}` : message;
+    
+        let dialogService: IHostDialogService = <IHostDialogService>await VSS.getService(VSS.ServiceIds.Dialog);
+        try {
+            await dialogService.openMessageDialog(errorMsg, { useBowtieStyle: true });
+        }
+        catch (e) {
+            // do nothing as pressing cancel on the dialog will throw an error here
+        }
+        return;
+    }
 }

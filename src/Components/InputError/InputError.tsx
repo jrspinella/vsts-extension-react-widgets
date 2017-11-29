@@ -1,21 +1,23 @@
-import "./InputError.scss";
+import "./InputError.css";
 
 import * as React from "react";
 
-import { IBaseComponentProps } from "../Utilities/BaseComponent";
+import { IBaseFluxComponentProps } from "../Utilities/BaseFluxComponent";
 
-import { Icon } from "OfficeFabric/Icon";
 import { Label } from "OfficeFabric/Label";
+import { css } from "OfficeFabric/Utilities";
 
-export interface IInputErrorProps extends IBaseComponentProps {
+import { VssIcon, VssIconType } from "VSSUI/VssIcon";
+
+export interface IInputErrorProps extends IBaseFluxComponentProps {
     error: string;
 }
 
 export var InputError: React.StatelessComponent<IInputErrorProps> =
     (props: IInputErrorProps): JSX.Element => {        
         return (
-            <div className={props.className ? `input-error ${props.className}` : "input-error"}>
-                <Icon className="error-icon" iconName="Error" />
+            <div className={css("input-error", props.className)}>
+                <VssIcon iconType={VssIconType.fabric} className="error-icon" iconName="Error" />
                 <Label className="error-text">{props.error}</Label>
             </div>
         );

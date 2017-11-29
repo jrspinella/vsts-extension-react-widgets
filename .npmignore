@@ -1,9 +1,0 @@
-typings
-node_modules
-webpack.config.js
-tsconfig.json
-.vscode
-.gitignore
-typings.json
-*.vsix
-npm-debug.log

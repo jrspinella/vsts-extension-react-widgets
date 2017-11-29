@@ -1,7 +1,7 @@
 import { CoreUtils } from "../../Utilities/Core";
-import { BaseComponent } from "./BaseComponent";
+import { BaseFluxComponent } from "./BaseFluxComponent";
 
-export abstract class AutoResizableComponent<TP, TS> extends BaseComponent<TP, TS> {
+export abstract class AutoResizableComponent<TP, TS> extends BaseFluxComponent<TP, TS> {
     private _windowResizeThrottleDelegate: any;
     private _bodyElement: HTMLBodyElement;
 

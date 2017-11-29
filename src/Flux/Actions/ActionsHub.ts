@@ -5,7 +5,8 @@ import { GitRepository } from "TFS/VersionControl/Contracts";
 import { TeamFieldValues } from "TFS/Work/Contracts";
 import {
     WorkItem, WorkItemField, WorkItemStateColor, WorkItemTemplate, WorkItemTemplateReference,
-    WorkItemType
+    WorkItemType,
+    WorkItemClassificationNode
 } from "TFS/WorkItemTracking/Contracts";
 
 export module WorkItemTypeActionsHub {
@@ -44,4 +45,15 @@ export module WorkItemActionsHub {
     export var AddOrUpdateWorkItems = new Action<WorkItem[]>();
     export var DeleteWorkItems = new Action<number[]>();
     export var ClearWorkItems = new Action();
+}
+
+export namespace ErrorMessageActionsHub {
+    export const PushErrorMessage = new Action<{errorMessage: string, errorKey: string}>();
+    export const DismissErrorMessage = new Action<string>();
+    export const DismissAllErrorMessages = new Action<void>();
+}
+
+export module ClassificationNodeActionsHub {
+    export var InitializeAreaPaths = new Action<WorkItemClassificationNode>();
+    export var InitializeIterationPaths = new Action<WorkItemClassificationNode>();
 }

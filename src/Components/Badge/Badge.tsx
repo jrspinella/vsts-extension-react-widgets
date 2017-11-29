@@ -1,23 +1,28 @@
-import "./Badge.scss";
+import "./Badge.css";
 
 import * as React from "react";
 
 import {
-    BaseComponent, IBaseComponentProps, IBaseComponentState
-} from "../Utilities/BaseComponent";
+    BaseFluxComponent, IBaseFluxComponentProps, IBaseFluxComponentState
+} from "../Utilities/BaseFluxComponent";
 
 import { Callout, DirectionalHint } from "OfficeFabric/Callout";
-import { Icon } from "OfficeFabric/Icon";
+import { Label } from "OfficeFabric/Label";
+import { css } from "OfficeFabric/Utilities";
 
-export interface IBadgeProps extends IBaseComponentProps {
+import { VssIcon, VssIconType } from "VSSUI/VssIcon";
+
+export interface IBadgeProps extends IBaseFluxComponentProps {
     notificationCount: number;
+    showCalloutOnHover?: boolean;
+    directionalHint?: DirectionalHint;
 }
 
-export interface IBadgeState extends IBaseComponentState {
+export interface IBadgeState extends IBaseFluxComponentState {
     isCalloutVisible: boolean;
 }
 
-export class Badge extends BaseComponent<IBadgeProps, IBadgeState> {
+export class Badge extends BaseFluxComponent<IBadgeProps, IBadgeState> {
     private _calloutTargetElement: HTMLElement;
 
     protected initializeState() {
@@ -26,41 +31,62 @@ export class Badge extends BaseComponent<IBadgeProps, IBadgeState> {
         };
     }
 
-    protected getDefaultClassName(): string {
-        return "badge";
-    }
-
     public render() {
-        return <div className={this.getClassName()}>
-            <div ref={(element) => this._calloutTargetElement = element} className="badge-container" onClick={this._onToggleCallout}>
-                <Icon iconName="Ringer" className="badge-icon" />
-                <span className="badge-notification-count">{this.props.notificationCount}</span>
+        return <div className={css("badge", this.props.className)}>
+            <div              
+                className="badge-container" 
+                onMouseEnter={this._onMouseOver}
+                onMouseLeave={this._onMouseOut}
+                onClick={this._onClickCallout}>
+
+                <div ref={(element) => this._calloutTargetElement = element}>
+                    <VssIcon iconType={VssIconType.fabric} iconName="Ringer" className="badge-icon" />
+                </div>
+                <Label className="badge-notification-count">{this.props.notificationCount}</Label>
             </div>
             { 
                 this.state.isCalloutVisible && 
                 <Callout                    
                     gapSpace={0}
                     target={this._calloutTargetElement}
-                    onDismiss={this._onCalloutDismiss}
+                    onDismiss={this._dismissCallout}
                     setInitialFocus={true}
                     isBeakVisible={true}
-                    directionalHint={DirectionalHint.bottomRightEdge}
+                    directionalHint={this.props.directionalHint || DirectionalHint.bottomRightEdge}
                 >
-                    { this.props.children }
+                    <div className="badge-callout-container">
+                        { this.props.children }
+                    </div>                    
                 </Callout>
             }
         </div>
     }
 
-    private _onCalloutDismiss = () => {
-        this.setState({
-            isCalloutVisible: false
-        });
+    private _onMouseOver = () => {
+        if (this.props.showCalloutOnHover){
+            this.setState({
+                isCalloutVisible: true
+            });
+        }
     }
 
-    private _onToggleCallout = () => {
+    private _onMouseOut = () => {
+        if (this.props.showCalloutOnHover){
+            this._dismissCallout();
+        }
+    } 
+
+    private _onClickCallout = () => {
+        if (!this.props.showCalloutOnHover){
+            this.setState({
+                isCalloutVisible: !this.state.isCalloutVisible
+            });
+        }        
+    }
+
+    private _dismissCallout = () => {
         this.setState({
-            isCalloutVisible: !this.state.isCalloutVisible
+            isCalloutVisible: false
         });
     }
 }

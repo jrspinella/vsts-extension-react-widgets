@@ -25,29 +25,29 @@ export class WorkItemStore extends BaseStore<IDictionaryNumberTo<WorkItem>, Work
     }
 
     protected initializeActionListeners() {
-        WorkItemActionsHub.AddOrUpdateWorkItems.subscribe((workItems: WorkItem[]) => {
+        WorkItemActionsHub.AddOrUpdateWorkItems.addListener((workItems: WorkItem[]) => {
             if (workItems) {
                 for (const workItem of workItems) {
                     this._addWorkItem(workItem);
                 }
             }
 
-            this.notify(null, null);
+            this.emitChanged();
         });
 
-        WorkItemActionsHub.DeleteWorkItems.subscribe((workItemIds: number[]) => {
+        WorkItemActionsHub.DeleteWorkItems.addListener((workItemIds: number[]) => {
             if (workItemIds) {
                 for (const id of workItemIds) {
                     this._removeWorkItem(id);
                 }
             }
 
-            this.notify(null, null);
+            this.emitChanged();
         });
 
-        WorkItemActionsHub.ClearWorkItems.subscribe(() => {
+        WorkItemActionsHub.ClearWorkItems.addListener(() => {
             this.clearStore();
-            this.notify(null, null);
+            this.emitChanged();
         });
 
     } 

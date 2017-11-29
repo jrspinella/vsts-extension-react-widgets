@@ -1,32 +1,32 @@
-import "./InfoLabel.scss";
+import "./InfoLabel.css";
 
 import * as React from "react";
 
-import { IBaseComponentProps } from "../Utilities/BaseComponent";
+import { IBaseFluxComponentProps } from "../Utilities/BaseFluxComponent";
 
-import { Icon } from "OfficeFabric/Icon";
 import { Label } from "OfficeFabric/Label";
 import { DirectionalHint, TooltipDelay, TooltipHost } from "OfficeFabric/Tooltip";
+import { css } from "OfficeFabric/Utilities";
 
-export interface IInfoLabelProps extends IBaseComponentProps {
+import { VssIcon, VssIconType } from "VSSUI/VssIcon";
+
+export interface IInfoLabelProps extends IBaseFluxComponentProps {
     label: string;
-    info: string;
+    info?: string;
 }
 
 export var InfoLabel: React.StatelessComponent<IInfoLabelProps> =
     (props: IInfoLabelProps): JSX.Element => {        
-        return (
-            <div className={props.className ? `info-label ${props.className}` : "info-label"}>
-                <Label className="info-label-text">{props.label}</Label>
+        return <div className={css("info-label", props.className)}>
+            <Label className="info-label-text">{props.label}</Label>
+            { props.info && 
                 <TooltipHost 
                     content={ props.info }
                     delay={ TooltipDelay.zero }
                     directionalHint={ DirectionalHint.bottomCenter }
                     >
-                    <span>
-                        <Icon className="info-icon" iconName="Info" />
-                    </span>
+                    <VssIcon iconType={VssIconType.fabric} className="info-icon" iconName="Info" />
                 </TooltipHost>
-            </div>
-        );
+            }
+        </div>;
 }

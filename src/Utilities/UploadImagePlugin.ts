@@ -1,3 +1,4 @@
+import { StaticObservable } from "./StaticObservable";
 
 (function ($) {
     'use strict';
@@ -20,7 +21,7 @@
 
                             let file;
 
-                            const $modal = trumbowyg.openModalInsert(
+                            trumbowyg.openModalInsert(
                                 // Title
                                 trumbowyg.lang.upload,
 
@@ -39,25 +40,16 @@
                                 function () {
                                     const reader = new FileReader();
 
-                                    if ($(".progress-indicator", $modal).length === 0) {
-                                        $(".trumbowyg-modal-title", $modal)
-                                            .after(
-                                                $('<div/>', {
-                                                    'class': "progress-indicator"
-                                                })
-                                            );
-                                    }
-
                                     reader.onloadend = (event) => {
                                         const data = (event.target as any).result;
                                         
-                                        $(window).trigger("imagepasted", { data: data, callback: (imageUrl: string) => {
+                                        StaticObservable.getInstance().notify({data: data, callback: (imageUrl: string) => {
                                             if (imageUrl) {
                                                 trumbowyg.execCmd("insertImage", imageUrl, undefined, true);
                                                 $(['img[src="' + imageUrl + '"]:not([alt])'].join(''), trumbowyg.$box).css("width", "auto").css("max-height", "400px");
                                             }
                                             trumbowyg.closeModal();
-                                        }});
+                                        }}, "imagepasted");
                                     };
                                     reader.readAsDataURL(file);
                                 }

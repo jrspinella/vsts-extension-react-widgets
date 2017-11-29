@@ -1,20 +1,25 @@
 {
-    "compilerOptions": {        
-        "module": "amd",
-        "moduleResolution": "node",
-        "removeComments": true,
-        "sourceMap": false,
-        "target": "es5",
-        "lib": ["dom", "es2015.promise", "es5"],
-        "jsx": "react",
+    "compilerOptions": {
+        "charset": "utf8",
+        "declaration": true,
         "experimentalDecorators": true,
-        "baseUrl": ".",
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
+        "importHelpers": true,
+        "jsx": "react",
+        "lib": ["es5", "es6", "dom", "es2015.promise"],
+        "module": "es6",
+        "moduleResolution": "node",
+        "noEmitHelpers": true,
+        "skipDefaultLibCheck": true,
+        "skipLibCheck": true,
+        "target": "es5",
+        "baseUrl": "./",
         "paths": {
             "OfficeFabric/*": ["node_modules/office-ui-fabric-react/lib/*"],
             "VSSUI/*": ["node_modules/vss-ui/*"]
         },
+        "removeComments": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
         "types": [
             "q",
             "knockout",
@@ -22,9 +27,6 @@
             "jquery",
             "react",
             "react-dom"
-        ],
-        "typeRoots": [
-            "../node_modules/@types"
         ]
     },
     "exclude": [

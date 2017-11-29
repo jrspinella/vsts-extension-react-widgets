@@ -74,6 +74,22 @@ export module ArrayUtils {
         return removeAllIndexes(array, [index]);
     }
 
+    export function subtract<T>(arrayA: T[], arrayB: T[], comparer: (s: T, t: T) => boolean): T[] {
+        const result: any[] = [];
+    
+        if (!arrayA || arrayA.length === 0 || !arrayB || arrayB.length === 0) {
+            return arrayA;
+        }
+        
+        for (const val of arrayA) {
+            if (!contains(arrayB, val, comparer)) {
+                result.push(val);
+            }
+        }
+    
+        return result;
+    }
+        
     export function removeAllIndexes<T>(array: T[], indexes: number[]): boolean {
         let result = true;
         let sortedIndexes = indexes.slice();
@@ -104,12 +120,19 @@ export module ArrayUtils {
     }
 
     export function arrayEquals<T>(source: T[], target: T[], comparer?: (s: T, t: T) => boolean, sorted: boolean = false): boolean {
-        if (!source || !target) {
+        if (!source && !target) {
             return true;
+        }
+        if ((!source && target) || (source && !target)) {
+            return false;
         }
 
         if (source.length !== target.length) {
             return false;
+        }
+
+        if (!comparer) {
+            comparer = defaultComparison;
         }
 
         if (!sorted) {
@@ -121,7 +144,7 @@ export module ArrayUtils {
         }
         else {
             for (let i = 0; i < source.length; i++) {
-                if (!comparer || !comparer(source[i], target[i])) {
+                if (!comparer(source[i], target[i])) {
                     return false;
                 }
             }
@@ -140,5 +163,9 @@ export module ArrayUtils {
         else {
             return -1;
         }
+    }
+
+    function defaultComparison<T>(a: T, b: T): boolean {
+        return a === b;
     }
 }
